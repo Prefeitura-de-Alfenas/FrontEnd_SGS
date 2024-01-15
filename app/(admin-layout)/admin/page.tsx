@@ -1,16 +1,17 @@
+import TablePessoas from "@/components/pessoas/TablePessoas";
+
+
 import { nextAuthOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
+import TablePessoasInativas from "@/components/admin/TablePessoasInativas";
 
 
-async function Usuario() {
-    const session = await getServerSession(nextAuthOptions) as any
-   
+
+ async function  PessoasInativas() {
+  const session = await getServerSession(nextAuthOptions) as any
     return ( 
-        <>
-
-        <h1>{JSON.stringify(session,null,2)}</h1>
-        </>
+      <TablePessoasInativas  usuarioLogado={session}  />
      );
 }
 
-export default Usuario
+export default PessoasInativas;

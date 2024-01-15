@@ -1,6 +1,24 @@
 import { baseUrl } from "@/config/base";
 import { PessoaCreateI } from "@/interfaces/pessoa/interface";
 
+const GetPessasInativa = async (skip:number,filter:string) => {
+
+    const url = `${baseUrl}/pessoa/findallinative/2/skip/${skip}/${filter}`;	
+    const response = await fetch(url,{
+        method: 'GET',
+        headers: {
+            'Content-type': 'application/json'
+        },
+    })
+
+    if (!response.ok) {
+       throw new Error("Conexão com a rede está com problema")
+    }
+    const pessoas = await response.json() 
+ 
+    return pessoas ;
+    
+}
 const GetPessas = async (skip:number,filter:string) => {
 
     const url = `${baseUrl}/pessoa/2/skip/${skip}/${filter}`;	
@@ -111,4 +129,22 @@ const ChangeBeneficioPessoa = async(beneficioId:string,pessoaId:string)=>{
  
     return pessoa ;
 }
-export {GetPessas,CreatePessoa,GetPessoaById,GetCepViaCep,UpdatePessoa,ChangeBeneficioPessoa}
+
+
+const ChangeStatus = async(id:string)=>{
+    const url = `${baseUrl}/pessoa/changestatus/${id}`;
+    const response = await fetch(url,{
+        method: 'PATCH',
+        headers: {
+            'Content-type': 'application/json'
+        }
+    })
+
+    if (!response.ok) {
+       throw new Error("Conexão com a rede está com problema")
+    }
+    const pessoa = await response.json() 
+ 
+    return pessoa ;
+}
+export {GetPessas,CreatePessoa,GetPessoaById,GetCepViaCep,UpdatePessoa,ChangeBeneficioPessoa,ChangeStatus,GetPessasInativa}

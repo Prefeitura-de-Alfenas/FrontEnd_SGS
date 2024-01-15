@@ -4,6 +4,7 @@ declare module NextAuth {
         user:{
             email:string;
             nome:string;
+            role:string[];
             access_token:string;
         }
     }

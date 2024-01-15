@@ -27,17 +27,17 @@ import {
   useMutation,
   useQuery,
 } from '@tanstack/react-query'
-import { ChangeStatus, GetPessas } from "@/app/api/pessoas/routes";
+import {  GetPessas, GetPessasInativa } from "@/app/api/pessoas/routes";
 import { PessoaI } from "@/interfaces/pessoa/interface";
 import { useState } from "react";
-import DeleteSoftPessoa from "./DialogDelte/DeleteSoft";
 import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
+import AddPessoa from "./DialogAddPessoa/AddPessoa";
 
 
 interface TablePessoasProps{
   usuarioLogado:UsuarioLogadoI
 }
-const TablePessoas = ({usuarioLogado}:TablePessoasProps) => {
+const TablePessoasInativas = ({usuarioLogado}:TablePessoasProps) => {
   
  
   const [skip,setSkipped] = useState(0)
@@ -46,8 +46,8 @@ const TablePessoas = ({usuarioLogado}:TablePessoasProps) => {
 
   // Queries
   const {data,isPending,isError,error, refetch } = useQuery({
-    queryKey:['pessoas',skip,search],
-    queryFn:() => GetPessas(skip,search),
+    queryKey:['pessoasinativas',skip,search],
+    queryFn:() => GetPessasInativa(skip,search),
 
     
   })
@@ -113,7 +113,7 @@ const TablePessoas = ({usuarioLogado}:TablePessoasProps) => {
             <TableHead>Familiares</TableHead>
             <TableHead>Beneficios</TableHead>
             {usuarioLogado.user.role.find((row:string) => row === "Admin") && 
-               <TableHead>Excluir</TableHead>
+               <TableHead>Ativar</TableHead>
              }
             </TableRow>
         </TableHeader>
@@ -133,7 +133,7 @@ const TablePessoas = ({usuarioLogado}:TablePessoasProps) => {
                 <TableCell><Link href={`/pessoas/beneficios/${pessoa.id}`} ><Bitcoin  fill="#572002" /></Link></TableCell>
                 {usuarioLogado.user.role.find((row:string) => row === "Admin") && 
                 <TableCell>
-                    <DeleteSoftPessoa id={pessoa.id} refetch={refetch} />
+                    <AddPessoa id={pessoa.id} refetch={refetch} />
                 </TableCell>
                }
                 
@@ -167,4 +167,4 @@ const TablePessoas = ({usuarioLogado}:TablePessoasProps) => {
      );
 }
  
-export default TablePessoas
+export default TablePessoasInativas

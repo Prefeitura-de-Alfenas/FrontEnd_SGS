@@ -7,6 +7,7 @@ export interface BeneficiosI{
     descricao: string,
     categoria: string,
     valor: number,
+    status?:string,
     pessoas:BeneficioOnPessoasI[]
 }
 

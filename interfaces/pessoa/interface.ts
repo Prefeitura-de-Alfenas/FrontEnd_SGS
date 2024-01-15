@@ -21,7 +21,8 @@ export interface PessoaI{
     bairro: string,
     localidade:string,
     numero:string,
-    uf:string
+    uf:string,
+    status?:string
 }
 
 export interface PessoaCreateI{

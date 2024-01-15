@@ -73,7 +73,7 @@ const TablePessoasBeneficios = ({pessoaId}:TablePessoasBeneficiosProps) => {
 
  interface ButtonBeneficiosProps{
   beneficiosonpessoa:BeneficioOnPessoasI[]
-}
+ }
  const ButtonBeneficios = ({beneficiosonpessoa}:ButtonBeneficiosProps) =>{
   let test=false;
 

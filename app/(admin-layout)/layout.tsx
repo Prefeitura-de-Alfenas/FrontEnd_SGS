@@ -18,7 +18,7 @@ export default async function PrivacyLayout({children}: PrivaceLayoutProps) {
     }
   return (
     <>
-    <Header />
+    <Header usuarioLogado={session}/>
     {children}
     </>
   )

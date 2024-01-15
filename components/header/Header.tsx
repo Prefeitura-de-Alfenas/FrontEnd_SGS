@@ -13,9 +13,12 @@ import { AlignJustify, Menu } from "lucide-react";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
+interface TablePessoasProps{
+  usuarioLogado:UsuarioLogadoI
+}
 
-
-const Header = () => {
+const Header = ({usuarioLogado}:any) => {
   const router = useRouter();
   async function logount(){
     await signOut({
@@ -40,6 +43,10 @@ const Header = () => {
                <Link href="/usuarios">Usuarios</Link>
                <Link href="/pessoas">Reponsaveis</Link>
                <Link href="/equipamentos">Equipamento</Link>
+               <Link href="/beneficios">Beneficios</Link>
+               {usuarioLogado.user.role.find((row:string) => row === "Admin") && 
+                 <Link href="/admin">Administrador</Link>
+               }
                 <SheetTitle className="cursor-pointer" onClick={logount}>Logout</SheetTitle>
                 <SheetDescription >
                   This action cannot be undone. This will permanently delete your account
