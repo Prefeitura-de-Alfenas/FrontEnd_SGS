@@ -95,4 +95,20 @@ const GetCepViaCep = async (cep:string)=>{
     return dadoscpe;
 }
 
-export {GetPessas,CreatePessoa,GetPessoaById,GetCepViaCep,UpdatePessoa}
+const ChangeBeneficioPessoa = async(beneficioId:string,pessoaId:string)=>{
+    const url = `${baseUrl}/beneficio/${beneficioId}/pessoa/${pessoaId}`;
+    const response = await fetch(url,{
+        method: 'PATCH',
+        headers: {
+            'Content-type': 'application/json'
+        }
+    })
+
+    if (!response.ok) {
+       throw new Error("Conexão com a rede está com problema")
+    }
+    const pessoa = await response.json() 
+ 
+    return pessoa ;
+}
+export {GetPessas,CreatePessoa,GetPessoaById,GetCepViaCep,UpdatePessoa,ChangeBeneficioPessoa}

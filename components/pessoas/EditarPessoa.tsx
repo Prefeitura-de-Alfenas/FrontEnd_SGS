@@ -292,7 +292,7 @@ function EditarPessoa({pessoaId,responsavelId}:EditarPessoaProps ) {
 
           <div className="mb-4">
             <label htmlFor="renda" className="block text-sm font-medium text-white">Renda:</label>
-            <Input type="number" id="renda" {...register('renda')} required  className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
+            <Input type="number" id="renda"  step="0.001" {...register('renda')} required  className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
             {errors.renda?.message && <p className="text-sm text-red-400">{errors.renda?.message}</p> }
           </div>
    

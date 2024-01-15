@@ -48,3 +48,8 @@ export interface PessoaCreateI{
     numero:string,
     uf:string
 }
+
+export  interface BeneficioOnPessoasI{
+    pessoaId: string,
+    beneficioId: string,
+}

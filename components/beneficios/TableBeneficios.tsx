@@ -14,31 +14,28 @@ import { Input } from "@/components/ui/input";
   import {
     Pagination,
     PaginationContent,
-    PaginationEllipsis,
     PaginationItem,
     PaginationLink,
     PaginationNext,
     PaginationPrevious,
   } from "@/components/ui/pagination"
 
-import { Bitcoin, FileEdit, FileLock, Loader, Search, ThumbsDown, ThumbsUp, User, UsersRound } from "lucide-react";
+import { FileEdit,  Search } from "lucide-react";
 import { Button } from "../ui/button";
 
-import { UsuarioI } from "@/interfaces/usuario/interface";
-import { useToast } from "@/components/ui/use-toast"
+
 
 import {
-  keepPreviousData,
   useQuery,
-  useQueryClient,
-
 } from '@tanstack/react-query'
-import { GetPessas } from "@/app/api/pessoas/routes";
-import { PessoaI } from "@/interfaces/pessoa/interface";
-import { useEffect, useRef, useState } from "react";
+
+import {  useState } from "react";
+
+import { BeneficiosI } from "@/interfaces/beneficios/inteface";
+import { GetBeneficios } from "@/app/api/beneficios/routes";
 
 
-const TablePessoas = () => {
+const TableBeneficios = () => {
 
 
   const [skip,setSkipped] = useState(0)
@@ -46,9 +43,9 @@ const TablePessoas = () => {
   const [search,setSearch] = useState('')
 
   // Queries
-  const {data,isPending,isError,error, isFetching, isPlaceholderData } = useQuery({
-    queryKey:['pessoas',skip,search],
-    queryFn:() => GetPessas(skip,search),
+  const {data,isPending,isError,error} = useQuery({
+    queryKey:['beneficios',skip,search],
+    queryFn:() => GetBeneficios(skip,search),
 
     
   })
@@ -77,7 +74,7 @@ const TablePessoas = () => {
     return ( 
         <div className="flex flex-col ">    
         <div className="flex items-start justify-start">
-        <Button className="m-4"><Link href="/pessoas/novapessoa">Novo Responsavel </Link></Button>
+        <Button className="m-4"><Link href="/equipamentos/create">Novo Beneficios</Link></Button>
         </div> 
         <div className="flex w-2/3 ms-1">
         <div className="relative w-full">
@@ -89,7 +86,7 @@ const TablePessoas = () => {
             value={filter}
             required
             className="mt-1 p-2 w-full border rounded-md mb-2 bg-transparent pr-10" // Aumente o padding à direita para acomodar o ícone
-            placeholder="Digite o CPF"
+            placeholder="Digite o Nome"
           />
          <span className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer">
           <Search onClick={handelClickSearcher} />
@@ -97,29 +94,27 @@ const TablePessoas = () => {
         </div>
       </div>
         <Table>
-        <TableCaption>Pessoas</TableCaption>
+        <TableCaption>Beneficios</TableCaption>
         <TableHeader>
             <TableRow>
             <TableHead>Nome</TableHead>
-            <TableHead>CPF</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Editar</TableHead>
-            <TableHead>Familiares</TableHead>
-            <TableHead>Beneficios</TableHead>
+            <TableHead>Descrição</TableHead>
+            <TableHead>Categoria</TableHead>
+            <TableHead>Valor</TableHead>
             </TableRow>
         </TableHeader>
         <TableBody>
          
       
-            {data?.map((pessoa:PessoaI) => (
-             <TableRow key={pessoa.id}>
-                <TableCell className="font-medium">{pessoa.nome}</TableCell>
-                <TableCell>{pessoa.cpf}</TableCell>
-                <TableCell>{pessoa.email}</TableCell>
+            {data?.map((beneficio:BeneficiosI) => (
+             <TableRow key={beneficio.id}>
+                <TableCell className="font-medium">{beneficio.nome}</TableCell>
+                <TableCell>{beneficio.descricao}</TableCell>
+                <TableCell>{beneficio.categoria}</TableCell>
+                <TableCell>{beneficio.valor}</TableCell>
 
-                <TableCell><Link href={`/pessoas/novapessoa/${pessoa.id}`} ><FileEdit fill="#312e81" /></Link></TableCell>
-                <TableCell><Link href={`/familiares/${pessoa.id}`} ><UsersRound fill="#ea580c" /></Link></TableCell>
-                <TableCell><Link href={`/pessoas/beneficios/${pessoa.id}`} ><Bitcoin  fill="#572002" /></Link></TableCell>
+                <TableCell><Link href={`/beneficios/edit/${beneficio.id}`} ><FileEdit fill="#312e81" /></Link></TableCell>
+
                 
                 </TableRow>
             ))}
@@ -151,4 +146,4 @@ const TablePessoas = () => {
      );
 }
  
-export default TablePessoas
+export default TableBeneficios
