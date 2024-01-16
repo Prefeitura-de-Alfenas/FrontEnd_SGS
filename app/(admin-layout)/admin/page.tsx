@@ -1,4 +1,4 @@
-import TablePessoas from "@/components/pessoas/TablePessoas";
+
 
 
 import { nextAuthOptions } from "@/app/api/auth/[...nextauth]/route";

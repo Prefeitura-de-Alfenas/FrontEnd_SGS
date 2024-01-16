@@ -37,6 +37,7 @@ export interface PermissionChangeProps{
 export interface UsuarioLogadoI{
     email:string;
     user:{
+        id:string,
         email:string,
         nome:string,
         role:string[],

@@ -1,4 +1,4 @@
-import { BeneficioOnPessoasI, PessoaI } from "../pessoa/interface";
+import { BeneficioOnPessoasI } from "../pessoa/interface";
 
 
 export interface BeneficiosI{
@@ -19,4 +19,15 @@ export interface BeneficiosCreateI{
     valor: number,
 
 
+}
+
+export interface BeneficiosEntregaI{
+    id: string,
+    nome: string,
+    descricao: string,
+    categoria: string,
+    valor: number,
+    status?:string,
+    pessoas:BeneficioOnPessoasI[],
+    beneficio:BeneficiosI
 }

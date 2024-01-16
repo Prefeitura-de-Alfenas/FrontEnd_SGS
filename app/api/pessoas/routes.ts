@@ -87,12 +87,35 @@ const GetPessoaById = async (id:string)=>{
         throw new Error("Conexão com a rede está com problemaas");
     }
     
+ 
    
     const pessoa = await response.json();
     
 
     return pessoa;
 }
+
+const GetPessoaEntregaById = async (id:string)=>{
+    const url = `${baseUrl}/pessoa/entrega/${id}`;
+    const response = await fetch(url,{
+        method:'GET',
+        headers:{
+            'Content-type': 'application/json'
+        }
+    })
+
+    if(!response.ok) {
+        throw new Error("Conexão com a rede está com problemaas");
+    }
+    
+ 
+   
+    const pessoa = await response.json();
+    
+
+    return pessoa;
+}
+
 
 const GetCepViaCep = async (cep:string)=>{
     console.log('cep',cep)
@@ -147,4 +170,4 @@ const ChangeStatus = async(id:string)=>{
  
     return pessoa ;
 }
-export {GetPessas,CreatePessoa,GetPessoaById,GetCepViaCep,UpdatePessoa,ChangeBeneficioPessoa,ChangeStatus,GetPessasInativa}
+export {GetPessas,CreatePessoa,GetPessoaById,GetCepViaCep,UpdatePessoa,ChangeBeneficioPessoa,ChangeStatus,GetPessasInativa,GetPessoaEntregaById}
