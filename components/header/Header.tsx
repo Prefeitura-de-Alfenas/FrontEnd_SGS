@@ -1,6 +1,7 @@
 "use client"
 import {
     Sheet,
+    SheetClose,
     SheetContent,
     SheetDescription,
     SheetHeader,
@@ -9,11 +10,24 @@ import {
   } from "@/components/ui/sheet"
 import { Separator } from "@radix-ui/react-separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { AlignJustify, Menu } from "lucide-react";
+import { AlignJustify, LogOut, Menu } from "lucide-react";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
+import {
+  Command,
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+} from "@/components/ui/command"
+
+
 interface TablePessoasProps{
   usuarioLogado:UsuarioLogadoI
 }
@@ -27,45 +41,73 @@ const Header = ({usuarioLogado}:any) => {
     router.replace('/')
   }
     return (
-       <header className="flex items-center justify-between w-full h-28 bg-indigo-900 mb-4">
-        
-        <div className="ps-4">Icone</div>
-        <div>Nome Projeeto</div>
-        <div className="pe-4">
+       <header className="flex items-center justify-between w-full h-28 bg-blue-900 mb-4">
+        <div className="ps-4">
         <Sheet>
             <SheetTrigger>  <AlignJustify  /></SheetTrigger>
             <SheetContent side='left'>
-              <Avatar className="flex items-center justify-center m-auto mb-4 mt-9 w-24 h-24">
-                <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+            <SheetHeader className="mb-9 gap-1">
+            <Avatar className="flex items-center justify-center m-auto mb-4 mt-9 w-24 h-24">
+                <AvatarImage src="logoprefeitura.png" alt="@shadcn" />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
-              <SheetHeader className="mb-9 gap-1">
-               <Link href="/usuarios">Usuarios</Link>
-               <Link href="/pessoas">Reponsaveis</Link>
-               <Link href="/equipamentos">Equipamento</Link>
-               <Link href="/beneficios">Beneficios</Link>
-               {usuarioLogado.user.role.find((row:string) => row === "Admin") && 
-                 <Link href="/admin">Administrador</Link>
-               }
-                <SheetTitle className="cursor-pointer" onClick={logount}>Logout</SheetTitle>
-                <SheetDescription >
-                  This action cannot be undone. This will permanently delete your account
-                  and remove your data from our servers.
-                  This action cannot be undone. This will permanently delete your account
-                  and remove your data from our servers.
-                    This action cannot be undone. This will permanently delete your account
-                  and remove your data from our servers.
-                </SheetDescription>
-                <Separator className="h-1" />
-            
-              </SheetHeader>
-              <div className="flex items-center justify-center">
-              <SheetTitle>Suporte</SheetTitle>
-              </div>
+            <Command >
+              <CommandInput placeholder="Type a command or search..." />
+              <CommandList>
+                <CommandEmpty>No results found.</CommandEmpty>
+                <CommandGroup heading="Menu Basico">
+                  
+                  <CommandItem>
+                  <SheetClose asChild>
+                    <Link href="/pessoas">Consulta Familia</Link>
+                  </SheetClose>
+                  </CommandItem>
+           
+                  <CommandItem>
+                  <SheetClose asChild>
+                    <Link href="/beneficios">Consulta Benefícios</Link>
+                  </SheetClose>
+                  </CommandItem>
+                   
+                  
+                  <CommandItem>
+                  <SheetClose asChild>
+                    <Link href="/equipamentos">Consulta Equipamentos</Link>
+                  </SheetClose>
+                  </CommandItem>
+
+             
+                </CommandGroup>
+                <CommandSeparator />
+                {usuarioLogado.user.role.find((row:string) => row === "Admin") && 
+                <CommandGroup heading="Administrador">
+        
+                  <CommandItem>
+                  <SheetClose asChild>
+                    <Link href="/admin">Consultas Familia Excluida</Link>
+                  </SheetClose>
+                  </CommandItem>
+                  <CommandItem>
+                  <SheetClose asChild>
+                    <Link href="/usuarios">Consulta Operadores</Link>
+                  </SheetClose>
+                  </CommandItem>
+ 
+                  <CommandItem>Settings</CommandItem>
+                </CommandGroup>
+                }
+              </CommandList>
+            </Command>
+            <SheetTitle className="cursor-pointer flex items-center justify-start" onClick={logount}><LogOut  className="me-2 ms-2"/>Logout</SheetTitle>
+            </SheetHeader>
             </SheetContent>
         </Sheet>
 
         </div>
+       
+        <div>Sistema de Gestão Social</div>
+        <div className="pe-4"><img src="logoprefeitura.png" alt="logo" className="w-14 h-14  rounded-full" /></div>
+     
        </header>    
 
       );

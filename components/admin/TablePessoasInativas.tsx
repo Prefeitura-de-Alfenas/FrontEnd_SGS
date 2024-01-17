@@ -24,21 +24,24 @@ import { Bitcoin, FileEdit,Search, ThumbsDown, ThumbsUp,  UsersRound } from "luc
 import { Button } from "../ui/button";
 
 import {
-  useMutation,
+
   useQuery,
 } from '@tanstack/react-query'
-import {  GetPessas, GetPessasInativa } from "@/app/api/pessoas/routes";
+import {   GetPessasInativa } from "@/app/api/pessoas/routes";
 import { PessoaI } from "@/interfaces/pessoa/interface";
 import { useState } from "react";
 import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
 import AddPessoa from "./DialogAddPessoa/AddPessoa";
+import { redirect } from 'next/navigation'
+import { useToast } from "../ui/use-toast";
+
 
 
 interface TablePessoasProps{
   usuarioLogado:UsuarioLogadoI
 }
 const TablePessoasInativas = ({usuarioLogado}:TablePessoasProps) => {
-  
+  const { toast } = useToast()
  
   const [skip,setSkipped] = useState(0)
   const [filter,setFilter] = useState('')
@@ -47,11 +50,11 @@ const TablePessoasInativas = ({usuarioLogado}:TablePessoasProps) => {
   // Queries
   const {data,isPending,isError,error, refetch } = useQuery({
     queryKey:['pessoasinativas',skip,search],
-    queryFn:() => GetPessasInativa(skip,search),
+    queryFn:() => GetPessasInativa(usuarioLogado,skip,search),
 
     
   })
-
+  
  
  const handleFilter = (event:React.ChangeEvent<HTMLInputElement>) =>{
   event.preventDefault();
@@ -67,22 +70,27 @@ const TablePessoasInativas = ({usuarioLogado}:TablePessoasProps) => {
 
 
 
-
+ if (isError) {
+  toast({
+    title: "Permissão negada",
+    description:"Você não tem permissão para acessar essa pagina"
+  
+  })
+  redirect('/pessoas')
+}
   
   if (isPending) {
     return <div className="flex items-center justify-center mt-5">Loading...</div>
   }
 
-  if (isError) {
-    return <div className="flex items-center justify-center">Error: {error.message}</div>
-  }
+
 
  
   
     return ( 
         <div className="flex flex-col ">    
         <div className="flex items-start justify-start">
-        <Button className="m-4"><Link href="/pessoas/novapessoa">Novo Responsavel </Link></Button>
+        <Button className="ms-1 mt-4 mb-4 text-white font-bold"><Link href="/pessoas/novapessoa">Novo Responsavel </Link></Button>
         </div> 
         <div className="flex w-2/3 ms-1">
         <div className="relative w-full">
@@ -133,7 +141,7 @@ const TablePessoasInativas = ({usuarioLogado}:TablePessoasProps) => {
                 <TableCell><Link href={`/pessoas/beneficios/${pessoa.id}`} ><Bitcoin  fill="#572002" /></Link></TableCell>
                 {usuarioLogado.user.role.find((row:string) => row === "Admin") && 
                 <TableCell>
-                    <AddPessoa id={pessoa.id} refetch={refetch} />
+                    <AddPessoa id={pessoa.id} refetch={refetch} usuario={usuarioLogado}/>
                 </TableCell>
                }
                 

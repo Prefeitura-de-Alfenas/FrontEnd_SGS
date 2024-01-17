@@ -1,9 +1,11 @@
 import CriarPessoa from "@/components/pessoas/CriarPessoa";
+import { getUsuarioLogado } from "@/utils/getUsuarioLogado";
 
 
-function NewFamiliar({ params }: { params: { responsavelId: string } }) {
+async function NewFamiliar({ params }: { params: { responsavelId: string } }) {
+  const usuarioLogado = await getUsuarioLogado()
   return (
-    <CriarPessoa resonposavelId={params.responsavelId}/>
+    <CriarPessoa resonposavelId={params.responsavelId} usuario={usuarioLogado}/>
     );
 }
 

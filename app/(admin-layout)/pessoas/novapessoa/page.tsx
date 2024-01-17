@@ -1,9 +1,12 @@
 import CriarPessoa from "@/components/pessoas/CriarPessoa";
+import { getUsuarioLogado } from "@/utils/getUsuarioLogado";
 
 
-function NewPessoa() {
+async function NewPessoa() {
+  const usuario = await getUsuarioLogado();
+
   return (
-    <CriarPessoa />
+    <CriarPessoa usuario={usuario} />
     );
 }
 

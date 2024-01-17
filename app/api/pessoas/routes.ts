@@ -1,13 +1,41 @@
-import { baseUrl } from "@/config/base";
+import { baseUrl, takeBase } from "@/config/base";
 import { PessoaCreateI } from "@/interfaces/pessoa/interface";
+import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
 
-const GetPessasInativa = async (skip:number,filter:string) => {
 
-    const url = `${baseUrl}/pessoa/findallinative/2/skip/${skip}/${filter}`;	
+
+
+const GetPessasInativa = async (usuario:UsuarioLogadoI,skip:number,filter:string) => {
+    
+    const url = `${baseUrl}/pessoa/findallinative/${takeBase}/skip/${skip}/${filter}`;	
     const response = await fetch(url,{
         method: 'GET',
         headers: {
-            'Content-type': 'application/json'
+            'Content-type': 'application/json',
+            'Authorization' :`Bearer ${usuario.user.access_token}`
+        },
+    })
+    if(response.statusText === "Unauthorized") {
+      
+        throw new Error("Conexão com a rede está com problema")
+    }
+
+    if(!response.ok) {
+       throw new Error("Conexão com a rede está com problema")
+    }
+    const pessoas = await response.json() 
+ 
+    return pessoas ;
+    
+}
+const GetPessas = async (usuario:UsuarioLogadoI,skip:number,filter:string) => {
+
+    const url = `${baseUrl}/pessoa/${takeBase}/skip/${skip}/${filter}`;	
+    const response = await fetch(url,{
+        method: 'GET',
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization' :`Bearer ${usuario.user.access_token}`
         },
     })
 
@@ -19,31 +47,14 @@ const GetPessasInativa = async (skip:number,filter:string) => {
     return pessoas ;
     
 }
-const GetPessas = async (skip:number,filter:string) => {
 
-    const url = `${baseUrl}/pessoa/2/skip/${skip}/${filter}`;	
-    const response = await fetch(url,{
-        method: 'GET',
-        headers: {
-            'Content-type': 'application/json'
-        },
-    })
-
-    if (!response.ok) {
-       throw new Error("Conexão com a rede está com problema")
-    }
-    const pessoas = await response.json() 
- 
-    return pessoas ;
-    
-}
-
-const CreatePessoa = async (data:PessoaCreateI) => {
+const CreatePessoa = async (usuario:UsuarioLogadoI,data:PessoaCreateI) => {
     const url = `${baseUrl}/pessoa`;
     const response = await fetch(url,{
         method: 'POST',
         headers: {
-            'Content-type': 'application/json'
+            'Content-type': 'application/json',
+            'Authorization' :`Bearer ${usuario.user.access_token}`
         },
         body: JSON.stringify(data)
     })
@@ -56,12 +67,13 @@ const CreatePessoa = async (data:PessoaCreateI) => {
     return pessoa ;
 }
 
-const UpdatePessoa = async (id:string,data:PessoaCreateI) => {
+const UpdatePessoa = async (usuario:UsuarioLogadoI,id:string,data:PessoaCreateI) => {
     const url = `${baseUrl}/pessoa/${id}`;
     const response = await fetch(url,{
         method: 'PATCH',
         headers: {
-            'Content-type': 'application/json'
+            'Content-type': 'application/json',
+            'Authorization' :`Bearer ${usuario.user.access_token}`
         },
         body: JSON.stringify(data)
     })
@@ -74,12 +86,13 @@ const UpdatePessoa = async (id:string,data:PessoaCreateI) => {
     return pessoa ;
 }
 
-const GetPessoaById = async (id:string)=>{
+const GetPessoaById = async (usuario:UsuarioLogadoI,id:string)=>{
     const url = `${baseUrl}/pessoa/${id}`;
     const response = await fetch(url,{
         method:'GET',
         headers:{
-            'Content-type': 'application/json'
+            'Content-type': 'application/json',
+            'Authorization' :`Bearer ${usuario.user.access_token}`
         }
     })
 
@@ -95,12 +108,13 @@ const GetPessoaById = async (id:string)=>{
     return pessoa;
 }
 
-const GetPessoaEntregaById = async (id:string)=>{
+const GetPessoaEntregaById = async (usuario:UsuarioLogadoI,id:string)=>{
     const url = `${baseUrl}/pessoa/entrega/${id}`;
     const response = await fetch(url,{
         method:'GET',
         headers:{
-            'Content-type': 'application/json'
+            'Content-type': 'application/json',
+            'Authorization' :`Bearer ${usuario.user.access_token}`
         }
     })
 
@@ -117,13 +131,14 @@ const GetPessoaEntregaById = async (id:string)=>{
 }
 
 
-const GetCepViaCep = async (cep:string)=>{
+const GetCepViaCep = async (usuario:UsuarioLogadoI,cep:string)=>{
     console.log('cep',cep)
     const url = `https://viacep.com.br/ws/${cep}/json/`;
     const response = await fetch(url,{
         method:'GET',
         headers:{
-            'Content-type': 'application/json'
+            'Content-type': 'application/json',
+            'Authorization' :`Bearer ${usuario.user.access_token}`
         }
     })
 
@@ -136,12 +151,13 @@ const GetCepViaCep = async (cep:string)=>{
     return dadoscpe;
 }
 
-const ChangeBeneficioPessoa = async(beneficioId:string,pessoaId:string)=>{
+const ChangeBeneficioPessoa = async(usuario:UsuarioLogadoI,beneficioId:string,pessoaId:string)=>{
     const url = `${baseUrl}/beneficio/${beneficioId}/pessoa/${pessoaId}`;
     const response = await fetch(url,{
         method: 'PATCH',
         headers: {
-            'Content-type': 'application/json'
+            'Content-type': 'application/json',
+            'Authorization' :`Bearer ${usuario.user.access_token}`
         }
     })
 
@@ -154,12 +170,13 @@ const ChangeBeneficioPessoa = async(beneficioId:string,pessoaId:string)=>{
 }
 
 
-const ChangeStatus = async(id:string)=>{
+const ChangeStatus = async(usuario:UsuarioLogadoI,id:string)=>{
     const url = `${baseUrl}/pessoa/changestatus/${id}`;
     const response = await fetch(url,{
         method: 'PATCH',
         headers: {
-            'Content-type': 'application/json'
+            'Content-type': 'application/json',
+            'Authorization' :`Bearer ${usuario.user.access_token}`
         }
     })
 

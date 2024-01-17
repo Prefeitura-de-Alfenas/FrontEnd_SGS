@@ -37,11 +37,13 @@ import { GetBeneficios } from "@/app/api/beneficios/routes";
 import { ChangeBeneficioPessoa, GetPessoaById } from "@/app/api/pessoas/routes";
 import { useToast } from "@/components/ui/use-toast"
 import { BeneficioOnPessoasI, PessoaI } from "@/interfaces/pessoa/interface";
+import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
 
 interface TablePessoasBeneficiosProps{
-    pessoaId:string
+    pessoaId:string,
+    usuario:UsuarioLogadoI
 }
-const TablePessoasBeneficios = ({pessoaId}:TablePessoasBeneficiosProps) => {
+const TablePessoasBeneficios = ({usuario,pessoaId}:TablePessoasBeneficiosProps) => {
 
   const { toast } = useToast()
   const [skip,setSkipped] = useState(0)
@@ -51,12 +53,12 @@ const TablePessoasBeneficios = ({pessoaId}:TablePessoasBeneficiosProps) => {
   // Queries
   const {data,isPending,isError,error,refetch} = useQuery({
     queryKey:['beneficios',skip,search],
-    queryFn:() => GetBeneficios(skip,search),
+    queryFn:() => GetBeneficios(usuario,skip,search),
     
   })
   const {data:dataBeneficioario,isPending:isPendingBeneficioario} = useQuery({
     queryKey:['beneficiario',pessoaId],
-    queryFn:() => GetPessoaById(pessoaId),
+    queryFn:() => GetPessoaById(usuario,pessoaId),
     
   })
  
@@ -98,7 +100,7 @@ const TablePessoasBeneficios = ({pessoaId}:TablePessoasBeneficiosProps) => {
 
  const mutation = useMutation({
   mutationFn: ({beneficioId,pessoaId}:BeneficioOnPessoasI) => {
-    return  ChangeBeneficioPessoa(beneficioId,pessoaId)
+    return  ChangeBeneficioPessoa(usuario,beneficioId,pessoaId)
     .then((response) => response);
 
   },

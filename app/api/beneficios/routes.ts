@@ -1,20 +1,28 @@
-import { baseUrl } from "@/config/base";
+import { baseUrl, takeBase } from "@/config/base";
 import { BeneficiosCreateI } from "@/interfaces/beneficios/inteface";
+import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
 
 
-const GetBeneficios = async (skip:number,filter:string) => {
+const GetBeneficios = async (usuario:UsuarioLogadoI,skip:number,filter:string) => {
 
-    const url = `${baseUrl}/beneficio/findall/10/skip/${skip}/${filter}`;	
+    const url = `${baseUrl}/beneficio/findall/${takeBase}/skip/${skip}/${filter}`;	
     const response = await fetch(url,{
         method: 'GET',
         headers: {
-            'Content-type': 'application/json'
+            'Content-type': 'application/json',
+            'Authorization' :`Bearer ${usuario.user.access_token}`
+
         },
     })
-
+   
+    if (response.statusText === 'Unauthorized') {
+        throw new Error("Você não tem autorização")
+     }
+  
     if (!response.ok) {
        throw new Error("Conexão com a rede está com problema")
     }
+ 
     const beneficios = await response.json() 
  
     return beneficios ;
@@ -22,12 +30,13 @@ const GetBeneficios = async (skip:number,filter:string) => {
 }
 
 
-const CreateBeneficio = async (data:BeneficiosCreateI) => {
+const CreateBeneficio = async (usuario:UsuarioLogadoI,data:BeneficiosCreateI) => {
     const url = `${baseUrl}/beneficio`;
     const response = await fetch(url,{
         method: 'POST',
         headers: {
-            'Content-type': 'application/json'
+            'Content-type': 'application/json',
+            'Authorization' :`Bearer ${usuario.user.access_token}`
         },
         body: JSON.stringify(data)
     })
@@ -40,12 +49,13 @@ const CreateBeneficio = async (data:BeneficiosCreateI) => {
     return beneficio ;
 }
 
-const UpdateBeneficio = async (id:string,data:BeneficiosCreateI) => {
+const UpdateBeneficio = async (usuario:UsuarioLogadoI,id:string,data:BeneficiosCreateI) => {
     const url = `${baseUrl}/beneficio/${id}`;
     const response = await fetch(url,{
         method: 'PATCH',
         headers: {
-            'Content-type': 'application/json'
+            'Content-type': 'application/json',
+            'Authorization' :`Bearer ${usuario.user.access_token}`
         },
         body: JSON.stringify(data)
     })
@@ -58,12 +68,13 @@ const UpdateBeneficio = async (id:string,data:BeneficiosCreateI) => {
     return beneficio ;
 }
 
-const GetBeneficioById = async (id:string)=>{
+const GetBeneficioById = async (usuario:UsuarioLogadoI,id:string)=>{
     const url = `${baseUrl}/beneficio/${id}`;
     const response = await fetch(url,{
         method:'GET',
         headers:{
-            'Content-type': 'application/json'
+            'Content-type': 'application/json',
+            'Authorization' :`Bearer ${usuario.user.access_token}`
         }
     })
 

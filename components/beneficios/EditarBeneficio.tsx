@@ -14,6 +14,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { GetBeneficioById, UpdateBeneficio } from "@/app/api/beneficios/routes";
+import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
 
 
 
@@ -42,9 +43,10 @@ type FormData =z.infer<typeof formSchema>;
 
 interface EditBeneficiosProps{
     beneficioId:string,
+    usuario:UsuarioLogadoI
 }
 
-function EditarBeneficio({beneficioId}:EditBeneficiosProps ) {
+function EditarBeneficio({usuario,beneficioId}:EditBeneficiosProps ) {
 
   const router = useRouter();
   const { toast } = useToast()
@@ -55,7 +57,7 @@ function EditarBeneficio({beneficioId}:EditBeneficiosProps ) {
   
     const {data,isLoading } = useQuery({
       queryKey:['pessoa',beneficioId],
-      queryFn:() => GetBeneficioById(beneficioId as string),
+      queryFn:() => GetBeneficioById(usuario,beneficioId as string),
       
     })
     
@@ -74,7 +76,7 @@ function EditarBeneficio({beneficioId}:EditBeneficiosProps ) {
    
   const mutation = useMutation({
     mutationFn: (data:FormData) => {
-      return     UpdateBeneficio(beneficioId,data)
+      return     UpdateBeneficio(usuario,beneficioId,data)
       .then(response => response)
     },
     onError:(error) => {
@@ -154,7 +156,7 @@ function EditarBeneficio({beneficioId}:EditBeneficiosProps ) {
         <div className=" mx-auto  pe-56 ps-56  pb-1 pt-1 shadow-md grid grid-cols-1 gap-4 mb-12">
           
        
-         <Button>Atualizar</Button>
+         <Button className="text-white font-bold">Atualizar</Button>
         </div>
        
        

@@ -1,12 +1,14 @@
-import { baseUrl } from "@/config/base";
+import { baseUrl, takeBase } from "@/config/base";
+import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
 
 
-const GetFamiliares = async (id:string,skip:number,filter:string) => {
-    const url = `${baseUrl}/pessoa/familiares/${id}/2/skip/${skip}/${filter}`;
+const GetFamiliares = async (usuario:UsuarioLogadoI,id:string,skip:number,filter:string) => {
+    const url = `${baseUrl}/pessoa/familiares/${id}/${takeBase}/skip/${skip}/${filter}`;
     const response = await fetch(url,{
         method: 'GET',
         headers: {
-            'Content-type': 'application/json'
+            'Content-type': 'application/json',
+            'Authorization' :`Bearer ${usuario.user.access_token}`
         },
     })
 
@@ -19,12 +21,13 @@ const GetFamiliares = async (id:string,skip:number,filter:string) => {
     
 }
 
-const changeReponsavelFamiliar = async (id:string) =>{
+const changeReponsavelFamiliar = async (usuario:UsuarioLogadoI,id:string) =>{
    const url = `${baseUrl}/pessoa/changeresponsavel/${id}`;
    const response = await fetch(url,{
     method:'PATCH',
     headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization' :`Bearer ${usuario.user.access_token}`
     }
    })
 

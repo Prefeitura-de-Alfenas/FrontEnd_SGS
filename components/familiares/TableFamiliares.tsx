@@ -25,7 +25,7 @@ import { Input } from "@/components/ui/input";
 
 
 import {
-  keepPreviousData,
+
   useMutation,
   useQuery,
 } from '@tanstack/react-query'
@@ -35,13 +35,15 @@ import { GetFamiliares, changeReponsavelFamiliar } from "@/app/api/familiares/ro
 import { useState } from "react";
 import { useToast } from "../ui/use-toast";
 import { useRouter } from "next/navigation";
+import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
 
 
 interface TableFamiliaresProps{
-  responsavelId:string
+  responsavelId:string,
+  usuario:UsuarioLogadoI
 }
 
-const TableFamiliares = ({responsavelId}:TableFamiliaresProps) => {
+const TableFamiliares = ({usuario,responsavelId}:TableFamiliaresProps) => {
 
   const { toast } = useToast()
   const router = useRouter();
@@ -53,12 +55,12 @@ const TableFamiliares = ({responsavelId}:TableFamiliaresProps) => {
   // Queries
   const {data,isPending,isError,error,refetch } = useQuery({
     queryKey:['familiares',responsavelId,skip,search],
-    queryFn:() => GetFamiliares(responsavelId,skip,search)
+    queryFn:() => GetFamiliares(usuario,responsavelId,skip,search)
   })
 
   const mutation =  useMutation({
     mutationFn:(id:string) =>{
-      return  changeReponsavelFamiliar(id)
+      return  changeReponsavelFamiliar(usuario,id)
       .then(response => response)
     },
     onError:(error) => {
@@ -111,7 +113,7 @@ const TableFamiliares = ({responsavelId}:TableFamiliaresProps) => {
     return ( 
         <div className="flex flex-col ">    
         <div className="flex items-start justify-start">
-        <Button className="m-4"><Link href={`/familiares/novofamiliar/${responsavelId}`}>Novo Familiar </Link></Button>
+        <Button className="ms-1 mt-4 mb-4 text-white font-bold"><Link href={`/familiares/novofamiliar/${responsavelId}`}>Novo Familiar </Link></Button>
         </div> 
         <div className="flex w-2/3 ms-1">
         <div className="relative w-full">

@@ -32,6 +32,7 @@ export  interface PermissaoI{
 export interface PermissionChangeProps{
     userId:string;
     permissionId:string;
+    usuario:UsuarioLogadoI;
 }
 
 export interface UsuarioLogadoI{

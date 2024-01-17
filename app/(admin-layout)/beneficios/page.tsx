@@ -1,4 +1,5 @@
 import TableBeneficios from "@/components/beneficios/TableBeneficios";
+import { getUsuarioLogado } from "@/utils/getUsuarioLogado";
 
 
 
@@ -7,10 +8,10 @@ import TableBeneficios from "@/components/beneficios/TableBeneficios";
 
 
 
- function  Beneficios() {
-
+ async function  Beneficios() {
+   const usuarioLogado = await getUsuarioLogado();
     return ( 
-      <TableBeneficios />
+      <TableBeneficios usuario={usuarioLogado} />
      );
 }
 

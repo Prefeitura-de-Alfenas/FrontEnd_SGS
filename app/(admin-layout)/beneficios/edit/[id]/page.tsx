@@ -1,11 +1,13 @@
 import EditarBeneficio from "@/components/beneficios/EditarBeneficio";
+import { getUsuarioLogado } from "@/utils/getUsuarioLogado";
 
 
 
 
-function EditEquipamento({ params }: { params: { id: string } }) {
+async function EditEquipamento({ params }: { params: { id: string } }) {
+  const usuarioLogado = await getUsuarioLogado()
   return (
-    <EditarBeneficio beneficioId={params.id}/>
+    <EditarBeneficio beneficioId={params.id} usuario={usuarioLogado}/>
     );
 }
 

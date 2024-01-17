@@ -14,7 +14,7 @@ import {
 import { FileEdit, FileLock, Loader, ThumbsDown, ThumbsUp } from "lucide-react";
 import { Button } from "../ui/button";
 
-import { UsuarioI } from "@/interfaces/usuario/interface";
+import { UsuarioI, UsuarioLogadoI } from "@/interfaces/usuario/interface";
 import { useToast } from "@/components/ui/use-toast"
 
 import {
@@ -24,8 +24,10 @@ import {
 
 } from '@tanstack/react-query'
 
-
-const TableUsuarios = () => {
+interface TableUsuariosProps{
+  usuario: UsuarioLogadoI
+}
+const TableUsuarios = ({usuario}:TableUsuariosProps) => {
   // const queryClient  =  useQueryClient();
   const { toast } = useToast()
 
@@ -34,12 +36,12 @@ const TableUsuarios = () => {
   // Queries
   const {data,isPending,isError,error,refetch } = useQuery({
     queryKey:['usuarios'],
-    queryFn:GetUsuarios
+    queryFn:() => GetUsuarios(usuario)
   })
 
   const mutation = useMutation({
     mutationFn: ({userId}:any) => {
-      return  ChangeStatusUsuarios(userId)
+      return  ChangeStatusUsuarios(usuario,userId)
       .then((response) => response);
 
     },
@@ -72,7 +74,7 @@ const TableUsuarios = () => {
     return ( 
         <div className="flex flex-col ">    
         <div className="flex items-start justify-start">
-        <Button className="m-4"><Link href="/usuarios/novousuario">Novo Usuário </Link></Button>
+        <Button className="ms-1 mt-4 mb-4 text-white font-bold"><Link href="/usuarios/novousuario">Novo Usuário </Link></Button>
         </div> 
        
         <Table>

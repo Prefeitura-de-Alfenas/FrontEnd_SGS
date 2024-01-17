@@ -32,9 +32,13 @@ import {
 import {  useState } from "react";
 import { GetEquipamentos } from "@/app/api/equipamentos/routes";
 import { EquipamentoI } from "@/interfaces/equipamento/interface";
+import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
 
+interface TableEquipamentosProps{
+  usuario:UsuarioLogadoI
+}
 
-const TableEquipamentos = () => {
+const TableEquipamentos = ({usuario}:TableEquipamentosProps) => {
 
 
   const [skip,setSkipped] = useState(0)
@@ -44,7 +48,7 @@ const TableEquipamentos = () => {
   // Queries
   const {data,isPending,isError,error} = useQuery({
     queryKey:['equipamentos',skip,search],
-    queryFn:() => GetEquipamentos(skip,search),
+    queryFn:() => GetEquipamentos(usuario,skip,search),
 
     
   })
@@ -73,7 +77,7 @@ const TableEquipamentos = () => {
     return ( 
         <div className="flex flex-col ">    
         <div className="flex items-start justify-start">
-        <Button className="m-4"><Link href="/equipamentos/create">Novo Equipamento</Link></Button>
+        <Button className="ms-1 mt-4 mb-4 text-white font-bold"><Link href="/equipamentos/create">Novo Equipamento</Link></Button>
         </div> 
         <div className="flex w-2/3 ms-1">
         <div className="relative w-full">

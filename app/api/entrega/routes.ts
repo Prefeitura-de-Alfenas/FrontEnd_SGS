@@ -1,14 +1,16 @@
-import { baseUrl } from "@/config/base";
+import { baseUrl, takeBase } from "@/config/base";
 import { EntregaCreateI } from "@/interfaces/entras/interface";
+import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
 
 
 
-const CreateEntrega = async (data:EntregaCreateI) => {
+const CreateEntrega = async (usuario:UsuarioLogadoI,data:EntregaCreateI) => {
     const url = `${baseUrl}/entregra`;
     const response = await fetch(url,{
         method: 'POST',
         headers: {
-            'Content-type': 'application/json'
+            'Content-type': 'application/json',
+            'Authorization' :`Bearer ${usuario.user.access_token}`
         },
         body: JSON.stringify(data)
     })
@@ -21,12 +23,13 @@ const CreateEntrega = async (data:EntregaCreateI) => {
     return entrega ;
 }
 
-const GetEntregaById = async (id:string)=>{
+const GetEntregaById = async (usuario:UsuarioLogadoI,id:string)=>{
     const url = `${baseUrl}/entregra/${id}`;
     const response = await fetch(url,{
         method:'GET',
         headers:{
-            'Content-type': 'application/json'
+            'Content-type': 'application/json',
+            'Authorization' :`Bearer ${usuario.user.access_token}`
         }
     })
 
@@ -41,13 +44,14 @@ const GetEntregaById = async (id:string)=>{
     return entrega;
 }
 
-const GetEntregas = async (skip:number,filter:string) => {
+const GetEntregas = async (usuario:UsuarioLogadoI,skip:number,filter:string) => {
 
-    const url = `${baseUrl}/entregra/findall/10/skip/${skip}/${filter}`;	
+    const url = `${baseUrl}/entregra/findall/${takeBase}/skip/${skip}/${filter}`;	
     const response = await fetch(url,{
         method: 'GET',
         headers: {
-            'Content-type': 'application/json'
+            'Content-type': 'application/json',
+            'Authorization' :`Bearer ${usuario.user.access_token}`
         },
     })
 
@@ -60,13 +64,14 @@ const GetEntregas = async (skip:number,filter:string) => {
     
 }
 
-const GetEntregasPorPessoa = async (pessoaId:string,skip:number,filter:string) => {
+const GetEntregasPorPessoa = async (usuario:UsuarioLogadoI,pessoaId:string,skip:number,filter:string) => {
 
-    const url = `${baseUrl}/entregra/findallforpessoas/${pessoaId}/take/10/skip/${skip}/${filter}`;	
+    const url = `${baseUrl}/entregra/findallforpessoas/${pessoaId}/take/${takeBase}/skip/${skip}/${filter}`;	
     const response = await fetch(url,{
         method: 'GET',
         headers: {
-            'Content-type': 'application/json'
+            'Content-type': 'application/json',
+            'Authorization' :`Bearer ${usuario.user.access_token}`
         },
     })
 

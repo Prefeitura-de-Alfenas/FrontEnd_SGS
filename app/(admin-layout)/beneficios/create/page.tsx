@@ -1,11 +1,13 @@
 import CriarBeneficio from "@/components/beneficios/CreateBeneficio";
+import { getUsuarioLogado } from "@/utils/getUsuarioLogado";
 
 
 
 
-function NewBeneficio() {
+async function NewBeneficio() {
+  const usuarioLogado = await getUsuarioLogado()
   return (
-    <CriarBeneficio />
+    <CriarBeneficio usuario={usuarioLogado}/>
     );
 }
 

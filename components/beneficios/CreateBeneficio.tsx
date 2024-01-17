@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 
 import { CreateEquipamento } from "@/app/api/equipamentos/routes";
 import { CreateBeneficio } from "@/app/api/beneficios/routes";
+import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
 
 
 
@@ -39,9 +40,11 @@ const formSchema = z.object({
 
 type FormData =z.infer<typeof formSchema>;
 
+interface CriarBeneficioProps{
+  usuario:UsuarioLogadoI
+}
 
-
-function CriarBeneficio() {
+function CriarBeneficio({usuario}:CriarBeneficioProps) {
 
   const router = useRouter();
   const { toast } = useToast()
@@ -57,7 +60,7 @@ function CriarBeneficio() {
       let dataResponse = data;
      
     
-      return     CreateBeneficio(dataResponse)
+      return     CreateBeneficio(usuario,dataResponse)
       .then(response => response)
     },
     onError:(error) => {
@@ -138,7 +141,7 @@ function CriarBeneficio() {
       <div className=" mx-auto  pe-56 ps-56  pb-1 pt-1 shadow-md grid grid-cols-1 gap-4 mb-12">
         
      
-       <Button>Cadastrar</Button>
+       <Button className="text-white font-bold">Cadastrar</Button>
       </div>
      
      

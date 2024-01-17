@@ -34,11 +34,13 @@ import {  useState } from "react";
 import { EntregaI } from "@/interfaces/entras/interface";
 import { convertDataHoraParaPtBr } from "@/utils/converDateParaInput";
 import {GetEntregasPorPessoa } from "@/app/api/entrega/routes";
+import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
 
 interface TableEntregasProps{
   pessoaId:string;
+  usuario:UsuarioLogadoI
 }
-const TableEntregas = ({pessoaId}:TableEntregasProps) => {
+const TableEntregas = ({usuario,pessoaId}:TableEntregasProps) => {
 
 
   const [skip,setSkipped] = useState(0)
@@ -48,7 +50,7 @@ const TableEntregas = ({pessoaId}:TableEntregasProps) => {
   // Queries
   const {data,isPending,isError,error} = useQuery({
     queryKey:['entregas',skip,search,pessoaId],
-    queryFn:() => GetEntregasPorPessoa(pessoaId,skip,search),
+    queryFn:() => GetEntregasPorPessoa(usuario,pessoaId,skip,search),
 
     
   })

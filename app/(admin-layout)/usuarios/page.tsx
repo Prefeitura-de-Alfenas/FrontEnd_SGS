@@ -3,17 +3,18 @@
 
 
 import TableUsuarios from "@/components/usuarios/TableUsuarios";
+import { getUsuarioLogado } from "@/utils/getUsuarioLogado";
 
 
 
 
- function  Usuarios() {
+ async function  Usuarios() {
   
-  
+   const usuarioLogado = await getUsuarioLogado();
 
     return ( 
      
-       <TableUsuarios />
+       <TableUsuarios usuario={usuarioLogado}/>
 
    
      );

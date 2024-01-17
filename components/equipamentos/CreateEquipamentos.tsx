@@ -13,6 +13,7 @@ import {  GetCepViaCep, GetPessoaById } from "@/app/api/pessoas/routes";
 import { useRouter } from "next/navigation";
 import { useEffect, } from "react";
 import { CreateEquipamento } from "@/app/api/equipamentos/routes";
+import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
 
 
 
@@ -57,9 +58,11 @@ const formSchema = z.object({
 
 type FormData =z.infer<typeof formSchema>;
 
+interface CriarEquipamentoProps{
+  usuario:UsuarioLogadoI
+}
 
-
-function CriarEquipamento() {
+function CriarEquipamento({usuario}:CriarEquipamentoProps) {
 
   const router = useRouter();
   const { toast } = useToast()
@@ -75,7 +78,7 @@ function CriarEquipamento() {
       let dataResponse = data;
      
     
-      return     CreateEquipamento(dataResponse)
+      return     CreateEquipamento(usuario,dataResponse)
       .then(response => response)
     },
     onError:(error) => {
@@ -112,7 +115,7 @@ function CriarEquipamento() {
     const cepValue = event.target.value.replace(/\D/g, ''); // Remove caracteres não numéricos
     if (cepValue.length === 8) {
       try {
-        const data = await GetCepViaCep(cepValue);
+        const data = await GetCepViaCep(usuario,cepValue);
       
         setValue("logradouro", data ? data.logradouro :'',{ shouldValidate: true });
         setValue("complemento", data ? data.complemento :'',{ shouldValidate: true });
@@ -226,7 +229,7 @@ function CriarEquipamento() {
        </div>
 
      
-       <Button>Cadastrar</Button>
+       <Button className="text-white font-bold">Cadastrar</Button>
       </div>
      
      

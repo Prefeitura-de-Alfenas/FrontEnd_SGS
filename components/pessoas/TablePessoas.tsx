@@ -27,7 +27,7 @@ import {
   useMutation,
   useQuery,
 } from '@tanstack/react-query'
-import { ChangeStatus, GetPessas } from "@/app/api/pessoas/routes";
+import {  GetPessas } from "@/app/api/pessoas/routes";
 import { PessoaI } from "@/interfaces/pessoa/interface";
 import { useState } from "react";
 import DeleteSoftPessoa from "./DialogDelte/DeleteSoft";
@@ -46,8 +46,8 @@ const TablePessoas = ({usuarioLogado}:TablePessoasProps) => {
 
   // Queries
   const {data,isPending,isError,error, refetch } = useQuery({
-    queryKey:['pessoas',skip,search],
-    queryFn:() => GetPessas(skip,search),
+    queryKey:['pessoas',skip,search,usuarioLogado],
+    queryFn:() => GetPessas(usuarioLogado,skip,search),
 
     
   })
@@ -82,7 +82,7 @@ const TablePessoas = ({usuarioLogado}:TablePessoasProps) => {
     return ( 
         <div className="flex flex-col ">    
         <div className="flex items-start justify-start">
-        <Button className="m-4"><Link href="/pessoas/novapessoa">Novo Responsavel </Link></Button>
+        <Button className="ms-1 mt-4 mb-4 text-white font-bold"><Link href="/pessoas/novapessoa">Novo Responsavel </Link></Button>
         </div> 
         <div className="flex w-2/3 ms-1">
         <div className="relative w-full">
@@ -136,7 +136,7 @@ const TablePessoas = ({usuarioLogado}:TablePessoasProps) => {
                 <TableCell><Link href={`/pessoas/beneficios/${pessoa.id}`} ><Bitcoin  fill="#572002" /></Link></TableCell>
                 {usuarioLogado.user.role.find((row:string) => row === "Admin") && 
                 <TableCell>
-                    <DeleteSoftPessoa id={pessoa.id} refetch={refetch} />
+                    <DeleteSoftPessoa id={pessoa.id} refetch={refetch} usuario={usuarioLogado} />
                 </TableCell>
                }
                 

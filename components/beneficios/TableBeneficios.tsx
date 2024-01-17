@@ -33,9 +33,12 @@ import {  useState } from "react";
 
 import { BeneficiosI } from "@/interfaces/beneficios/inteface";
 import { GetBeneficios } from "@/app/api/beneficios/routes";
+import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
 
-
-const TableBeneficios = () => {
+interface TableBeneficiosProps{
+  usuario:UsuarioLogadoI
+}
+const TableBeneficios = ({usuario}:TableBeneficiosProps) => {
 
 
   const [skip,setSkipped] = useState(0)
@@ -45,7 +48,7 @@ const TableBeneficios = () => {
   // Queries
   const {data,isPending,isError,error} = useQuery({
     queryKey:['beneficios',skip,search],
-    queryFn:() => GetBeneficios(skip,search),
+    queryFn:() => GetBeneficios(usuario,skip,search),
 
     
   })
@@ -74,7 +77,7 @@ const TableBeneficios = () => {
     return ( 
         <div className="flex flex-col ">    
         <div className="flex items-start justify-start">
-        <Button className="m-4"><Link href="/beneficios/create">Novo Beneficios</Link></Button>
+        <Button className="ms-1 mt-4 mb-4 text-white font-bold"><Link href="/beneficios/create">Novo Beneficios</Link></Button>
         </div> 
         <div className="flex w-2/3 ms-1">
         <div className="relative w-full">

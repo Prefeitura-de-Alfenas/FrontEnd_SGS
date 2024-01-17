@@ -1,4 +1,5 @@
 import TableEquipamentos from "@/components/equipamentos/TableEquipamentos";
+import { getUsuarioLogado } from "@/utils/getUsuarioLogado";
 
 
 
@@ -6,10 +7,10 @@ import TableEquipamentos from "@/components/equipamentos/TableEquipamentos";
 
 
 
- function  Equipamentos() {
-
+ async function  Equipamentos() {
+   const usuarioLogado = await getUsuarioLogado();
     return ( 
-      <TableEquipamentos />
+      <TableEquipamentos  usuario={usuarioLogado}/>
      );
 }
 

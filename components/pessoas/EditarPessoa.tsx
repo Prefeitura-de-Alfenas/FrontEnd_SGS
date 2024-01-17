@@ -17,6 +17,7 @@ import { useEffect } from "react";
 import { converterDataParaFormatoInputDate } from "@/utils/converDateParaInput";
 import { GetEquipamentosAll } from "@/app/api/equipamentos/routes";
 import { EquipamentoI } from "@/interfaces/equipamento/interface";
+import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
 
 
 
@@ -92,10 +93,11 @@ type FormData =z.infer<typeof formSchema>;
 
 interface EditarPessoaProps{
   pessoaId:string,
-  responsavelId?:string
+  responsavelId?:string,
+  usuario:UsuarioLogadoI
 }
 
-function EditarPessoa({pessoaId,responsavelId}:EditarPessoaProps ) {
+function EditarPessoa({usuario,pessoaId,responsavelId}:EditarPessoaProps ) {
 
   const router = useRouter();
   const { toast } = useToast()
@@ -106,12 +108,12 @@ function EditarPessoa({pessoaId,responsavelId}:EditarPessoaProps ) {
   
     const {data,isLoading } = useQuery({
       queryKey:['pessoa',pessoaId],
-      queryFn:() => GetPessoaById(pessoaId as string),
+      queryFn:() => GetPessoaById(usuario,pessoaId as string),
       
     })
     const {data: dataEquipamentos,isLoading:isLoadingEquipamentos } = useQuery({
       queryKey:['equipamentos'],
-      queryFn:() => GetEquipamentosAll(),
+      queryFn:() => GetEquipamentosAll(usuario),
       
     })
 
@@ -152,7 +154,7 @@ function EditarPessoa({pessoaId,responsavelId}:EditarPessoaProps ) {
    
   const mutation = useMutation({
     mutationFn: (data:FormData) => {
-      return     UpdatePessoa(pessoaId,data)
+      return     UpdatePessoa(usuario,pessoaId,data)
       .then(response => response)
     },
     onError:(error) => {
@@ -188,7 +190,7 @@ function EditarPessoa({pessoaId,responsavelId}:EditarPessoaProps ) {
     const cepValue = event.target.value.replace(/\D/g, ''); // Remove caracteres não numéricos
     if (cepValue.length === 8) {
       try {
-        const data = await GetCepViaCep(cepValue);
+        const data = await GetCepViaCep(usuario,cepValue);
        
         setValue("logradouro", data ? data.logradouro :'',{ shouldValidate: true });
         setValue("complemento", data ? data.complemento :'',{ shouldValidate: true });
@@ -392,7 +394,7 @@ function EditarPessoa({pessoaId,responsavelId}:EditarPessoaProps ) {
         <Textarea  id="observacaorestrita" {...register('observacaorestrita')} placeholder="Observação Restrita" className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
         {errors.observacaorestrita?.message && <p className="text-sm text-red-400">{errors.observacaorestrita?.message}</p> }
        </div>
-       <Button>Atualizar</Button>
+       <Button className="text-white font-bold">Atualizar</Button>
       </div>
      
      

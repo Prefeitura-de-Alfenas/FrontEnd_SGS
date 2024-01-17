@@ -1,10 +1,11 @@
 import TablePessoasBeneficios from "@/components/pessoas/TablePessoasBeneficios";
+import { getUsuarioLogado } from "@/utils/getUsuarioLogado";
 
 
- function  Beneficios({ params }: { params: { pessoaId: string } }) {
-
+ async function  Beneficios({ params }: { params: { pessoaId: string } }) {
+   const usuarioLogado = await getUsuarioLogado();
     return ( 
-      <TablePessoasBeneficios pessoaId={params.pessoaId}  />
+      <TablePessoasBeneficios pessoaId={params.pessoaId} usuario={usuarioLogado} />
      );
 }
 

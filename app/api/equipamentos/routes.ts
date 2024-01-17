@@ -1,13 +1,15 @@
-import { baseUrl } from "@/config/base";
+import { baseUrl, takeBase } from "@/config/base";
 import { EquipamentoCreateI } from "@/interfaces/equipamento/interface";
+import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
 
-const GetEquipamentos = async (skip:number,filter:string) => {
+const GetEquipamentos = async (usuario:UsuarioLogadoI,skip:number,filter:string) => {
 
-    const url = `${baseUrl}/equipamento/findall/10/skip/${skip}/${filter}`;	
+    const url = `${baseUrl}/equipamento/findall/${takeBase}/skip/${skip}/${filter}`;	
     const response = await fetch(url,{
         method: 'GET',
         headers: {
-            'Content-type': 'application/json'
+            'Content-type': 'application/json',
+            'Authorization' :`Bearer ${usuario.user.access_token}`
         },
     })
 
@@ -19,13 +21,14 @@ const GetEquipamentos = async (skip:number,filter:string) => {
     return equipamentos ;
     
 }
-const GetEquipamentosAll = async () => {
+const GetEquipamentosAll = async (usuario:UsuarioLogadoI) => {
 
     const url = `${baseUrl}/equipamento`;	
     const response = await fetch(url,{
         method: 'GET',
         headers: {
-            'Content-type': 'application/json'
+            'Content-type': 'application/json',
+            'Authorization' :`Bearer ${usuario.user.access_token}`
         },
     })
 
@@ -38,12 +41,13 @@ const GetEquipamentosAll = async () => {
     
 }
 
-const CreateEquipamento = async (data:EquipamentoCreateI) => {
+const CreateEquipamento = async (usuario:UsuarioLogadoI,data:EquipamentoCreateI) => {
     const url = `${baseUrl}/equipamento`;
     const response = await fetch(url,{
         method: 'POST',
         headers: {
-            'Content-type': 'application/json'
+            'Content-type': 'application/json',
+            'Authorization' :`Bearer ${usuario.user.access_token}`
         },
         body: JSON.stringify(data)
     })
@@ -56,12 +60,13 @@ const CreateEquipamento = async (data:EquipamentoCreateI) => {
     return equipamento ;
 }
 
-const UpdateEquipamento = async (id:string,data:EquipamentoCreateI) => {
+const UpdateEquipamento = async (usuario:UsuarioLogadoI,id:string,data:EquipamentoCreateI) => {
     const url = `${baseUrl}/equipamento/${id}`;
     const response = await fetch(url,{
         method: 'PATCH',
         headers: {
-            'Content-type': 'application/json'
+            'Content-type': 'application/json',
+            'Authorization' :`Bearer ${usuario.user.access_token}`
         },
         body: JSON.stringify(data)
     })
@@ -74,12 +79,13 @@ const UpdateEquipamento = async (id:string,data:EquipamentoCreateI) => {
     return equipamento ;
 }
 
-const GetEquipamentoById = async (id:string)=>{
+const GetEquipamentoById = async (usuario:UsuarioLogadoI,id:string)=>{
     const url = `${baseUrl}/equipamento/${id}`;
     const response = await fetch(url,{
         method:'GET',
         headers:{
-            'Content-type': 'application/json'
+            'Content-type': 'application/json',
+            'Authorization' :`Bearer ${usuario.user.access_token}`
         }
     })
 

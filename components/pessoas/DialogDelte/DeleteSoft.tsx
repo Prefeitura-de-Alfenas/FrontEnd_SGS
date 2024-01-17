@@ -13,19 +13,21 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import { Trash2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast"
+import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
 
 interface DeleteSoftPessoa{
     id:string
     refetch:()=>void,
+    usuario:UsuarioLogadoI
   
 
 }
 
-function DeleteSoftPessoa({id,refetch}:DeleteSoftPessoa) {
+function DeleteSoftPessoa({usuario,id,refetch}:DeleteSoftPessoa) {
     const { toast } = useToast()
     const mutation = useMutation({
         mutationFn: ({id}:{id:string}) => {
-          return  ChangeStatus(id)
+          return  ChangeStatus(usuario,id)
           .then((response) => response);
   
         },
@@ -55,7 +57,7 @@ function DeleteSoftPessoa({id,refetch}:DeleteSoftPessoa) {
                 <div className="p-2">
                 <DialogClose asChild>
                 <Button   onClick={() => 
-                mutation.mutate({id:id })}className="mt-2">Desativar</Button>
+                mutation.mutate({id:id })}className="mt-2 text-white font-bold">Desativar</Button>
                 </DialogClose>
                 </div>
             </DialogContent>

@@ -1,5 +1,5 @@
 "use client"
-import { useState } from 'react'
+
 import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input'
 import { z } from 'zod'
@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { Database } from 'lucide-react';
+
 
 const formSchema = z.object({
   email:z.string({
@@ -48,7 +48,7 @@ export default function Home() {
      return
     }
 
-    router.replace('/admin')
+    router.replace('/pessoas')
 
     
 

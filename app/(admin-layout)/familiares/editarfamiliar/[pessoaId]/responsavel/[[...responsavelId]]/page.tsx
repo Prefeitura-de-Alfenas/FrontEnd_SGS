@@ -1,5 +1,6 @@
 
 import EditarPessoa from "@/components/pessoas/EditarPessoa";
+import { getUsuarioLogado } from "@/utils/getUsuarioLogado";
 
 interface UpdateFamiliarProps{
   params:{
@@ -8,10 +9,10 @@ interface UpdateFamiliarProps{
   }
 }
 
-function UpdateFamiliar({ params }: UpdateFamiliarProps) {
-  
+async function UpdateFamiliar({ params }: UpdateFamiliarProps) {
+  const usuarioLogado = await getUsuarioLogado()
   return (
-    <EditarPessoa pessoaId={params.pessoaId}  responsavelId={params.responsavelId} />
+    <EditarPessoa pessoaId={params.pessoaId}  responsavelId={params.responsavelId} usuario={usuarioLogado} />
   ); 
 }
 

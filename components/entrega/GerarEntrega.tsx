@@ -61,13 +61,13 @@ function GerarEntrega({pessoaId,userLogado}:GerarEntregaProps) {
  
    const {data,isLoading} = useQuery({
       queryKey:["pessoaEntrega"],
-      queryFn:() => GetPessoaEntregaById(pessoaId as string),
+      queryFn:() => GetPessoaEntregaById(userLogado,pessoaId as string),
    })
 
    
    const {data:dataUsuario,isLoading:isLoadingUsuario} = useQuery({
     queryKey:["usuario",userLogado.user.id],
-    queryFn:() => GetUsuarioById(userLogado.user.id),
+    queryFn:() => GetUsuarioById(userLogado,userLogado.user.id),
    })
    
   const mutation = useMutation({
@@ -75,7 +75,7 @@ function GerarEntrega({pessoaId,userLogado}:GerarEntregaProps) {
       let dataResponse = data;
      
     
-      return     CreateEntrega(dataResponse)
+      return     CreateEntrega(userLogado,dataResponse)
       .then(response => response)
     },
     onError:(error) => {
@@ -166,7 +166,7 @@ function GerarEntrega({pessoaId,userLogado}:GerarEntregaProps) {
        </div>
 
      
-       <Button>Cadastrar</Button>
+       <Button className="text-white font-bold">Cadastrar</Button>
       </div>
      
      

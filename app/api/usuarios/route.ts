@@ -1,14 +1,15 @@
 import { baseUrl } from "@/config/base"
-import { PermissionChangeProps, UsuarioCreateI } from "@/interfaces/usuario/interface";
+import { PermissionChangeProps, UsuarioCreateI, UsuarioLogadoI } from "@/interfaces/usuario/interface";
 
 
 
-const GetUsuarios = async () => {
+const GetUsuarios = async (usuarioLogado:UsuarioLogadoI) => {
     const url = `${baseUrl}/usuario`;
     const response = await fetch(url,{
         method: 'GET',
         headers: {
-            'Content-type': 'application/json'
+            'Content-type': 'application/json',
+            'Authorization' :`Bearer ${usuarioLogado.user.access_token}`
         },
     })
 
@@ -21,13 +22,14 @@ const GetUsuarios = async () => {
     
 }
 
-const ChangeStatusUsuarios = async (id:string) => {
+const ChangeStatusUsuarios = async (usuarioLogado:UsuarioLogadoI,id:string) => {
     const url = `${baseUrl}/usuario/${id}`;
 
     const response = await fetch(url,{
         method: 'PATCH',
         headers: {
-            'Content-Type': 'application/json', // Adicione este cabeçalho se necessário
+            'Content-Type': 'application/json', 
+            'Authorization' :`Bearer ${usuarioLogado.user.access_token}`
         },
 
      
@@ -42,12 +44,13 @@ const ChangeStatusUsuarios = async (id:string) => {
     
 }
 
-const CreateUsuario = async (data:UsuarioCreateI) => {
+const CreateUsuario = async (usuarioLogado:UsuarioLogadoI,data:UsuarioCreateI) => {
     const url = `${baseUrl}/usuario`;
     const response = await fetch(url,{
         method: 'Post',
         headers: {
-            'Content-type': 'application/json'
+            'Content-type': 'application/json',
+            'Authorization' :`Bearer ${usuarioLogado.user.access_token}`
         },
         body: JSON.stringify(data)
     })
@@ -60,12 +63,13 @@ const CreateUsuario = async (data:UsuarioCreateI) => {
     return usuario;
 }
 
-const UpUsuario = async (id:string,data:UsuarioCreateI) => {
+const UpUsuario = async (usuarioLogado:UsuarioLogadoI,id:string,data:UsuarioCreateI) => {
     const url = `${baseUrl}/usuario/update/${id}`;
     const response = await fetch(url,{
         method: 'PATCH',
         headers: {
-            'Content-type': 'application/json'
+            'Content-type': 'application/json',
+            'Authorization' :`Bearer ${usuarioLogado.user.access_token}`
         },
         body: JSON.stringify(data)
     })
@@ -78,12 +82,13 @@ const UpUsuario = async (id:string,data:UsuarioCreateI) => {
     return usuario;
 }
 
-const GetUsuarioById = async (id:string)=>{
+const GetUsuarioById = async (usuarioLogado:UsuarioLogadoI,id:string)=>{
     const url = `${baseUrl}/usuario/${id}`;
     const response = await fetch(url,{
         method:'GET',
         headers:{
-            'Content-type': 'application/json'
+            'Content-type': 'application/json',
+            'Authorization' :`Bearer ${usuarioLogado.user.access_token}`
         }
     })
 
@@ -96,13 +101,14 @@ const GetUsuarioById = async (id:string)=>{
     return usuario;
 }
 
-const GetPersmisoes = async()=>{
+const GetPersmisoes = async(usuarioLogado:UsuarioLogadoI,)=>{
    const url = `${baseUrl}/usuario/findpermissaouser`
    
    const response = await fetch(url,{
      method:'GET',
      headers:{
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        'Authorization' :`Bearer ${usuarioLogado.user.access_token}`
      }
    })
 
@@ -114,13 +120,14 @@ const GetPersmisoes = async()=>{
 
 }
 
-const GetUsuerPermission = async(id:string)=>{
+const GetUsuerPermission = async(usuarioLogado:UsuarioLogadoI,id:string)=>{
     const url = `${baseUrl}/usuario/findpermissaouser/${id}`
     
     const response = await fetch(url,{
       method:'GET',
       headers:{
-         'content-type': 'application/json'
+         'content-type': 'application/json',
+         'Authorization' :`Bearer ${usuarioLogado.user.access_token}`
       }
     })
  
@@ -139,7 +146,8 @@ const PermissionChange = async(data:PermissionChangeProps) =>{
     const response = await fetch(url,{
       method:'PATCH',
       headers:{
-         'content-type': 'application/json'
+         'content-type': 'application/json',
+         'Authorization' :`Bearer ${data.usuario.user.access_token}`
       },
       body: JSON.stringify(data)
     })

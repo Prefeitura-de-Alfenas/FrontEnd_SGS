@@ -15,6 +15,7 @@ import { GetCepViaCep, UpdatePessoa } from "@/app/api/pessoas/routes";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { GetEquipamentoById, UpdateEquipamento } from "@/app/api/equipamentos/routes";
+import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
 
 
 
@@ -59,9 +60,10 @@ type FormData =z.infer<typeof formSchema>;
 
 interface EditEquipamentosProps{
   equipamentoId:string,
+  usuario:UsuarioLogadoI
 }
 
-function EditarEquipamento({equipamentoId}:EditEquipamentosProps ) {
+function EditarEquipamento({usuario,equipamentoId}:EditEquipamentosProps ) {
 
   const router = useRouter();
   const { toast } = useToast()
@@ -72,7 +74,7 @@ function EditarEquipamento({equipamentoId}:EditEquipamentosProps ) {
   
     const {data,isLoading } = useQuery({
       queryKey:['pessoa',equipamentoId],
-      queryFn:() => GetEquipamentoById(equipamentoId as string),
+      queryFn:() => GetEquipamentoById(usuario,equipamentoId as string),
       
     })
     
@@ -104,7 +106,7 @@ function EditarEquipamento({equipamentoId}:EditEquipamentosProps ) {
    
   const mutation = useMutation({
     mutationFn: (data:FormData) => {
-      return     UpdateEquipamento(equipamentoId,data)
+      return     UpdateEquipamento(usuario,equipamentoId,data)
       .then(response => response)
     },
     onError:(error) => {
@@ -138,7 +140,7 @@ function EditarEquipamento({equipamentoId}:EditEquipamentosProps ) {
     const cepValue = event.target.value.replace(/\D/g, ''); // Remove caracteres não numéricos
     if (cepValue.length === 8) {
       try {
-        const data = await GetCepViaCep(cepValue);
+        const data = await GetCepViaCep(usuario,cepValue);
        
         setValue("logradouro", data ? data.logradouro :'',{ shouldValidate: true });
         setValue("complemento", data ? data.complemento :'',{ shouldValidate: true });
@@ -254,7 +256,7 @@ function EditarEquipamento({equipamentoId}:EditEquipamentosProps ) {
          </div>
   
        
-         <Button>Atualizar</Button>
+         <Button className="text-white font-bold">Atualizar</Button>
         </div>
        
        

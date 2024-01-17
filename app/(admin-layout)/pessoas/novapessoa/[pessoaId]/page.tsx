@@ -1,10 +1,12 @@
 
 import EditarPessoa from "@/components/pessoas/EditarPessoa";
+import { getUsuarioLogado } from "@/utils/getUsuarioLogado";
 
 
-function NewPessoa({ params }: { params: { pessoaId: string } }) {
+async function NewPessoa({ params }: { params: { pessoaId: string } }) {
+  const usuarioLogado = await getUsuarioLogado()
   return (
-    <EditarPessoa pessoaId={params.pessoaId}  />
+    <EditarPessoa pessoaId={params.pessoaId} usuario={usuarioLogado}  />
   );
 }
 

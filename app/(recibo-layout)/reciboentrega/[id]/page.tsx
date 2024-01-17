@@ -1,8 +1,10 @@
 import ReciboDocment from "@/components/entrega/Recibo";
+import { getUsuarioLogado } from "@/utils/getUsuarioLogado";
 
-function Recibo({ params }: { params: { id: string } }) {
+async function Recibo({ params }: { params: { id: string } }) {
+  const usuarioLogado = await getUsuarioLogado();
   return ( 
-    <ReciboDocment id={params.id}/>
+    <ReciboDocment id={params.id} usuario={usuarioLogado}/>
    );
 }
 

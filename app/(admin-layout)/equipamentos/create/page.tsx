@@ -1,10 +1,12 @@
 import CriarEquipamento from "@/components/equipamentos/CreateEquipamentos";
+import { getUsuarioLogado } from "@/utils/getUsuarioLogado";
 
 
 
-function NewEquipamento() {
+async function NewEquipamento() {
+  const usuarioLogado = await getUsuarioLogado();
   return (
-    <CriarEquipamento />
+    <CriarEquipamento usuario={usuarioLogado} />
     );
 }
 

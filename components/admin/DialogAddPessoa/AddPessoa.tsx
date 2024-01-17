@@ -13,19 +13,21 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import {  UserRoundPlus } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast"
+import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
 
 interface DeleteSoftPessoa{
     id:string
     refetch:()=>void,
+    usuario:UsuarioLogadoI
   
 
 }
 
-function AddPessoa({id,refetch}:DeleteSoftPessoa) {
+function AddPessoa({usuario,id,refetch}:DeleteSoftPessoa) {
     const { toast } = useToast()
     const mutation = useMutation({
         mutationFn: ({id}:{id:string}) => {
-          return  ChangeStatus(id)
+          return  ChangeStatus(usuario,id)
           .then((response) => response);
   
         },
@@ -54,8 +56,8 @@ function AddPessoa({id,refetch}:DeleteSoftPessoa) {
                 </DialogHeader>
                 <div className="p-2">
                 <DialogClose asChild>
-                <Button   onClick={() => 
-                  mutation.mutate({id:id })}className="mt-2">Ativar</Button>
+                <Button className= "mt-2 text-white font-bold"  onClick={() => 
+                  mutation.mutate({id:id })}>Ativar</Button>
                 </DialogClose>
                 </div>
             </DialogContent>

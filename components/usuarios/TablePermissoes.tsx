@@ -1,6 +1,6 @@
 "use client"
 import {  GetPersmisoes, GetUsuerPermission, PermissionChange } from "@/app/api/usuarios/route";
-import Link from "next/link";
+
 import {
     Table,
     TableBody,
@@ -14,7 +14,7 @@ import {
 import { FileEdit, FileLock, ThumbsDown, ThumbsUp } from "lucide-react";
 import { Button } from "../ui/button";
 
-import { PermissaoI, PermissionChangeProps, UsuarioI } from "@/interfaces/usuario/interface";
+import { PermissaoI, PermissionChangeProps, UsuarioLogadoI } from "@/interfaces/usuario/interface";
 import { useToast } from "@/components/ui/use-toast"
 
 import {
@@ -29,8 +29,10 @@ interface TablePermissoesProps {
 }
 
 
-
-const TablePermissoes = ({userId}:TablePermissoesProps) => {
+interface TablePermissoesProps{
+  usuario:UsuarioLogadoI
+}
+const TablePermissoes = ({usuario,userId}:TablePermissoesProps) => {
   const queryClient  =  useQueryClient();
   const { toast } = useToast()
 
@@ -39,12 +41,12 @@ const TablePermissoes = ({userId}:TablePermissoesProps) => {
   // Queries
   const {data,isPending,isError,error,refetch } = useQuery({
     queryKey:['permissoes'],
-    queryFn:GetPersmisoes
+    queryFn:() => GetPersmisoes(usuario)
   })
 
   const {data:dataUsuario,isPending:isPendingUsuario,isError:isErrorUsuario,refetch:refatchUsuario } = useQuery({
     queryKey:['usuariosPermissoes'],
-    queryFn:() => GetUsuerPermission(userId)
+    queryFn:() => GetUsuerPermission(usuario,userId)
   })
 
   
@@ -72,8 +74,8 @@ const TablePermissoes = ({userId}:TablePermissoesProps) => {
     )
  }
  const mutation = useMutation({
-    mutationFn: ({userId,permissionId}:PermissionChangeProps) => {
-      return  PermissionChange({userId,permissionId})
+    mutationFn: ({usuario,userId,permissionId}:PermissionChangeProps) => {
+      return  PermissionChange({usuario,userId,permissionId})
       .then((response) => response);
 
     },
@@ -123,7 +125,7 @@ const TablePermissoes = ({userId}:TablePermissoesProps) => {
                 <TableCell className="font-medium">{permissao.nome}</TableCell>
                 <TableCell className=" flex  items-center justify-end me-48"
                  onClick={() => 
-                    mutation.mutate({userId:dataUsuario.id,permissionId:permissao.id })}
+                    mutation.mutate({usuario:usuario,userId:dataUsuario.id,permissionId:permissao.id })}
                  >
                     <ButtonPermissoes id={permissao.id} />
                 </TableCell>

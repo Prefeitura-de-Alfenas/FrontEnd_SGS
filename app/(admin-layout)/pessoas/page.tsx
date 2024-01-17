@@ -1,8 +1,5 @@
 import TablePessoas from "@/components/pessoas/TablePessoas";
 import { authOptions } from "@/utils/authOptions";
-
-
-
 import { getServerSession } from "next-auth";
 
 

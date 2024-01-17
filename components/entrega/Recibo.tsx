@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { GetEntregaById } from '@/app/api/entrega/routes';
 import { EntregaByIdI } from '@/interfaces/entras/interface';
 import { convertDataHoraParaPtBr, converterDataParaFormatoInputDate } from '@/utils/converDateParaInput';
+import { UsuarioLogadoI } from '@/interfaces/usuario/interface';
 // Create styles
 const styles = StyleSheet.create({
   page: {
@@ -142,13 +143,14 @@ const MyDocument = ({entrega}:MyDocmentProps) =>(
 
 
 interface ReciboDocmentProps{
-  id:string
+  id:string,
+  usuario:UsuarioLogadoI
 }
 
-function ReciboDocment({id}:ReciboDocmentProps) {
+function ReciboDocment({usuario,id}:ReciboDocmentProps) {
   const {data,isLoading } = useQuery({
     queryKey:['entrega',id],
-    queryFn:() => GetEntregaById(id)
+    queryFn:() => GetEntregaById(usuario,id)
   })
   if(isLoading){
     return <h1>..Loading</h1>

@@ -18,6 +18,7 @@ import { converterDataParaFormatoInputDate } from "@/utils/converDateParaInput";
 import { AnyPtrRecord } from "dns";
 import { GetEquipamentosAll } from "@/app/api/equipamentos/routes";
 import { EquipamentoI } from "@/interfaces/equipamento/interface";
+import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
 
 
 
@@ -95,9 +96,10 @@ type FormData =z.infer<typeof formSchema>;
 
 interface CriarPessoaProps{
   resonposavelId?:string;
+  usuario:UsuarioLogadoI
 }
 
-function CriarPessoa({resonposavelId}:CriarPessoaProps) {
+function CriarPessoa({usuario,resonposavelId}:CriarPessoaProps) {
 
   const router = useRouter();
   const { toast } = useToast()
@@ -108,14 +110,14 @@ function CriarPessoa({resonposavelId}:CriarPessoaProps) {
  
    const {data: dataEquipamentos,isLoading:isLoadingEquipamentos } = useQuery({
     queryKey:['equipamentos'],
-    queryFn:() => GetEquipamentosAll(),
+    queryFn:() => GetEquipamentosAll(usuario),
     
   })
    
   const mutation = useMutation({
     mutationFn: async (data:FormData) => {
       let dataResponse = data;
-     
+      console.log("usuariofsdfsdfsdf",usuario)
       if(resonposavelId){
         dataResponse = {
           ...data,
@@ -123,7 +125,7 @@ function CriarPessoa({resonposavelId}:CriarPessoaProps) {
         
         }
       }
-      return     CreatePessoa(dataResponse)
+      return     CreatePessoa(usuario,dataResponse)
       .then(response => response)
     },
     onError:(error) => {
@@ -155,7 +157,7 @@ function CriarPessoa({resonposavelId}:CriarPessoaProps) {
   })
  
   const fetchData = async (id:string) => {
-      const responsavel = await GetPessoaById(id);
+      const responsavel = await GetPessoaById(usuario,id);
       if(responsavel.error){
         toast({
           variant: "destructive" ,
@@ -188,7 +190,7 @@ function CriarPessoa({resonposavelId}:CriarPessoaProps) {
     const cepValue = event.target.value.replace(/\D/g, ''); // Remove caracteres não numéricos
     if (cepValue.length === 8) {
       try {
-        const data = await GetCepViaCep(cepValue);
+        const data = await GetCepViaCep(usuario,cepValue);
       
         setValue("logradouro", data ? data.logradouro :'',{ shouldValidate: true });
         setValue("complemento", data ? data.complemento :'',{ shouldValidate: true });
@@ -393,7 +395,7 @@ function CriarPessoa({resonposavelId}:CriarPessoaProps) {
         <Textarea  id="observacaorestrita" {...register('observacaorestrita')} placeholder="Observação Restrita" className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
         {errors.observacaorestrita?.message && <p className="text-sm text-red-400">{errors.observacaorestrita?.message}</p> }
        </div>
-       <Button>Cadastrar</Button>
+       <Button className="text-white font-bold">Cadastrar</Button>
       </div>
      
      
