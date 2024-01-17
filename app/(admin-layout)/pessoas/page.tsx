@@ -1,13 +1,14 @@
 import TablePessoas from "@/components/pessoas/TablePessoas";
+import { authOptions } from "@/utils/authOptions";
 
 
-import { nextAuthOptions } from "@/app/api/auth/[...nextauth]/route";
+
 import { getServerSession } from "next-auth";
 
 
 
  async function  Pessoas() {
-  const session = await getServerSession(nextAuthOptions) as any
+  const session = await getServerSession(authOptions) as any
     return ( 
       <TablePessoas  usuarioLogado={session}  />
      );

@@ -1,10 +1,11 @@
 import GerarEntrega from "@/components/entrega/GerarEntrega";
-import { nextAuthOptions } from "@/app/api/auth/[...nextauth]/route";
+
 import { getServerSession } from "next-auth";
 import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
+import { authOptions } from "@/utils/authOptions";
 
 async function Entrega({ params }: { params: { pessoaId: string } }) {
-    const session = await getServerSession(nextAuthOptions) as UsuarioLogadoI
+    const session = await getServerSession(authOptions) as UsuarioLogadoI
     return (  
         <GerarEntrega pessoaId={params.pessoaId} userLogado={session} />
     );

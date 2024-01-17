@@ -1,5 +1,5 @@
 import { baseUrl } from "@/config/base"
-import { PermissionChangeProps, UsuarioCreateI, UsuarioI } from "@/interfaces/usuario/interface";
+import { PermissionChangeProps, UsuarioCreateI } from "@/interfaces/usuario/interface";
 
 
 
@@ -155,5 +155,5 @@ const PermissionChange = async(data:PermissionChangeProps) =>{
     return usuario;
 }
 
-export  {GetUsuarios,ChangeStatusUsuarios,CreateUsuario,GetUsuarioById,UpUsuario,GetPersmisoes,GetUsuerPermission,PermissionChange}
+export  {GetUsuarios,ChangeStatusUsuarios ,CreateUsuario,GetUsuarioById,UpUsuario,GetPersmisoes,GetUsuerPermission,PermissionChange}
 
