@@ -1,8 +1,8 @@
 import ReciboDocment from "@/components/entrega/Recibo";
 
-function Recibo() {
+function Recibo({ params }: { params: { id: string } }) {
   return ( 
-    <ReciboDocment />
+    <ReciboDocment id={params.id}/>
    );
 }
 

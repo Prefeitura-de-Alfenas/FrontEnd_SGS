@@ -1,3 +1,5 @@
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 export function converterDataParaFormatoInputDate(dataString: string):any {
     // Extrai a parte da data (ignora o horário e o fuso horário)
     const parteData = dataString.split('T')[0];
@@ -11,3 +13,8 @@ export function converterDataParaFormatoInputDate(dataString: string):any {
     return formatoInputDate ;
   }
   
+  export function convertDataHoraParaPtBr(data:Date){
+
+    const dataFormatada = format(data, "dd/MM/yyyy HH:mm:ss", { locale: ptBR });
+    return dataFormatada
+  }

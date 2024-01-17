@@ -74,7 +74,7 @@ const TableBeneficios = () => {
     return ( 
         <div className="flex flex-col ">    
         <div className="flex items-start justify-start">
-        <Button className="m-4"><Link href="/equipamentos/create">Novo Beneficios</Link></Button>
+        <Button className="m-4"><Link href="/beneficios/create">Novo Beneficios</Link></Button>
         </div> 
         <div className="flex w-2/3 ms-1">
         <div className="relative w-full">

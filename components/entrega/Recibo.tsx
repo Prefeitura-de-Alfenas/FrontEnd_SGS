@@ -3,6 +3,10 @@ import React from 'react';
 import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/renderer';
 
 import { PDFViewer } from '@react-pdf/renderer';
+import { useQuery } from '@tanstack/react-query';
+import { GetEntregaById } from '@/app/api/entrega/routes';
+import { EntregaByIdI } from '@/interfaces/entras/interface';
+import { convertDataHoraParaPtBr, converterDataParaFormatoInputDate } from '@/utils/converDateParaInput';
 // Create styles
 const styles = StyleSheet.create({
   page: {
@@ -59,13 +63,17 @@ const options = {
 };
 const formattedDate = currentDate.toLocaleString('pt-BR', options);
 // Create Document Component
-const MyDocument = () => (
-  
+interface MyDocmentProps{
+  entrega:EntregaByIdI
+}
+const MyDocument = ({entrega}:MyDocmentProps) =>(
+ 
+
   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.view}>
-      <Image src='alfenas.png' style={{width:'40px',height:'40px',marginRight:"20px", borderRadius:"6px" }} />
-      <Text>PREFEITURA MUNICIPAL DE ALFENAS</Text>
+     
+      <Text style={{marginTop:'20px'}}>PREFEITURA MUNICIPAL DE ALFENAS</Text>
       </View>
       <View style={styles.view}>
       <Text style={{
@@ -81,31 +89,32 @@ const MyDocument = () => (
         <View style={styles.border}> 
            <View style={styles.viewBorder}>
            <View style={{display:"flex",alignItems:"flex-start",justifyContent:"flex-start",width:"50%",padding:'7px'}}>
-            <Text style={styles.textinfo}>PROTOCOLO: {'7d70f5c9-4339-49f2-a885-46dbdf829846'.toUpperCase()}</Text>
-            <Text  style={styles.textinfo}>BENEFICIOARIO: MARCELO DE LIMA GOMES</Text>
-            <Text  style={styles.textinfo}>CPF : 090.255.316-01</Text>
-            <Text  style={styles.textinfo}>EQUIPAMENTO: PSF.JARDIN ALVORADA SANTOS NETO</Text>
-            <Text  style={styles.textinfo}>BENEFÍCIO: CESTA BASICA</Text>
-            <Text  style={styles.textinfo}>QUANTIDADE: 5</Text>
+            <Text style={styles.textinfo}>PROTOCOLO: {entrega.id.toUpperCase()}</Text>
+            <Text  style={styles.textinfo}>BENEFICIÁRIO: {entrega.pessoa.nome.toUpperCase()}</Text>
+            <Text  style={styles.textinfo}>CPF : {entrega.pessoa.cpf.toUpperCase()}</Text>
+            <Text  style={styles.textinfo}>EQUIPAMENTO: {entrega.equipamento.nome.toUpperCase()}</Text>
+            <Text  style={styles.textinfo}>BENEFÍCIO: {entrega.beneficio.nome.toUpperCase()}</Text>
+            <Text  style={styles.textinfo}>QUANTIDADE: {entrega.quantidade}</Text>
      
         
-            <Text  style={styles.textinfo}>DATA ATENDIMENTO: 02/02/2024</Text>
+            <Text  style={styles.textinfo}>DATA ATENDIMENTO: {convertDataHoraParaPtBr(entrega.datacadastro).toUpperCase()}</Text>
            
            </View>
            <View style={{display:"flex",alignItems:"flex-start",justifyContent:"flex-start",width:"50%",padding:'7px'}}>
-            <Text style={styles.textinfo}>ATENDENTE:MARCELO</Text>
-            <Text  style={styles.textinfo}>LOGRADOURO: RUA JOÃO DA PENHA DAMASCENO LEITE DA CURNHA SANTOS</Text>
-            <Text  style={styles.textinfo}>BAIRO: {('Conjunto Habitacional Francelino Pereira dos Santos').toUpperCase()} (Pinheirinho)</Text>
-            <Text  style={styles.textinfo}>NUMERO: 189</Text>
-            <Text  style={styles.textinfo}>TELEFONE: 3509543934839</Text>
-            <Text  style={styles.textinfo}>STATUS: DEFERIDO</Text>
+            <Text style={styles.textinfo}>ATENDENTE:{entrega.usuario.nome.toUpperCase()}</Text>
+            <Text  style={styles.textinfo}>LOGRADOURO: {entrega.pessoa.logradouro.toUpperCase()}</Text>
+            <Text  style={styles.textinfo}>BAIRO: {entrega.pessoa.bairro.toUpperCase()} (Pinheirinho)</Text>
+            <Text  style={styles.textinfo}>NÚMERO: {entrega.pessoa.numero.toUpperCase()}</Text>
+            <Text  style={styles.textinfo}>TELEFONE: {entrega.pessoa.telefone ? entrega.pessoa.telefone.toUpperCase() : 'SEM TELEFONE'}</Text>
+            <Text  style={styles.textinfo}>STATUS: {entrega.status  === 'ativo' ? "DEFERIDO" : "INDEFERIDO"}</Text>
+            <Text  style={styles.textinfo}>VALOR TOTAL: ${(entrega.beneficio.valor * entrega.quantidade).toFixed(2)}</Text>
           
            </View>
            </View>
            <View style={{display:"flex",alignItems:"center",justifyContent:"center",marginBottom:'10px',padding:"10px"}}>
            <Text  style={{fontSize:"9px",
             color:"#000",
-           }}>Observação: Mussum Ipsum, cacilds vidis litro abertis. Cevadis im ampola pa arma uma pindureta. Eu nunca mais boto a boca num copo de cachaça, agora eu só uso canudis! Nec orci ornare consequat. Praesent lacinia ultrices consectetur. Sed non ipsum felis. Casamentiss faiz malandris se pirulitá</Text> 
+           }}>OBSERVAÇÂO{entrega.observacao ? entrega.observacao.toUpperCase() : ''}</Text> 
            </View>
 
            <View style={{display:"flex",alignItems:"center",justifyContent:"center",padding:"10px"}}>
@@ -132,12 +141,21 @@ const MyDocument = () => (
 
 
 
+interface ReciboDocmentProps{
+  id:string
+}
 
-
-function ReciboDocment() {
+function ReciboDocment({id}:ReciboDocmentProps) {
+  const {data,isLoading } = useQuery({
+    queryKey:['entrega',id],
+    queryFn:() => GetEntregaById(id)
+  })
+  if(isLoading){
+    return <h1>..Loading</h1>
+  }
     return ( 
         <PDFViewer className='w-full h-screen'>
-          <MyDocument />
+          <MyDocument entrega={data} />
         </PDFViewer>
      );
 }

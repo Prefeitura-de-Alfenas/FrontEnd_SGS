@@ -20,8 +20,8 @@ import { Input } from "@/components/ui/input";
     PaginationPrevious,
   } from "@/components/ui/pagination"
 
-import { FileEdit,  Search } from "lucide-react";
-import { Button } from "../ui/button";
+import {  ArrowLeftFromLine, ScrollText,  Search } from "lucide-react";
+
 
 
 
@@ -30,11 +30,15 @@ import {
 } from '@tanstack/react-query'
 
 import {  useState } from "react";
-import { GetEquipamentos } from "@/app/api/equipamentos/routes";
-import { EquipamentoI } from "@/interfaces/equipamento/interface";
 
+import { EntregaI } from "@/interfaces/entras/interface";
+import { convertDataHoraParaPtBr } from "@/utils/converDateParaInput";
+import {GetEntregasPorPessoa } from "@/app/api/entrega/routes";
 
-const TableEquipamentos = () => {
+interface TableEntregasProps{
+  pessoaId:string;
+}
+const TableEntregas = ({pessoaId}:TableEntregasProps) => {
 
 
   const [skip,setSkipped] = useState(0)
@@ -43,8 +47,8 @@ const TableEquipamentos = () => {
 
   // Queries
   const {data,isPending,isError,error} = useQuery({
-    queryKey:['equipamentos',skip,search],
-    queryFn:() => GetEquipamentos(skip,search),
+    queryKey:['entregas',skip,search,pessoaId],
+    queryFn:() => GetEntregasPorPessoa(pessoaId,skip,search),
 
     
   })
@@ -69,12 +73,11 @@ const TableEquipamentos = () => {
   }
 
  
-  
     return ( 
         <div className="flex flex-col ">    
-        <div className="flex items-start justify-start">
-        <Button className="m-4"><Link href="/equipamentos/create">Novo Equipamento</Link></Button>
-        </div> 
+        <div className="flex justify-end items-center me-7 mb-6">
+          <Link href="/pessoas"><ArrowLeftFromLine size={48} /></Link>
+          </div>
         <div className="flex w-2/3 ms-1">
         <div className="relative w-full">
           <Input
@@ -93,25 +96,27 @@ const TableEquipamentos = () => {
         </div>
       </div>
         <Table>
-        <TableCaption>Equipamentos</TableCaption>
+        <TableCaption>Entregas</TableCaption>
         <TableHeader>
             <TableRow>
-            <TableHead>Nome</TableHead>
-            <TableHead>Responsavel</TableHead>
-            <TableHead>Bairro</TableHead>
-            <TableHead>Editar</TableHead>
+            <TableHead>Benefício</TableHead>
+            <TableHead>Benefíciario</TableHead>
+            <TableHead>Quantidade</TableHead>
+            <TableHead>Data do Cadastro</TableHead>
+            <TableHead>Segunda Via</TableHead> 
             </TableRow>
         </TableHeader>
         <TableBody>
          
       
-            {data?.map((equipamento:EquipamentoI) => (
-             <TableRow key={equipamento.id}>
-                <TableCell className="font-medium">{equipamento.nome}</TableCell>
-                <TableCell>{equipamento.responsavel}</TableCell>
-                <TableCell>{equipamento.bairro}</TableCell>
+            {data?.map((entrega:EntregaI) => (
+             <TableRow key={entrega.id}>
+                <TableCell className="font-medium">{entrega.beneficio.nome}</TableCell>
+                <TableCell className="font-medium">{entrega.pessoa.nome}</TableCell>
+                <TableCell className="font-medium">{entrega.quantidade.toFixed(2)}</TableCell>
+                <TableCell>{convertDataHoraParaPtBr(entrega.datacadastro)}</TableCell>
 
-                <TableCell><Link href={`/equipamentos/edit/${equipamento.id}`} ><FileEdit fill="#312e81" /></Link></TableCell>
+                <TableCell><Link href={`/reciboentrega/${entrega.id}`} target="_blank" ><ScrollText  fill="#312e81" /></Link></TableCell>
 
                 
                 </TableRow>
@@ -144,4 +149,4 @@ const TableEquipamentos = () => {
      );
 }
  
-export default TableEquipamentos
+export default TableEntregas

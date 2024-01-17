@@ -20,7 +20,7 @@ import {
     PaginationPrevious,
 } from "@/components/ui/pagination"
 
-import { Bitcoin, FileEdit,Search, ThumbsDown, ThumbsUp,  UsersRound } from "lucide-react";
+import { Bitcoin, FileEdit,LayoutList,PackageX,Search, ThumbsDown, ThumbsUp,  UsersRound } from "lucide-react";
 import { Button } from "../ui/button";
 
 import {
@@ -101,6 +101,7 @@ const TablePessoas = ({usuarioLogado}:TablePessoasProps) => {
         </span>
         </div>
       </div>
+
         <Table>
         <TableCaption>Pessoas</TableCaption>
         <TableHeader>
@@ -108,7 +109,8 @@ const TablePessoas = ({usuarioLogado}:TablePessoasProps) => {
             <TableHead>Nome</TableHead>
             <TableHead>CPF</TableHead>
             <TableHead>Email</TableHead>
-           
+            <TableHead>Entregas</TableHead>
+            <TableHead>Deferir</TableHead>
             <TableHead>Editar</TableHead>
             <TableHead>Familiares</TableHead>
             <TableHead>Beneficios</TableHead>
@@ -126,8 +128,9 @@ const TablePessoas = ({usuarioLogado}:TablePessoasProps) => {
                 <TableCell>{pessoa.cpf}</TableCell>
                 <TableCell>{pessoa.email}</TableCell>
 
-              
-
+                 
+                <TableCell><Link href={`/entrega/${pessoa.id}`} ><LayoutList   fill="#1d1797" /></Link></TableCell>
+                <TableCell><Link href={`/entrega/create/${pessoa.id}`} ><PackageX  fill="#0d0c22" /></Link></TableCell>
                 <TableCell><Link href={`/pessoas/novapessoa/${pessoa.id}`} ><FileEdit fill="#312e81" /></Link></TableCell>
                 <TableCell><Link href={`/familiares/${pessoa.id}`} ><UsersRound fill="#ea580c" /></Link></TableCell>
                 <TableCell><Link href={`/pessoas/beneficios/${pessoa.id}`} ><Bitcoin  fill="#572002" /></Link></TableCell>

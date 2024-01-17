@@ -9,14 +9,15 @@ import { Button } from "@/components/ui/button";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
-import { GetPessoaById, GetPessoaEntregaById } from "@/app/api/pessoas/routes";
+import {  GetPessoaEntregaById } from "@/app/api/pessoas/routes";
 import { useRouter } from "next/navigation";
 
-import { BeneficiosEntregaI, BeneficiosI } from "@/interfaces/beneficios/inteface";
+import { BeneficiosEntregaI } from "@/interfaces/beneficios/inteface";
 import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
 import { CreateEntrega } from "@/app/api/entrega/routes";
 import { EntregaCreateI } from "@/interfaces/entras/interface";
 import { GetUsuarioById } from "@/app/api/usuarios/route";
+import { Target } from "lucide-react";
 
 
 
@@ -93,10 +94,10 @@ function GerarEntrega({pessoaId,userLogado}:GerarEntregaProps) {
       }else{
            toast({
           
-             title: "Equipamento cadastrado com sucesso",
+             title: "Deferido com sucesso",
            })
-          
-            router.push("/equipamentos");
+  
+          window.open(`/reciboentrega/${data.id}`)
            
       }
     
