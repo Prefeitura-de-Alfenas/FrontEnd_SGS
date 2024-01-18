@@ -2,20 +2,19 @@
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch"
+
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from 'react-hook-form';
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+
 import { validarCPF } from "@/utils/verfyCpf";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
 import { CreatePessoa, GetCepViaCep, GetPessoaById } from "@/app/api/pessoas/routes";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { converterDataParaFormatoInputDate } from "@/utils/converDateParaInput";
-import { AnyPtrRecord } from "dns";
+import { useEffect } from "react";
+
 import { GetEquipamentosAll } from "@/app/api/equipamentos/routes";
 import { EquipamentoI } from "@/interfaces/equipamento/interface";
 import { UsuarioLogadoI } from "@/interfaces/usuario/interface";

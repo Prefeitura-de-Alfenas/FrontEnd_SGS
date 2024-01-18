@@ -74,7 +74,7 @@ const TableUsuarios = ({usuario}:TableUsuariosProps) => {
     return ( 
         <div className="flex flex-col ">    
         <div className="flex items-start justify-start">
-        <Button className="ms-1 mt-4 mb-4 text-white font-bold"><Link href="/usuarios/novousuario">Novo Usuário </Link></Button>
+        <Button font-bold className="ms-1 mt-4 mb-4 text-white font-bold"><Link href="/usuarios/novousuario">Novo Usuário </Link></Button>
         </div> 
        
         <Table>

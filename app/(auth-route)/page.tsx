@@ -73,7 +73,7 @@ export default function Home() {
           className='mb-5'
         />
         {errors.senha?.message && <p>{errors.senha?.message}</p> }
-        <Button>Entrar</Button>
+        <Button >Entrar</Button>
      </form>
     </main>
   )

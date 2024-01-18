@@ -50,3 +50,21 @@ export interface EntregaByIdI{
 
 }
 
+export interface EntregaFilterData{
+
+    dateinicial:string,
+
+
+    datefinal:string,
+
+    usuarioId?: string,
+
+ 
+    equipamentoId?: string,
+
+
+    pessoId?: string,
+
+  
+    beneficioId?: string,
+}

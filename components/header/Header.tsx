@@ -78,6 +78,32 @@ const Header = ({usuarioLogado}:any) => {
 
              
                 </CommandGroup>
+                
+
+                <CommandGroup heading="Relatorios">
+                  
+                  <CommandItem>
+                  <SheetClose asChild>
+                    <Link href="/relatorios/pessoas/pessoapordata">Relatorio de Familias</Link>
+                  </SheetClose>
+                  </CommandItem>
+           
+                  <CommandItem>
+                  <SheetClose asChild>
+                    <Link href="/beneficios">Consulta Benefícios</Link>
+                  </SheetClose>
+                  </CommandItem>
+                   
+                  
+                  <CommandItem>
+                  <SheetClose asChild>
+                    <Link href="/equipamentos">Consulta Equipamentos</Link>
+                  </SheetClose>
+                  </CommandItem>
+
+             
+                </CommandGroup>
+
                 <CommandSeparator />
                 {usuarioLogado.user.role.find((row:string) => row === "Admin") && 
                 <CommandGroup heading="Administrador">

@@ -28,6 +28,25 @@ const GetPessasInativa = async (usuario:UsuarioLogadoI,skip:number,filter:string
     return pessoas ;
     
 }
+const GetPessasPrData = async (usuario:UsuarioLogadoI,datainical:string,datafinal:string,filter:string) => {
+
+    const url = `${baseUrl}/pessoa/datauserfind/${datainical}/datefinal/${datafinal}/${filter}`;	
+    const response = await fetch(url,{
+        method: 'GET',
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization' :`Bearer ${usuario.user.access_token}`
+        },
+    })
+
+    if (!response.ok) {
+       throw new Error("Conexão com a rede está com problema")
+    }
+    const pessoas = await response.json() 
+ 
+    return pessoas ;
+    
+}
 const GetPessas = async (usuario:UsuarioLogadoI,skip:number,filter:string) => {
 
     const url = `${baseUrl}/pessoa/${takeBase}/skip/${skip}/${filter}`;	
@@ -187,4 +206,4 @@ const ChangeStatus = async(usuario:UsuarioLogadoI,id:string)=>{
  
     return pessoa ;
 }
-export {GetPessas,CreatePessoa,GetPessoaById,GetCepViaCep,UpdatePessoa,ChangeBeneficioPessoa,ChangeStatus,GetPessasInativa,GetPessoaEntregaById}
+export {GetPessas,CreatePessoa,GetPessoaById,GetCepViaCep,UpdatePessoa,ChangeBeneficioPessoa,ChangeStatus,GetPessasInativa,GetPessoaEntregaById,GetPessasPrData}

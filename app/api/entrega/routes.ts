@@ -1,5 +1,5 @@
 import { baseUrl, takeBase } from "@/config/base";
-import { EntregaCreateI } from "@/interfaces/entras/interface";
+import { EntregaCreateI, EntregaFilterData } from "@/interfaces/entras/interface";
 import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
 
 
@@ -84,8 +84,27 @@ const GetEntregasPorPessoa = async (usuario:UsuarioLogadoI,pessoaId:string,skip:
     
 }
 
+const GetEntregaPorData = async (usuario:UsuarioLogadoI,data:any) => {
+    console.log("skjdflskdj")
+    const url = `${baseUrl}/entregra/entregarelatoriodate`;
+    const response = await fetch(url,{
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization' :`Bearer ${usuario.user.access_token}`
+        },
+        body: JSON.stringify(data)
+    })
 
-export {CreateEntrega,GetEntregaById,GetEntregas,GetEntregasPorPessoa}
+    if (!response.ok) {
+       throw new Error("Conexão com a rede está com problema")
+    }
+    const entregas = await response.json() 
+ 
+    return entregas ;
+}
+
+export {CreateEntrega,GetEntregaById,GetEntregas,GetEntregasPorPessoa,GetEntregaPorData}
 
 
 
