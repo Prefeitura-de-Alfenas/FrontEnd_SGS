@@ -125,7 +125,7 @@ const MyDocument = ({entrega,usuario}:MyDocmentProps) =>(
            </View>
 
            <View style={{display:"flex",alignItems:"center",justifyContent:"center",marginBottom:'10px',padding:"10px"}}>
-            <Text style={styles.textinfo}>IMPRESSO POR: {usuario.user.nome}</Text>
+            <Text style={styles.textinfo}>IMPRESSO POR: {usuario.user.nome.toUpperCase}</Text>
             <Text style={styles.textinfo}>IMPRESSO EM: {formattedDate.toUpperCase()}</Text>
            </View>
            
