@@ -27,13 +27,12 @@ import {
   useMutation,
   useQuery,
 } from '@tanstack/react-query'
-import {  GetPessas, GetPessasPrData } from "@/app/api/pessoas/routes";
-import { PessoaCreateI, PessoaI } from "@/interfaces/pessoa/interface";
+
 import { useEffect, useState } from "react";
 import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
 import { Button } from "@/components/ui/button";
 import { convertDataHoraParaPtBr } from "@/utils/converDateParaInput";
-import { getHeadersPessoas } from "@/utils/headerexcel/pessoas/getHeaders";
+
 import { generateExcel } from "@/utils/exportExcel";
 import { useForm } from 'react-hook-form';
 import { format, sub, subDays } from "date-fns";
@@ -41,7 +40,8 @@ import { GetEntregaPorData } from "@/app/api/entrega/routes";
 import { z } from "zod";
 import { useToast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { EntregaByIdI } from "@/interfaces/entras/interface";
+import { EntregaByIdI, RelatorioEntregaFilterData } from "@/interfaces/entras/interface";
+import { getHeadersEntregas } from "@/utils/headerexcel/entregas/getHeader";
 
 
 interface TablePessoasProps{
@@ -98,13 +98,18 @@ const TableRelatorioPorData = ({usuarioLogado}:TablePessoasProps) => {
 
 
  function GerarExel(){
-    const headerPessoas = getHeadersPessoas();
+    const headerEntregas = getHeadersEntregas();
     const date = new Date();
-    
-    const novoFormato = data.map((item:any )=> headerPessoas.map(campo => item[campo]));
 
 
-    generateExcel(`pessoas_${convertDataHoraParaPtBr(date)}`,headerPessoas,novoFormato)
+    const arrayDeValores: RelatorioEntregaFilterData[][] = data.map((objeto:RelatorioEntregaFilterData) =>
+      [objeto.id, objeto.pessoa.id, objeto.pessoa.cpf,objeto.beneficio.nome,
+      objeto.quantidade,objeto.observacao,objeto.equipamento.nome,objeto.usuario.nome,objeto.datacadastro,objeto.status]
+    );
+
+
+
+    generateExcel(`entregas_${convertDataHoraParaPtBr(date)}`,headerEntregas,arrayDeValores)
     
 }
 
@@ -112,7 +117,7 @@ const TableRelatorioPorData = ({usuarioLogado}:TablePessoasProps) => {
 
 
 const onSubmit = async (data:FormData) => {
-   console.log('getValues',getValues())
+
    setValue("dateinicial", data.dateinicial,{ shouldValidate: true });
    setValue("datefinal", data.datefinal,{ shouldValidate: true });
 
@@ -179,7 +184,8 @@ const onSubmit = async (data:FormData) => {
         <TableCaption>Entregas</TableCaption>
         <TableHeader>
             <TableRow>
-            <TableHead>Id</TableHead>
+            <TableHead>Beneficiario</TableHead>
+            <TableHead>Beneficio</TableHead>
             <TableHead>Quantidade</TableHead>
             <TableHead>Data Cadastro</TableHead>
             <TableHead>Status</TableHead>
@@ -192,7 +198,8 @@ const onSubmit = async (data:FormData) => {
       
             {data?.map((entrega:EntregaByIdI) => (
              <TableRow key={entrega.id}>
-                <TableCell className="font-medium">{entrega.id}</TableCell>
+                <TableCell className="font-medium">{entrega.pessoa.nome}</TableCell>
+                <TableCell>{entrega.beneficio.nome}</TableCell>
                 <TableCell>{entrega.quantidade}</TableCell>
                 <TableCell>{convertDataHoraParaPtBr(entrega.datacadastro)}</TableCell>
                 <TableCell>{entrega.status}</TableCell>

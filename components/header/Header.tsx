@@ -90,7 +90,7 @@ const Header = ({usuarioLogado}:any) => {
            
                   <CommandItem>
                   <SheetClose asChild>
-                    <Link href="/beneficios">Consulta Benefícios</Link>
+                    <Link href="/relatorios/entrega">Relatorio Entregas</Link>
                   </SheetClose>
                   </CommandItem>
                    
@@ -105,6 +105,7 @@ const Header = ({usuarioLogado}:any) => {
                 </CommandGroup>
 
                 <CommandSeparator />
+         
                 {usuarioLogado.user.role.find((row:string) => row === "Admin") && 
                 <CommandGroup heading="Administrador">
         

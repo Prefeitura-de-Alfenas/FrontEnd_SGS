@@ -16,6 +16,7 @@ export interface EntregaI{
     beneficioId:string
     pessoa:PessoaI,
     beneficio:BeneficiosI,
+    status:string,
 
 }
 
@@ -68,3 +69,18 @@ export interface EntregaFilterData{
   
     beneficioId?: string,
 }
+
+
+export interface RelatorioEntregaFilterData{
+  id:string,
+  pessoa:PessoaI,
+  cpf:string,
+  beneficio:BeneficiosI,
+  quantidade:number,
+  observacao:string,
+  equipamento:EquipamentoI,
+  usuario:UsuarioI,
+  datacadastro:string,
+  status:string,
+}
+

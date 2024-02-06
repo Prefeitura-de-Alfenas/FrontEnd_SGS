@@ -20,12 +20,13 @@ import { Input } from "@/components/ui/input";
     PaginationPrevious,
   } from "@/components/ui/pagination"
 
-import {  ArrowLeftFromLine, ScrollText,  Search } from "lucide-react";
+import {  ArrowLeftFromLine, Loader, ScrollText,  Search, ThumbsDown, ThumbsUp } from "lucide-react";
 
 
 
 
 import {
+  useMutation,
   useQuery,
 } from '@tanstack/react-query'
 
@@ -33,22 +34,23 @@ import {  useState } from "react";
 
 import { EntregaI } from "@/interfaces/entras/interface";
 import { convertDataHoraParaPtBr } from "@/utils/converDateParaInput";
-import {GetEntregasPorPessoa } from "@/app/api/entrega/routes";
+import {ChangeStatusEntrega, GetEntregasPorPessoa } from "@/app/api/entrega/routes";
 import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
-
+import { useToast } from "@/components/ui/use-toast"
+import DeleteSoftEntrega from "./_component/DeleteEntregaSoft";
 interface TableEntregasProps{
   pessoaId:string;
   usuario:UsuarioLogadoI
 }
 const TableEntregas = ({usuario,pessoaId}:TableEntregasProps) => {
-
+  const { toast } = useToast()
 
   const [skip,setSkipped] = useState(0)
   const [filter,setFilter] = useState('')
   const [search,setSearch] = useState('')
 
   // Queries
-  const {data,isPending,isError,error} = useQuery({
+  const {data,isPending,isError,error,refetch} = useQuery({
     queryKey:['entregas',skip,search,pessoaId],
     queryFn:() => GetEntregasPorPessoa(usuario,pessoaId,skip,search),
 
@@ -66,6 +68,8 @@ const TableEntregas = ({usuario,pessoaId}:TableEntregasProps) => {
  const handelClickSearcher = () =>{
     setSearch(filter)
  }
+
+
   if (isPending) {
     return <div className="flex items-center justify-center mt-5">Loading...</div>
   }
@@ -105,6 +109,7 @@ const TableEntregas = ({usuario,pessoaId}:TableEntregasProps) => {
             <TableHead>Benefíciario</TableHead>
             <TableHead>Quantidade</TableHead>
             <TableHead>Data do Cadastro</TableHead>
+            <TableHead>Desativar</TableHead>
             <TableHead>Segunda Via</TableHead> 
             </TableRow>
         </TableHeader>
@@ -117,6 +122,14 @@ const TableEntregas = ({usuario,pessoaId}:TableEntregasProps) => {
                 <TableCell className="font-medium">{entrega.pessoa.nome}</TableCell>
                 <TableCell className="font-medium">{entrega.quantidade.toFixed(2)}</TableCell>
                 <TableCell>{convertDataHoraParaPtBr(entrega.datacadastro)}</TableCell>
+
+                {usuario.user.role.find((row:string) => row === "Admin") && 
+                <TableCell>
+                    <DeleteSoftEntrega id={entrega.id} refetch={refetch} usuario={usuario} />
+                </TableCell>
+               }
+
+
 
                 <TableCell><Link href={`/reciboentrega/${entrega.id}`} target="_blank" ><ScrollText  fill="#312e81" /></Link></TableCell>
 

@@ -104,7 +104,31 @@ const GetEntregaPorData = async (usuario:UsuarioLogadoI,data:any) => {
     return entregas ;
 }
 
-export {CreateEntrega,GetEntregaById,GetEntregas,GetEntregasPorPessoa,GetEntregaPorData}
+
+
+
+const ChangeStatusEntrega = async (usuarioLogado:UsuarioLogadoI,id:string) => {
+    const url = `${baseUrl}/entregra/${id}`;
+
+    const response = await fetch(url,{
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json', 
+            'Authorization' :`Bearer ${usuarioLogado.user.access_token}`
+        },
+
+     
+    })
+
+    if (!response.ok) {
+       throw new Error("Conexão com a rede está com problema")
+    }
+    const usuario = await response.json()
+ 
+    return usuario;
+    
+}
+export {CreateEntrega,GetEntregaById,GetEntregas,GetEntregasPorPessoa,GetEntregaPorData,ChangeStatusEntrega}
 
 
 

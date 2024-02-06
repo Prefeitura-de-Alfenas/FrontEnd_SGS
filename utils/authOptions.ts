@@ -1,3 +1,4 @@
+import { baseUrl } from "@/config/base"
 import  { NextAuthOptions } from "next-auth"
 
 import CredentialsProvider from "next-auth/providers/credentials"
@@ -11,7 +12,8 @@ import CredentialsProvider from "next-auth/providers/credentials"
 			},
 
 			async authorize(credentials, req) {
-				const response = await fetch('http://localhost:3010/login', {
+				const url = `${baseUrl}/login`;
+				const response = await fetch(url, {
 					method: 'POST',
 					headers: {
 						'Content-type': 'application/json'
