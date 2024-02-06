@@ -121,7 +121,7 @@ const MyDocument = ({entrega,usuario}:MyDocmentProps) =>(
 
            <View style={{display:"flex",alignItems:"center",justifyContent:"center",padding:"10px"}}>
               <Text>________________________________________</Text>
-              <Text style={{fontSize:"10px",color:"#000",marginTop:'10px',}}>MARCELO DE LIMA GOMES</Text>
+              <Text style={{fontSize:"10px",color:"#000",marginTop:'10px',}}>{entrega.usuario.nome.toUpperCase()}</Text>
            </View>
 
            <View style={{display:"flex",alignItems:"center",justifyContent:"center",marginBottom:'10px',padding:"10px"}}>
