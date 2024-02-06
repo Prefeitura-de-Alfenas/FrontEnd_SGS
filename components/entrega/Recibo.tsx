@@ -65,9 +65,10 @@ const options = {
 const formattedDate = currentDate.toLocaleString('pt-BR', options);
 // Create Document Component
 interface MyDocmentProps{
-  entrega:EntregaByIdI
+  entrega:EntregaByIdI,
+  usuario:UsuarioLogadoI
 }
-const MyDocument = ({entrega}:MyDocmentProps) =>(
+const MyDocument = ({entrega,usuario}:MyDocmentProps) =>(
  
 
   <Document>
@@ -124,7 +125,7 @@ const MyDocument = ({entrega}:MyDocmentProps) =>(
            </View>
 
            <View style={{display:"flex",alignItems:"center",justifyContent:"center",marginBottom:'10px',padding:"10px"}}>
-            <Text style={styles.textinfo}>IMPRESSO POR: ADMIN</Text>
+            <Text style={styles.textinfo}>IMPRESSO POR: {usuario.user.nome}</Text>
             <Text style={styles.textinfo}>IMPRESSO EM: {formattedDate.toUpperCase()}</Text>
            </View>
            
@@ -157,7 +158,7 @@ function ReciboDocment({usuario,id}:ReciboDocmentProps) {
   }
     return ( 
         <PDFViewer className='w-full h-screen'>
-          <MyDocument entrega={data} />
+          <MyDocument entrega={data} usuario={usuario} />
         </PDFViewer>
      );
 }
