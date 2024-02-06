@@ -104,7 +104,7 @@ const MyDocument = ({entrega}:MyDocmentProps) =>(
            <View style={{display:"flex",alignItems:"flex-start",justifyContent:"flex-start",width:"50%",padding:'7px'}}>
             <Text style={styles.textinfo}>ATENDENTE:{entrega.usuario.nome.toUpperCase()}</Text>
             <Text  style={styles.textinfo}>LOGRADOURO: {entrega.pessoa.logradouro.toUpperCase()}</Text>
-            <Text  style={styles.textinfo}>BAIRO: {entrega.pessoa.bairro.toUpperCase()} (Pinheirinho)</Text>
+            <Text  style={styles.textinfo}>BAIRRO: {entrega.pessoa.bairro.toUpperCase()}</Text>
             <Text  style={styles.textinfo}>NÚMERO: {entrega.pessoa.numero.toUpperCase()}</Text>
             <Text  style={styles.textinfo}>TELEFONE: {entrega.pessoa.telefone ? entrega.pessoa.telefone.toUpperCase() : 'SEM TELEFONE'}</Text>
             <Text  style={styles.textinfo}>STATUS: {entrega.status  === 'ativo' ? "DEFERIDO" : "INDEFERIDO"}</Text>
