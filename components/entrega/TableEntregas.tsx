@@ -109,7 +109,7 @@ const TableEntregas = ({usuario,pessoaId}:TableEntregasProps) => {
             <TableHead>Benefíciario</TableHead>
             <TableHead>Quantidade</TableHead>
             <TableHead>Data do Cadastro</TableHead>
-            <TableHead>Desativar</TableHead>
+            {usuario.user.role.find((row:string) => row === "Admin") &&  <TableHead>Desativar</TableHead> }
             <TableHead>Segunda Via</TableHead> 
             </TableRow>
         </TableHeader>

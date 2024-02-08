@@ -83,7 +83,7 @@ const TableUsuarios = ({usuario}:TableUsuariosProps) => {
             <TableRow>
             <TableHead>Nome</TableHead>
             <TableHead>Email</TableHead>
-            <TableHead>Email</TableHead>
+            <TableHead>Equipamento</TableHead>
             <TableHead>Status</TableHead>
             <TableHead>Actions</TableHead>
             </TableRow>

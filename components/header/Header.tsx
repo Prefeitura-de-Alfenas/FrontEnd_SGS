@@ -51,6 +51,7 @@ const Header = ({usuarioLogado}:any) => {
                 <AvatarImage src="logoprefeitura.png" alt="@shadcn" />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
+              <h1 className="text-center">{usuarioLogado.user.nome}</h1>
             <Command >
               <CommandInput placeholder="Type a command or search..." />
               <CommandList>
