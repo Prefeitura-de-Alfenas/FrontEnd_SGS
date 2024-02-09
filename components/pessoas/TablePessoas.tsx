@@ -20,7 +20,7 @@ import {
     PaginationPrevious,
 } from "@/components/ui/pagination"
 
-import { Bitcoin, FileEdit,LayoutList,PackageX,Search, ThumbsDown, ThumbsUp,  UsersRound } from "lucide-react";
+import { Bitcoin, FileEdit,FilePlus2,LayoutList,PackageX,Search, ThumbsDown, ThumbsUp,  UsersRound } from "lucide-react";
 import { Button } from "../ui/button";
 
 import {
@@ -109,11 +109,13 @@ const TablePessoas = ({usuarioLogado}:TablePessoasProps) => {
             <TableHead>Nome</TableHead>
             <TableHead>CPF</TableHead>
             <TableHead>Email</TableHead>
+       
             <TableHead>Entregas</TableHead>
             <TableHead>Deferir</TableHead>
             <TableHead>Editar</TableHead>
             <TableHead>Familiares</TableHead>
             <TableHead>Beneficios</TableHead>
+            <TableHead>Arquivos</TableHead>
             {usuarioLogado.user.role.find((row:string) => row === "Admin") && 
                <TableHead>Excluir</TableHead>
              }
@@ -134,6 +136,7 @@ const TablePessoas = ({usuarioLogado}:TablePessoasProps) => {
                 <TableCell><Link href={`/pessoas/novapessoa/${pessoa.id}`} ><FileEdit fill="#312e81" /></Link></TableCell>
                 <TableCell><Link href={`/familiares/${pessoa.id}`} ><UsersRound fill="#ea580c" /></Link></TableCell>
                 <TableCell><Link href={`/pessoas/beneficios/${pessoa.id}`} ><Bitcoin  fill="#572002" /></Link></TableCell>
+                <TableCell><Link href={`/arquivo/${pessoa.id}`} ><FilePlus2  fill="#1a1817" /></Link></TableCell>
                 {usuarioLogado.user.role.find((row:string) => row === "Admin") && 
                 <TableCell>
                     <DeleteSoftPessoa id={pessoa.id} refetch={refetch} usuario={usuarioLogado} />
