@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { useToast } from '@/components/ui/use-toast';
 
 
 const formSchema = z.object({
@@ -22,7 +23,7 @@ const formSchema = z.object({
 type FormData =z.infer<typeof formSchema>;
 
 export default function Home() {
-
+  const { toast } = useToast()
   const router = useRouter();
   
   const {
@@ -43,8 +44,12 @@ export default function Home() {
     })
    
     if(result?.error){
-      console.log(result)
-      
+      console.log(result.error)
+      toast({
+        variant: "destructive",
+        title: "Email ou Senha Incorreta",
+       
+      })
      return
     }
 
