@@ -62,6 +62,7 @@ const formSchema = z.object({
    ctpsassinada:z.coerce.number(),
   
    ppcl:z.coerce.number(),
+   gestante:z.coerce.number(),
   
   cep:z.string().refine((val) => val.length >= 3, {
     message: "Tem que ter no minimo 3 caracteres",
@@ -135,6 +136,7 @@ function EditarPessoa({usuario,pessoaId,responsavelId}:EditarPessoaProps ) {
       setValue("telefone", data ? data.telefone :'',{ shouldValidate: true });
       setValue("ctpsassinada", data ? data.ctpsassinada :'',{ shouldValidate: true });
       setValue("ppcl", data ? data.ppcl :'',{ shouldValidate: true });
+      setValue("gestante", data ? data.gestante :'',{ shouldValidate: true });
       setValue("cep", data ? data.cep :'',{ shouldValidate: true });
       setValue("logradouro", data ? data.logradouro :'',{ shouldValidate: true });
       setValue("complemento", data ? data.complemento :'',{ shouldValidate: true });
@@ -323,6 +325,12 @@ function EditarPessoa({usuario,pessoaId,responsavelId}:EditarPessoaProps ) {
             <Label htmlFor="">PPCL</Label>
            </div>
            {errors.ppcl?.message && <p className="text-sm text-red-400">{errors.ppcl?.message}</p> }
+
+           <div className="flex items-center space-x-2"> 
+            <input type="checkbox" id="gestante" {...register('gestante')} />
+             <Label htmlFor="">Gestante</Label>
+           </div>
+           {errors.gestante?.message && <p className="text-sm text-red-400">{errors.gestante?.message}</p> }
           </div>
 
           <div className="mb-4">
