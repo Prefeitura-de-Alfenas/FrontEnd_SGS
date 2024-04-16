@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
+import { useEffect } from 'react';
 
 
 const formSchema = z.object({
@@ -35,6 +36,7 @@ export default function Home() {
     resolver:zodResolver(formSchema)
   })
 
+
   const onSubmit = async (data:FormData) => {
 
     const result =  await signIn('credentials',{
@@ -58,7 +60,32 @@ export default function Home() {
     
 
   };
+  const onsubimitDev = async () =>{
+    const result =  await signIn('credentials',{
+      email:"marcelo.lima.gomes.23@gmail.com",
+      password:"21872187",
+      redirect:false
+    })
+   
+    if(result?.error){
+      console.log(result.error)
+      toast({
+        variant: "destructive",
+        title: "Email ou Senha Incorreta",
+       
+      })
+     return
+    }
 
+    router.replace('/pessoas')
+
+    
+  }
+  //Excluir em prod
+  useEffect(()=>{
+    onsubimitDev()
+  
+  },[])
   return (
     <main className="flex  flex-col items-center justify-between p-24">
      <form onSubmit={handleSubmit(onSubmit)} className='md:w-1/4 ' >
