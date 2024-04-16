@@ -19,7 +19,7 @@ import {
     PaginationPrevious,
   } from "@/components/ui/pagination"
 
-import { FileEdit, Search, UserRoundCog } from "lucide-react";
+import { FileEdit, FilePlus2, Search, UserRoundCog } from "lucide-react";
 import { Button } from "../ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -139,6 +139,7 @@ const TableFamiliares = ({usuario,responsavelId}:TableFamiliaresProps) => {
             <TableHead>Nome</TableHead>
             <TableHead>CPF</TableHead>
             <TableHead>Email</TableHead>
+            <TableHead>Arquivos</TableHead>
             <TableHead>Editar</TableHead>
             <TableHead>Chefe</TableHead>
 
@@ -152,7 +153,7 @@ const TableFamiliares = ({usuario,responsavelId}:TableFamiliaresProps) => {
                 <TableCell className="font-medium">{pessoa.nome}</TableCell>
                 <TableCell>{pessoa.cpf}</TableCell>
                 <TableCell>{pessoa.email}</TableCell>
-
+                <TableCell><Link href={`/arquivo/${pessoa.id}`} ><FilePlus2  fill="#1a1817" /></Link></TableCell>
                 <TableCell><Link href={`/familiares/editarfamiliar/${pessoa.id}/responsavel/${responsavelId}`} ><FileEdit  /></Link></TableCell>
                 <TableCell className="cursor-pointer" onClick={() => handleChangeResponsavel(pessoa.id)}><UserRoundCog   /></TableCell>
           
