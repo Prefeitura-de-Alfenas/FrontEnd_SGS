@@ -1,0 +1,32 @@
+
+services:
+  app:
+    image: sgs_front_app:latest
+    networks:
+      - traefik_public
+    environment:
+      # Ajuste as variáveis de ambiente conforme necessário para seu projeto Next.js
+      NEXTAUTH_URL: "https://sgsteste.alfenas.mg.gov.br"
+      NEXTAUTH_SECRET: "testesecret"
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: 
+         - node.role == manager
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 512M
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.sgs_front_app.rule=Host(`sgsteste.alfenas.mg.gov.br`)"
+        - "traefik.http.routers.sgs_front_app.tls.certresolver=le"
+        - "traefik.http.routers.sgs_front_app.entrypoints=websecure"
+        - "traefik.http.routers.sgs_front_app.tls=true"
+        - "traefik.http.routers.sgs_front_app.service=sgs_front_app"
+        - "traefik.http.services.sgs_front_app.loadbalancer.server.port=3016"
+
+networks:
+  traefik_public:
+    external: true
