@@ -131,32 +131,32 @@ const TablePessoas = ({ usuarioLogado }: TablePessoasProps) => {
 
               <TableCell>
                 <Link href={`/entrega/${pessoa.id}`}>
-                  <LayoutList fill="#1d1797" />
+                  <LayoutList color="#1d1797" />
                 </Link>
               </TableCell>
               <TableCell>
                 <Link href={`/entrega/create/${pessoa.id}`}>
-                  <PackageX fill="#0d0c22" />
+                  <PackageX color="#0d0c22" />
                 </Link>
               </TableCell>
               <TableCell>
                 <Link href={`/pessoas/novapessoa/${pessoa.id}`}>
-                  <FileEdit fill="#312e81" />
+                  <FileEdit />
                 </Link>
               </TableCell>
               <TableCell>
                 <Link href={`/familiares/${pessoa.id}`}>
-                  <UsersRound fill="#ea580c" />
+                  <UsersRound color="#d97706" />
                 </Link>
               </TableCell>
               <TableCell>
                 <Link href={`/pessoas/beneficios/${pessoa.id}`}>
-                  <Bitcoin fill="#572002" />
+                  <Bitcoin color="#92400e" />
                 </Link>
               </TableCell>
               <TableCell>
                 <Link href={`/arquivo/${pessoa.id}`}>
-                  <FilePlus2 fill="#1a1817" />
+                  <FilePlus2 color="#374151" />
                 </Link>
               </TableCell>
               {usuarioLogado.user.role.find(

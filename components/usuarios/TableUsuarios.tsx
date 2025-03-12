@@ -94,11 +94,11 @@ const TableUsuarios = ({ usuario }: TableUsuariosProps) => {
                 onClick={() => mutation.mutate({ userId: usuario.id })}
               >
                 {mutation.isPending && !isPending ? (
-                  <Loader fill="red" />
+                  <Loader color="red" />
                 ) : usuario.status == "inativo" ? (
-                  <ThumbsDown fill="red" />
+                  <ThumbsDown color="red" />
                 ) : (
-                  <ThumbsUp fill="green" className="text-green-600" />
+                  <ThumbsUp color="green" className="text-green-600" />
                 )}
               </TableCell>
               <TableCell>

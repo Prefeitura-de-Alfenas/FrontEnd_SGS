@@ -41,7 +41,7 @@ const Header = ({ usuarioLogado }: any) => {
     router.replace("/");
   }
   return (
-    <header className="flex items-center justify-between w-full h-28 bg-blue-900 mb-4">
+    <header className="flex items-center justify-between w-full h-28 bg-gray-50 mb-4 shadow-lg">
       <div className="ps-4">
         <Sheet>
           <SheetTrigger>
