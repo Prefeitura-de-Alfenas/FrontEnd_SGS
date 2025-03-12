@@ -1,48 +1,61 @@
-# Etapa 1: Construção
-FROM node:18 AS build
+# Base image
+FROM node:16-bullseye AS base
 
-# Define o diretório de trabalho
+# Install dependencies only when needed
+FROM base AS deps
 WORKDIR /app
 
-# Copia os arquivos de dependências
-COPY package*.json ./
+# Copy package files
+COPY package.json package-lock.json* ./
+RUN npm ci
 
-# Instala as dependências, incluindo as de desenvolvimento
-RUN npm install
-
-# Copia o código da aplicação
+# Rebuild the source code only when needed
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Adiciona a configuração para desabilitar SWC e usar Babel
-RUN echo '{ "swcMinify": false }' > .babelrc
+# Next.js collects completely anonymous telemetry data about general usage.
+# Learn more here: https://nextjs.org/telemetry
+# Uncomment the following line to disable telemetry during the build.
+ENV NEXT_TELEMETRY_DISABLED 1
 
-# Compila a aplicação Next.js com Babel
-ENV NODE_ENV=production
+# Force Next.js to use Babel compiler instead of SWC
+ENV SWCMINIFY 0
+ENV NODE_OPTIONS="--max_old_space_size=4096"
+
+# Create a simple .babelrc to ensure Babel is used
+RUN echo '{"presets": ["next/babel"]}' > .babelrc
+
+# Build the application
 RUN npm run build
 
-# Etapa 2: Produção
-FROM node:18-slim AS production
-
-# Define o diretório de trabalho
+# Production image, copy all the files and run next
+FROM base AS runner
 WORKDIR /app
 
-# Copia apenas as dependências de produção
-COPY package*.json ./
-RUN npm install --only=production
+ENV NODE_ENV production
+ENV NEXT_TELEMETRY_DISABLED 1
 
-# Copia o código compilado da etapa de construção
-COPY --from=build /app/.next /app/.next
-COPY --from=build /app/public /app/public
-COPY --from=build /app/node_modules /app/node_modules
+# Create a non-root user to run the app
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
 
-# Copia arquivos de configuração necessários
-COPY --from=build /app/next.config.js ./
+# Copy built application
+COPY --from=builder /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/next.config.js ./next.config.js
 
-# Copia o arquivo .env se existir
-COPY --from=build /app/.env* ./
+# Make sure the nextjs user owns these directories
+RUN chown -R nextjs:nodejs /app
 
-# Expõe a porta 3016 (conforme seu package.json)
+# Switch to the nextjs user
+USER nextjs
+
+# Expose the port
 EXPOSE 3016
 
-# Comando para iniciar a aplicação em modo de produção
+# Start the application
 CMD ["npm", "run", "start"]
