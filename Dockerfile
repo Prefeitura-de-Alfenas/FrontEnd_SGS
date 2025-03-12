@@ -20,12 +20,8 @@ COPY . .
 # Uncomment the following line to disable telemetry during the build.
 ENV NEXT_TELEMETRY_DISABLED 1
 
-# Force Next.js to use Babel compiler instead of SWC
-ENV SWCMINIFY 0
+# Set memory limit for Node.js
 ENV NODE_OPTIONS="--max_old_space_size=4096"
-
-# Create a simple .babelrc to ensure Babel is used
-RUN echo '{"presets": ["next/babel"]}' > .babelrc
 
 # Build the application
 RUN npm run build
