@@ -1,5 +1,5 @@
 # Base image
-FROM node:16-bullseye AS base
+FROM node:18-bullseye AS base
 
 # Install dependencies only when needed
 FROM base AS deps
