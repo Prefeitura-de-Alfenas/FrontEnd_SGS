@@ -26,7 +26,6 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from "@/components/ui/command";
-import Image from "next/image";
 
 interface TablePessoasProps {
   usuarioLogado: UsuarioLogadoI;
@@ -139,11 +138,10 @@ const Header = ({ usuarioLogado }: any) => {
 
       <div>Sistema de Gestão Social</div>
       <div className="pe-4">
-        <Image
+        <img
           src="logoprefeitura.png"
           alt="logo"
           className="w-14 h-14  rounded-full"
-          fill
         />
       </div>
     </header>
