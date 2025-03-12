@@ -138,14 +138,15 @@ const Header = ({ usuarioLogado }: any) => {
       </div>
 
       <div>Sistema de Gestão Social</div>
-      <div className="pe-4">
-        <Image
-          src="logoprefeitura.png"
-          alt="logo"
-          className="w-14 h-14  rounded-full"
-          width={20}
-          height={20}
-        />
+      <div className=" flex justify-center">
+        <div className="h-14 w-14 overflow-hidden rounded-lg mr-4  flex items-center justify-center relative">
+          <Image
+            src="https://i.pinimg.com/1200x/2b/ac/f2/2bacf2e40c62c0a7c5ec7d9f811e4a92.jpg"
+            alt="logo"
+            className="rounded-2xl object-contain"
+            fill
+          />
+        </div>
       </div>
     </header>
   );

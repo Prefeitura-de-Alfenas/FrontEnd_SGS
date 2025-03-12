@@ -9,6 +9,8 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import { useEffect } from "react";
+import Image from "next/image";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 const formSchema = z.object({
   email: z.string({
@@ -78,26 +80,72 @@ export default function Home() {
   // },[])
 
   return (
-    <main className="flex  flex-col items-center justify-between p-24">
-      <form onSubmit={handleSubmit(onSubmit)} className="md:w-1/4 ">
-        <h2 className="text-center mb-3 font-bold text-2xl">Login</h2>
-        <Input
-          type="email"
-          placeholder="Email"
-          {...register("email")}
-          className="mb-4  "
-        />
-        {errors.email?.message && <p>{errors.email?.message}</p>}
+    <div className="flex min-h-screen w-full items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md space-y-8">
+        <div className="flex flex-col items-center justify-center">
+          {/* Logo */}
+          <div className="mb-6 flex justify-center">
+            <div className="h-32 w-32 overflow-hidden rounded-lg  flex items-center justify-center relative">
+              <Image
+                src="https://i.pinimg.com/1200x/2b/ac/f2/2bacf2e40c62c0a7c5ec7d9f811e4a92.jpg"
+                alt="Logo"
+                fill
+                className="object-contain"
+              />
+            </div>
+          </div>
 
-        <Input
-          type="password"
-          placeholder="Senha"
-          {...register("senha")}
-          className="mb-5"
-        />
-        {errors.senha?.message && <p>{errors.senha?.message}</p>}
-        <Button>Entrar</Button>
-      </form>
-    </main>
+          <h2 className="text-center text-3xl font-bold tracking-tight text-gray-900">
+            Bem-vindo(a) à sua plataforma SGS
+          </h2>
+          <p className="mt-2 text-center text-sm text-gray-600">
+            Faça login para continuar
+          </p>
+        </div>
+
+        <Card className="mt-8 overflow-hidden shadow-lg bg-white rounded-xl">
+          <CardHeader className="pb-0" />
+          <CardContent className=" flex items-center justify-center">
+            <form onSubmit={handleSubmit(onSubmit)} className=" w-full ">
+              <h2 className="text-center mb-3 font-bold text-2xl text-gray-800">
+                Login
+              </h2>
+              <Input
+                type="email"
+                placeholder="Email"
+                {...register("email")}
+                className="mb-4  "
+              />
+              {errors.email?.message && <p>{errors.email?.message}</p>}
+
+              <Input
+                type="password"
+                placeholder="Senha"
+                {...register("senha")}
+                className="mb-5"
+              />
+              {errors.senha?.message && <p>{errors.senha?.message}</p>}
+              <div className="flex items-center justify-center">
+                <Button className="bg-blue-600 text-white">Entrar</Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
+
+        <div className="mt-8 text-center">
+          <p className="text-sm text-gray-600">
+            Não tem uma conta?{" "}
+            <a
+              href="https://wa.me/5535984313982" // Substitua pelo seu número com código do país
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-green-600 hover:text-green-500"
+            >
+              Entre em contato via WhatsApp
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
   );
 }
