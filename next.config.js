@@ -2,10 +2,10 @@
 const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
- },
-}
+  },
+  experimental: {
+    middleware: true, // Ativa o suporte a middleware
+  },
+};
 
-module.exports = nextConfig
-
-
-
+module.exports = nextConfig;
