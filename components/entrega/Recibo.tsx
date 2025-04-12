@@ -99,7 +99,8 @@ const MyDocument = ({entrega,usuario}:MyDocmentProps) =>(
             <Text  style={styles.textinfo}>QUANTIDADE: {entrega.quantidade}</Text>
      
         
-            <Text  style={styles.textinfo}>DATA ATENDIMENTO: {convertDataHoraParaPtBr(entrega.datacadastro).toUpperCase()}</Text>
+            <Text  style={styles.textinfo}>DATA EMISSÂO: {convertDataHoraParaPtBr(entrega.datacadastro).toUpperCase()}</Text>
+            <Text  style={styles.textinfo}>DATA ATENDIMENTO: _____________________</Text>
            
            </View>
            <View style={{display:"flex",alignItems:"flex-start",justifyContent:"flex-start",width:"50%",padding:'7px'}}>

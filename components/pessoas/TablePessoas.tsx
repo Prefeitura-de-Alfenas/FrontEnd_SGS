@@ -111,7 +111,7 @@ const TablePessoas = ({ usuarioLogado }: TablePessoasProps) => {
             <TableHead>CPF</TableHead>
             <TableHead>Email</TableHead>
 
-            <TableHead>Entregas</TableHead>
+            <TableHead>Atendimentos</TableHead>
             <TableHead>Deferir</TableHead>
             <TableHead>Editar</TableHead>
             <TableHead>Familiares</TableHead>

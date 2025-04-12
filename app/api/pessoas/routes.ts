@@ -127,6 +127,28 @@ const GetPessoaById = async (usuario:UsuarioLogadoI,id:string)=>{
     return pessoa;
 }
 
+const GetPessoaFamiliaresById = async (usuario:UsuarioLogadoI,id:string)=>{
+    const url = `${baseUrl}/pessoa/pessoafamiliares/${id}`;
+    const response = await fetch(url,{
+        method:'GET',
+        headers:{
+            'Content-type': 'application/json',
+            'Authorization' :`Bearer ${usuario.user.access_token}`
+        }
+    })
+
+    if(!response.ok) {
+        throw new Error("Conexão com a rede está com problemaas");
+    }
+    
+ 
+   
+    const pessoa = await response.json();
+    
+
+    return pessoa;
+}
+
 const GetPessoaEntregaById = async (usuario:UsuarioLogadoI,id:string)=>{
     const url = `${baseUrl}/pessoa/entrega/${id}`;
     const response = await fetch(url,{
@@ -206,4 +228,4 @@ const ChangeStatus = async(usuario:UsuarioLogadoI,id:string)=>{
  
     return pessoa ;
 }
-export {GetPessas,CreatePessoa,GetPessoaById,GetCepViaCep,UpdatePessoa,ChangeBeneficioPessoa,ChangeStatus,GetPessasInativa,GetPessoaEntregaById,GetPessasPrData}
+export {GetPessas,CreatePessoa,GetPessoaById,GetCepViaCep,UpdatePessoa,ChangeBeneficioPessoa,ChangeStatus,GetPessasInativa,GetPessoaEntregaById,GetPessasPrData,GetPessoaFamiliaresById}
