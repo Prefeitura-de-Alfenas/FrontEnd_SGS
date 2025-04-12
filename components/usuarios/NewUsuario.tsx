@@ -109,7 +109,7 @@ function NewUsuario({usuario}:NovoUsuarioProps) {
                 {errors.telefone?.message && <p>{errors.telefone?.message}</p> }
                 </div>
                 <div className="mb-4">
-                <label htmlFor="equipamentoId" className="block text-sm font-medium text-white">Trabalha em:</label>
+                <label htmlFor="equipamentoId" className="block text-sm font-medium text-black">Trabalha em:</label>
                 <select id="equipamentoId"   {...register('equipamentoId')} required className="mt-1 p-2 w-full border rounded-md mb-2 bg-background">
                   {data.map((equipamento:EquipamentoI) => (
                      <option key={equipamento.id} value={equipamento.id}> {equipamento.nome} </option>

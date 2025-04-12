@@ -170,19 +170,19 @@ function EditarEquipamento({usuario,equipamentoId}:EditEquipamentosProps ) {
           {/* Coluna 1 */}
           <div>
             <div className="mb-4">
-              <label htmlFor="nome" className="block text-sm font-medium text-white">Nome:</label>
+              <label htmlFor="nome" className="block text-sm font-medium text-black">Nome:</label>
               <Input type="text" id="nome" {...register('nome')} required className="mt-1 p-2 w-full border rounded-md mb-2 bg-transparent" placeholder="Digite o nome"/>
               {errors.nome?.message && <p className="text-sm text-red-400">{errors.nome?.message}</p> }
             </div>
       
             <div className="mb-4">
-              <label htmlFor="cpf" className="block text-sm font-medium text-white">Responsavel:</label>
+              <label htmlFor="cpf" className="block text-sm font-medium text-black">Responsavel:</label>
               <Input type="text" id="responsavel" {...register('responsavel')} required className="mt-1 p-2 w-full border rounded-md mb-2 bg-transparent" placeholder="Digite o  nome do responsavel" />
               {errors.responsavel?.message && <p className="text-sm text-red-400">{errors.responsavel?.message}</p> }
             </div>
             
             <div className="mb-4">
-              <label htmlFor="cpf" className="block text-sm font-medium text-white">Sobre:</label>
+              <label htmlFor="cpf" className="block text-sm font-medium text-black">Sobre:</label>
               <Input type="text" multiple id="sobre" {...register('sobre')} required className="mt-1 p-2 w-full border rounded-md mb-2 bg-transparent" placeholder="Digite algo sobre o equipamento" />
               {errors.sobre?.message && <p className="text-sm text-red-400">{errors.sobre?.message}</p> }
             </div>
@@ -203,42 +203,42 @@ function EditarEquipamento({usuario,equipamentoId}:EditEquipamentosProps ) {
   
       
             <div className="mb-4">
-              <label htmlFor="cep" className="block text-sm font-medium text-white">CEP:</label>
+              <label htmlFor="cep" className="block text-sm font-medium text-black">CEP:</label>
               <Input type="text" id="cep" {...register('cep', { onChange: handleCepChange })} required    className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
               {errors.cep?.message && <p className="text-sm text-red-400">{errors.cep?.message}</p> }
             </div>
   
             <div className="mb-4">
-              <label htmlFor="complemento" className="block text-sm font-medium text-white">Complemento:</label>
+              <label htmlFor="complemento" className="block text-sm font-medium text-black">Complemento:</label>
               <Input type="text" id="complemento" {...register('complemento')}  className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
               {errors.complemento?.message && <p className="text-sm text-red-400">{errors.complemento?.message}</p> }
             </div>
   
             <div className="mb-4">
-              <label htmlFor="localidade" className="block text-sm font-medium text-white">Localidade:</label>
+              <label htmlFor="localidade" className="block text-sm font-medium text-black">Localidade:</label>
               <Input type="text" id="localidade"  {...register('localidade')} required  className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
               {errors.localidade?.message && <p className="text-sm text-red-400">{errors.localidade?.message}</p> }
             </div>
             <div className="mb-4">
-              <label htmlFor="uf" className="block text-sm font-medium text-white">UF:</label>
+              <label htmlFor="uf" className="block text-sm font-medium text-black">UF:</label>
               <Input type="text" id="uf" {...register('uf')} required  className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
               {errors.uf?.message && <p className="text-sm text-red-400">{errors.uf?.message}</p> }
             </div>
               
             <div>
-              <label htmlFor="logradouro" className="block text-sm font-medium text-white">logradouro:</label>
+              <label htmlFor="logradouro" className="block text-sm font-medium text-black">logradouro:</label>
               <Input type="text" id="logradouro" {...register('logradouro')} required  className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
               {errors.logradouro?.message && <p className="text-sm text-red-400">{errors.logradouro?.message}</p> }
             </div>
   
             <div>
-              <label htmlFor="bairro" className="block text-sm font-medium text-white">Bairro:</label>
+              <label htmlFor="bairro" className="block text-sm font-medium text-black">Bairro:</label>
               <Input type="text" id="bairro" {...register('bairro')} required  className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
               {errors.bairro?.message && <p className="text-sm text-red-400">{errors.bairro?.message}</p> }
             </div>
      
             <div>
-              <label htmlFor="numero" className="block text-sm font-medium text-white">Numero:</label>
+              <label htmlFor="numero" className="block text-sm font-medium text-black">Numero:</label>
               <Input type="text" id="numero" {...register('numero')} required  className="mt-3 p-2 w-full border rounded-md mb-4  bg-transparent" />
               {errors.numero?.message && <p className="text-sm text-red-400">{errors.numero?.message}</p> }
             </div>

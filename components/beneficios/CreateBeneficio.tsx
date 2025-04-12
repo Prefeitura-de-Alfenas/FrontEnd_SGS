@@ -101,23 +101,23 @@ function CriarBeneficio({usuario}:CriarBeneficioProps) {
       
       <form onSubmit={handleSubmit(onSubmit)} >
       <h1 className="text-center font-bold text-2xl mb-4 mt-10">Cadastro de Beneficio</h1>
-      <div className=" mx-auto mt-8 pe-56 ps-56 pb-1 pt-1 shadow-md grid md:grid-cols-1 grid-cols-1 gap-4">
+      <div className=" mx-auto mt-8 pe-56 ps-56 pb-1 pt-1  grid md:grid-cols-1 grid-cols-1 gap-4">
         {/* Coluna 1 */}
         <div>
           <div className="mb-4">
-            <label htmlFor="nome" className="block text-sm font-medium text-white">Nome:</label>
+            <label htmlFor="nome" className="block text-sm font-medium text-black">Nome:</label>
             <Input type="text" id="nome" {...register('nome')} required className="mt-1 p-2 w-full border rounded-md mb-2 bg-transparent" placeholder="Digite o nome"/>
             {errors.nome?.message && <p className="text-sm text-red-400">{errors.nome?.message}</p> }
           </div>
     
           <div className="mb-4">
-            <label htmlFor="descricao" className="block text-sm font-medium text-white">Descrição:</label>
+            <label htmlFor="descricao" className="block text-sm font-medium text-black">Descrição:</label>
             <Input type="text" id="descricao" {...register('descricao')} required className="mt-1 p-2 w-full border rounded-md mb-2 bg-transparent" placeholder="Digite a descrição" />
             {errors.descricao?.message && <p className="text-sm text-red-400">{errors.descricao?.message}</p> }
           </div>
           
           <div className="mb-4">
-            <label htmlFor="descricao" className="block text-sm font-medium text-white">Categoria:</label>
+            <label htmlFor="descricao" className="block text-sm font-medium text-black">Categoria:</label>
             <Input type="text" multiple id="sobre" {...register('categoria')} required className="mt-1 p-2 w-full border rounded-md mb-2 bg-transparent" placeholder="Digite algo categoria o equipamento" />
             {errors.categoria?.message && <p className="text-sm text-red-400">{errors.categoria?.message}</p> }
           </div>
@@ -125,7 +125,7 @@ function CriarBeneficio({usuario}:CriarBeneficioProps) {
         
 
           <div className="mb-4">
-            <label htmlFor="valor" className="block text-sm font-medium text-white">valor:</label>
+            <label htmlFor="valor" className="block text-sm font-medium text-black">valor:</label>
             <Input type="number" id="valor" step="0.001" {...register('valor')} required  className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
             {errors.valor?.message && <p className="text-sm text-red-400">{errors.valor?.message}</p> }
           </div>
@@ -138,7 +138,7 @@ function CriarBeneficio({usuario}:CriarBeneficioProps) {
         
       </div>
 
-      <div className=" mx-auto  pe-56 ps-56  pb-1 pt-1 shadow-md grid grid-cols-1 gap-4 mb-12">
+      <div className=" mx-auto  pe-56 ps-56  pb-1 pt-1  grid grid-cols-1 gap-4 mb-12">
         
      
        <Button className="text-white font-bold">Cadastrar</Button>

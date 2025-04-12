@@ -132,11 +132,11 @@ function GerarEntrega({pessoaId,userLogado}:GerarEntregaProps) {
       
       <form onSubmit={handleSubmit(onSubmit)} >
       <h1 className="text-center font-bold text-2xl mb-4 mt-10">Gerar Entrega</h1>
-      <div className=" mx-auto mt-8 pe-56 ps-56 pb-1 pt-1 shadow-md grid md:grid-cols-1 grid-cols-1 gap-4">
+      <div className=" mx-auto mt-8 pe-56 ps-56 pb-1 pt-1  grid md:grid-cols-1 grid-cols-1 gap-4">
         {/* Coluna 1 */}
         <div>
         <div className="mb-4">
-                  <label htmlFor="beneficioId" className="block text-sm font-medium text-white">Beneficio:</label>
+                  <label htmlFor="beneficioId" className="block text-sm font-medium text-black">Beneficio:</label>
                   <select id="beneficioId"   {...register('beneficioId')} required className="mt-1 p-2 w-full border rounded-md mb-2 bg-background">
                       {data?.beneficios.map((beneficio:BeneficiosEntregaI) => (
                          <option key={beneficio.beneficio.id} value={beneficio.beneficio.id}> {beneficio.beneficio.nome} </option>
@@ -146,7 +146,7 @@ function GerarEntrega({pessoaId,userLogado}:GerarEntregaProps) {
         </div>
        
         <div className="mb-4">
-            <label htmlFor="quantidade" className="block text-sm font-medium text-white">Quantidade:</label>
+            <label htmlFor="quantidade" className="block text-sm font-medium text-black">Quantidade:</label>
             <Input type="number" id="quantidade" step="1" {...register('quantidade')} required  className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
             {errors.quantidade?.message && <p className="text-sm text-red-400">{errors.quantidade?.message}</p> }
           </div>
@@ -158,7 +158,7 @@ function GerarEntrega({pessoaId,userLogado}:GerarEntregaProps) {
 
       </div>
 
-      <div className=" mx-auto  pe-56 ps-56  pb-1 pt-1 shadow-md grid grid-cols-1 gap-4 mb-12">
+      <div className=" mx-auto  pe-56 ps-56  pb-1 pt-1  grid grid-cols-1 gap-4 mb-12">
         <div className="grid w-full gap-1.5">
         <Label htmlFor="message">Obeservação</Label>
         <Textarea  id="observacao" {...register('observacao')} placeholder="Observação" className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />

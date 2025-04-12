@@ -216,24 +216,24 @@ function CriarPessoa({usuario,resonposavelId}:CriarPessoaProps) {
     
       <form onSubmit={handleSubmit(onSubmit)} >
       <h1 className="text-center font-bold text-2xl mb-4 mt-10">Cadastro de Pessoas</h1>
-      <div className=" mx-auto mt-8 pe-56 ps-56 pb-1 pt-1 shadow-md grid md:grid-cols-1 grid-cols-1 gap-4">
+      <div className=" mx-auto mt-8 pe-56 ps-56 pb-1 pt-1 grid md:grid-cols-1 grid-cols-1 gap-4">
         {/* Coluna 1 */}
         <div>
           <div className="mb-4">
-            <label htmlFor="nome" className="block text-sm font-medium text-white">Nome:</label>
+            <label htmlFor="nome" className="block text-sm font-medium text-black">Nome:</label>
             <Input type="text" id="nome" {...register('nome')} required className="mt-1 p-2 w-full border rounded-md mb-2 bg-transparent" placeholder="Digite o nome"/>
             {errors.nome?.message && <p className="text-sm text-red-400">{errors.nome?.message}</p> }
           </div>
     
           <div className="mb-4">
-            <label htmlFor="cpf" className="block text-sm font-medium text-white">CPF:</label>
+            <label htmlFor="cpf" className="block text-sm font-medium text-black">CPF:</label>
             <Input type="text" id="cpf" {...register('cpf')} required className="mt-1 p-2 w-full border rounded-md mb-2 bg-transparent" placeholder="Digite o cpf" />
             {errors.cpf?.message && <p className="text-sm text-red-400">{errors.cpf?.message}</p> }
           </div>
         
         
           <div className="mb-4">
-            <label htmlFor="sexo" className="block text-sm font-medium text-white">Sexo:</label>
+            <label htmlFor="sexo" className="block text-sm font-medium text-black">Sexo:</label>
             <select id="sexo" {...register('sexo')} required className="mt-1 p-2 w-full border rounded-md mb-2 bg-background">
               <option value="masculino">Masculino</option>
               <option value="feminino">Feminino</option>
@@ -243,13 +243,13 @@ function CriarPessoa({usuario,resonposavelId}:CriarPessoaProps) {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="datanascimento" className="block text-sm font-medium text-white">Data Nascimento:</label>
-            <input type="date" id="datanascimento"  required {...register('datanascimento')} className="mt-1 p-2 w-full border rounded-md mb-2 bg-transparent text-white "  />
+            <label htmlFor="datanascimento" className="block text-sm font-medium text-black">Data Nascimento:</label>
+            <input type="date" id="datanascimento"  required {...register('datanascimento')} className="mt-1 p-2 w-full border rounded-md mb-2 bg-transparent text-black "  />
             {errors.datanascimento?.message && <p className="text-sm text-red-400">{errors.datanascimento?.message}</p> }
           </div>
 
           <div className="mb-4">
-            <label htmlFor="escolaridade" className="block text-sm font-medium text-white">Escolaridade:</label>
+            <label htmlFor="escolaridade" className="block text-sm font-medium text-black">Escolaridade:</label>
             <select id="escolaridade"   {...register('escolaridade')} required className="mt-1 p-2 w-full border rounded-md mb-2 bg-background">
               <option value="fundamental">Fundamental</option>
               <option value="medio">Médio</option>
@@ -262,7 +262,7 @@ function CriarPessoa({usuario,resonposavelId}:CriarPessoaProps) {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="parentesco" className="block text-sm font-medium text-white">Parentesco:</label>
+            <label htmlFor="parentesco" className="block text-sm font-medium text-black">Parentesco:</label>
             <Input type="parentesco" id="parentesco" {...register('parentesco')}   className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
             {errors.parentesco?.message && <p className="text-sm text-red-400">{errors.parentesco?.message}</p> }
           </div>
@@ -275,31 +275,31 @@ function CriarPessoa({usuario,resonposavelId}:CriarPessoaProps) {
          {/* Coluna 2 */}
          <div>
           <div  className="mb-4">
-            <label htmlFor="telefone" className="block text-sm font-medium text-white">Telefone:</label>
+            <label htmlFor="telefone" className="block text-sm font-medium text-black">Telefone:</label>
             <Input type="text" id="telefone" {...register('telefone')}  className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent"  />
             {errors.telefone?.message && <p className="text-sm text-red-400">{errors.telefone?.message}</p> }
           </div>
     
           <div className="mb-4">
-            <label htmlFor="email" className="block text-sm font-medium text-white">E-mail:</label>
+            <label htmlFor="email" className="block text-sm font-medium text-black">E-mail:</label>
             <Input type="email" id="email" {...register('email')}  className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
             {errors.email?.message && <p className="text-sm text-red-400">{errors.email?.message}</p> }
           </div>
 
           <div className="mb-4">
-            <label htmlFor="rg" className="block text-sm font-medium text-white">RG:</label>
+            <label htmlFor="rg" className="block text-sm font-medium text-black">RG:</label>
             <Input type="text" id="rg" {...register('rg')} className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
             {errors.rg?.message && <p className="text-sm text-red-400">{errors.rg?.message}</p> }
           </div>
 
           <div className="mb-4">
-            <label htmlFor="renda" className="block text-sm font-medium text-white">Renda:</label>
+            <label htmlFor="renda" className="block text-sm font-medium text-black">Renda:</label>
             <Input type="number" id="renda" step="0.001" {...register('renda')} required  className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
             {errors.renda?.message && <p className="text-sm text-red-400">{errors.renda?.message}</p> }
           </div>
    
           <div className="mb-4">
-            <label htmlFor="estadocivil" className="block text-sm font-medium text-white">Estado Civil:</label>
+            <label htmlFor="estadocivil" className="block text-sm font-medium text-black">Estado Civil:</label>
             <select id="estadocivil"  {...register('estadocivil')} required className=" p-2 w-full border rounded-md mb-4 mt-2 bg-background">
             <option value="solteiro">Solteiro</option>
             <option value="casado">Casado</option>
@@ -334,48 +334,48 @@ function CriarPessoa({usuario,resonposavelId}:CriarPessoaProps) {
           
 
           <div className="mb-4">
-            <label htmlFor="cep" className="block text-sm font-medium text-white">CEP:</label>
+            <label htmlFor="cep" className="block text-sm font-medium text-black">CEP:</label>
             <Input type="text" id="cep" {...register('cep', { onChange: handleCepChange })} required   readOnly={resonposavelId ? true : false} className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
             {errors.cep?.message && <p className="text-sm text-red-400">{errors.cep?.message}</p> }
           </div>
 
           <div className="mb-4">
-            <label htmlFor="complemento" className="block text-sm font-medium text-white">Complemento:</label>
+            <label htmlFor="complemento" className="block text-sm font-medium text-black">Complemento:</label>
             <Input type="text" id="complemento" {...register('complemento')} readOnly={resonposavelId ? true : false} className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
             {errors.complemento?.message && <p className="text-sm text-red-400">{errors.complemento?.message}</p> }
           </div>
 
           <div className="mb-4">
-            <label htmlFor="localidade" className="block text-sm font-medium text-white">Localidade:</label>
+            <label htmlFor="localidade" className="block text-sm font-medium text-black">Localidade:</label>
             <Input type="text" id="localidade"  {...register('localidade')} required readOnly={resonposavelId ? true : false} className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
             {errors.localidade?.message && <p className="text-sm text-red-400">{errors.localidade?.message}</p> }
           </div>
           <div className="mb-4">
-            <label htmlFor="uf" className="block text-sm font-medium text-white">UF:</label>
+            <label htmlFor="uf" className="block text-sm font-medium text-black">UF:</label>
             <Input type="text" id="uf" {...register('uf')} required readOnly={resonposavelId ? true : false} className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
             {errors.uf?.message && <p className="text-sm text-red-400">{errors.uf?.message}</p> }
           </div>
             
           <div>
-            <label htmlFor="logradouro" className="block text-sm font-medium text-white">logradouro:</label>
+            <label htmlFor="logradouro" className="block text-sm font-medium text-black">logradouro:</label>
             <Input type="text" id="logradouro" {...register('logradouro')} required readOnly={resonposavelId ? true : false} className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
             {errors.logradouro?.message && <p className="text-sm text-red-400">{errors.logradouro?.message}</p> }
           </div>
 
           <div>
-            <label htmlFor="bairro" className="block text-sm font-medium text-white">Bairro:</label>
+            <label htmlFor="bairro" className="block text-sm font-medium text-black">Bairro:</label>
             <Input type="text" id="bairro" {...register('bairro')} required readOnly={resonposavelId ? true : false} className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
             {errors.bairro?.message && <p className="text-sm text-red-400">{errors.bairro?.message}</p> }
           </div>
    
           <div>
-            <label htmlFor="numero" className="block text-sm font-medium text-white">Numero:</label>
+            <label htmlFor="numero" className="block text-sm font-medium text-black">Numero:</label>
             <Input type="text" id="numero" {...register('numero')} required readOnly={resonposavelId ? true : false} className="mt-3 p-2 w-full border rounded-md mb-4  bg-transparent" />
             {errors.numero?.message && <p className="text-sm text-red-400">{errors.numero?.message}</p> }
           </div>
 
           <div className="mb-4">
-                  <label htmlFor="equipamentoId" className="block text-sm font-medium text-white">Atendido em:</label>
+                  <label htmlFor="equipamentoId" className="block text-sm font-medium text-black">Atendido em:</label>
                   <select id="equipamentoId"   {...register('equipamentoId')} required className="mt-1 p-2 w-full border rounded-md mb-2 bg-background">
                     {dataEquipamentos.map((equipamento:EquipamentoI) => (
                       <option key={equipamento.id} value={equipamento.id}> {equipamento.nome} </option>
