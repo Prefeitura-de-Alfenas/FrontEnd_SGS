@@ -215,7 +215,7 @@ function CriarPessoa({usuario,resonposavelId}:CriarPessoaProps) {
       {!isLoadingEquipamentos ?
     
       <form onSubmit={handleSubmit(onSubmit)} >
-      <h1 className="text-center font-bold text-2xl mb-4 mt-10">Cadastro de Pessoas</h1>
+      <h1 className="text-center font-bold text-2xl mb-4 mt-10">Cadastro do {resonposavelId ? "Familiar" : "Responsável"}</h1>
       <div className=" mx-auto mt-8 pe-56 ps-56 pb-1 pt-1 grid md:grid-cols-1 grid-cols-1 gap-4">
         {/* Coluna 1 */}
         <div>

@@ -136,7 +136,7 @@ function GerarEntrega({pessoaId,userLogado}:GerarEntregaProps) {
         {/* Coluna 1 */}
         <div>
         <div className="mb-4">
-                  <label htmlFor="beneficioId" className="block text-sm font-medium text-black">Beneficio:</label>
+                  <label htmlFor="beneficioId" className="block text-sm font-medium text-black">Tipo de Atendimento:</label>
                   <select id="beneficioId"   {...register('beneficioId')} required className="mt-1 p-2 w-full border rounded-md mb-2 bg-background">
                       {data?.beneficios.map((beneficio:BeneficiosEntregaI) => (
                          <option key={beneficio.beneficio.id} value={beneficio.beneficio.id}> {beneficio.beneficio.nome} </option>

@@ -131,15 +131,16 @@ function VisualizarDados({ pessoaId, userLogado }: GerarEntregaProps) {
       </Card>
 
       {/* Lista de Familiares */}
-      <Card>
+      <Card className="mb-6">
         <CardHeader>
           <CardTitle>Familiares</CardTitle>
           <CardDescription>Lista de familiares associados ao responsável.</CardDescription>
+          <CardDescription className="mt-4"><Button size={"sm"}><Link href={`/familiares/novofamiliar/${data.id}`}>Novo Familiar</Link></Button></CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           {data.familiares && data.familiares.length > 0 ? (
             <div className="space-y-4">
-              {data.familiares.map((familiar: { id:string; nome: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | PromiseLikeOfReactNode | null | undefined; datanascimento: string; escolaridade: string; cpf: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | PromiseLikeOfReactNode | null | undefined; renda: string; }, index: Key | null | undefined) => (
+              {data.familiares.map((familiar: { nome: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | PromiseLikeOfReactNode | null | undefined; datanascimento: string; escolaridade: string; cpf: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | PromiseLikeOfReactNode | null | undefined; renda: string; id: any; }, index: Key | null | undefined) => (
                 <div key={index} className="border rounded-lg p-4 space-y-2">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="flex flex-col">
@@ -159,21 +160,80 @@ function VisualizarDados({ pessoaId, userLogado }: GerarEntregaProps) {
                       <span>{familiar.cpf}</span>
                     </div>
                     <div className="flex flex-col">
-                    <Label className="font-semibold">Renda:</Label>
-                    <span>{familiar.renda === "0" ? "Nenhuma" : `R$ ${parseFloat(familiar.renda).toFixed(2)}`}</span>
+                      <Label className="font-semibold">Renda:</Label>
+                      <span>{familiar.renda === "0" ? "Nenhuma" : `R$ ${parseFloat(familiar.renda).toFixed(2)}`}</span>
                     </div>
                     <div className="flex flex-col">
-                  
-                        <Link href={`/familiares/editarfamiliar/${familiar.id}/responsavel/${data.id}`} className="cursor-pointer text-blue-600 font-semibold hover:underline">Editar Familiar</Link>
-                     
+                      <Link
+                        href={`/familiares/editarfamiliar/${familiar.id}/responsavel/${data.id}`}
+                        className="cursor-pointer text-blue-600 font-semibold hover:underline"
+                      >
+                        Editar Familiar
+                      </Link>
                     </div>
-                    
                   </div>
                 </div>
               ))}
             </div>
           ) : (
             <p className="text-center text-gray-500">Nenhum familiar cadastrado.</p>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Lista de Atendimentos */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Atendimentos</CardTitle>
+          <CardDescription>Lista de atendimentos realizados para o responsável.</CardDescription>
+          <CardDescription className="mt-4"><Button size={"sm"}><Link href={`/entrega/create/${data.id}`}>Novo Atendimento</Link></Button></CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {data.entregas && data.entregas.length > 0 ? (
+            <div className="space-y-4">
+              {data.entregas.map((entrega: { equipamento: { nome: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | PromiseLikeOfReactNode | null | undefined; }; beneficio: { nome: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | PromiseLikeOfReactNode | null | undefined; }; quantidade: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | PromiseLikeOfReactNode | null | undefined; createdAt: string; usuario: { nome: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | PromiseLikeOfReactNode | null | undefined; }; observacao: any; id: any; }, index: Key | null | undefined) => (
+                <div key={index} className="border rounded-lg p-4 space-y-2">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="flex flex-col">
+                      <Label className="font-semibold">Equipamento:</Label>
+                      <span>{entrega.equipamento.nome}</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <Label className="font-semibold">Benefício:</Label>
+                      <span>{entrega.beneficio.nome}</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <Label className="font-semibold">Quantidade:</Label>
+                      <span>{entrega.quantidade}</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <Label className="font-semibold">Data:</Label>
+                      <span>{formatDate(entrega.createdAt)}</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <Label className="font-semibold">Usuário:</Label>
+                      <span>{entrega.usuario.nome}</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <Label className="font-semibold">Observação:</Label>
+                      <span>{entrega.observacao || "Nenhuma"}</span>
+                    </div>
+                    <div className="flex flex-col">
+                    
+                      <Link
+                        href={`/recibo/${entrega.id}`}
+                        target="_blank"
+                        className="cursor-pointer text-blue-600 font-semibold hover:underline"
+                      >
+                        Ver Recibo
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-center text-gray-500">Nenhum atendimento registrado.</p>
           )}
         </CardContent>
       </Card>

@@ -111,8 +111,8 @@ const TablePessoas = ({ usuarioLogado }: TablePessoasProps) => {
             <TableHead>CPF</TableHead>
             <TableHead>Email</TableHead>
 
-            <TableHead>Atendimentos</TableHead>
-            <TableHead>Deferir</TableHead>
+            <TableHead>Atend.</TableHead>
+            <TableHead>Gerar Atend.</TableHead>
             <TableHead>Editar</TableHead>
             <TableHead>Familiares</TableHead>
             <TableHead>Beneficios</TableHead>
