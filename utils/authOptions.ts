@@ -36,20 +36,23 @@ import CredentialsProvider from "next-auth/providers/credentials"
 	pages: {
 		signIn: '/'
 	},
-	callbacks:{
-		async jwt({token,user})
-	    {
+	callbacks: {
+		async jwt({ token, user }) {
 		
-			user && (token.user = user)
-			return token
-
+		  if (user) {
+			token.user = user; // Aqui o user tem o access_token vindo do backend
+		  }
+		  return token;
 		},
-		async session({session,token}){
-	
-			session = token as any
-			return session
-		}
-	}
+	  
+		async session({ session, token }) {
+		  // Garante que `session.user.access_token` estará disponível no frontend
+		  if (token?.user) {
+			session.user = token.user;
+		  }
+		  return session;
+		},
+	  },
 
 }
 

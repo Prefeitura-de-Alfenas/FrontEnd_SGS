@@ -9,6 +9,7 @@ export async function middleware(req: NextRequest) {
     secret: process.env.NEXTAUTH_SECRET,
   });
 
+
   // Se não tiver token ou o token estiver expirado
   if (!token || isTokenExpired(token)) {
     // Redireciona para a página de login (/)
@@ -49,6 +50,7 @@ export async function middleware(req: NextRequest) {
 
 // Função para verificar se o token expirou
 function isTokenExpired(token: any): boolean {
+ 
   if (!token?.exp) return true; // Se o token não tiver o campo 'exp', considera-se inválido
   const currentTime = Math.floor(Date.now() / 1000); // Tempo atual em segundos
   return token.exp < currentTime; // Retorna true se o token estiver expirado
