@@ -80,7 +80,6 @@ const CreateArquivo = async (usuario: UsuarioLogadoI, data: ArquivoCreateI) => {
     //@ts-ignore
     const file = data.file[0];
 
-    console.log(data.nome);
 
     const formData = new FormData();
     formData.append('file', file); // Adiciona o arquivo ao FormData

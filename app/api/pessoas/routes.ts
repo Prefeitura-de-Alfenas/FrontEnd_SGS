@@ -173,7 +173,7 @@ const GetPessoaEntregaById = async (usuario:UsuarioLogadoI,id:string)=>{
 
 
 const GetCepViaCep = async (usuario:UsuarioLogadoI,cep:string)=>{
-    console.log('cep',cep)
+
     const url = `https://viacep.com.br/ws/${cep}/json/`;
     const response = await fetch(url,{
         method:'GET',

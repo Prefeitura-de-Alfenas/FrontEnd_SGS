@@ -85,7 +85,7 @@ const GetEntregasPorPessoa = async (usuario:UsuarioLogadoI,pessoaId:string,skip:
 }
 
 const GetEntregaPorData = async (usuario:UsuarioLogadoI,data:any) => {
-    console.log("skjdflskdj")
+    
     const url = `${baseUrl}/entregra/entregarelatoriodate`;
     const response = await fetch(url,{
         method: 'POST',

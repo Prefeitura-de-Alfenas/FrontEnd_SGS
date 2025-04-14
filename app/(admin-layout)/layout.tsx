@@ -17,7 +17,7 @@ export default async function PrivacyLayout({ children }: PrivaceLayoutProps) {
     const currentTime = Math.floor(Date.now() / 1000); // Tempo atual em segundos
     return token.exp < currentTime; // Retorna true se o token estiver expirado
   }
-  console.log("session", session);
+
   if(!session) {
     redirect('/')
   }

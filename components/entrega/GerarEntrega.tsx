@@ -19,6 +19,7 @@ import { EntregaCreateI } from "@/interfaces/entras/interface";
 import { GetUsuarioById } from "@/app/api/usuarios/route";
 import { ArrowLeftFromLine, Target } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 
 
 
@@ -52,14 +53,14 @@ interface GerarEntregaProps{
 }
 
 function GerarEntrega({pessoaId,userLogado}:GerarEntregaProps) {
-
+  const [lodingSaved,setLoadingSaved] = useState(false)
   const router = useRouter();
   const { toast } = useToast()
   const { handleSubmit,register,setValue,getValues,formState:{errors}} = useForm<FormData>({
     mode:"onBlur",
     resolver:zodResolver(formSchema)
    })
- 
+
    const {data,isLoading} = useQuery({
       queryKey:["pessoaEntrega"],
       queryFn:() => GetPessoaEntregaById(userLogado,pessoaId as string),
@@ -72,32 +73,38 @@ function GerarEntrega({pessoaId,userLogado}:GerarEntregaProps) {
    })
    
   const mutation = useMutation({
+
     mutationFn: async (data:EntregaCreateI) => {
       let dataResponse = data;
-     
+      setLoadingSaved(true)
     
       return     CreateEntrega(userLogado,dataResponse)
       .then(response => response)
     },
     onError:(error) => {
+      setLoadingSaved(false),
       toast({
         title: error.message,
-       
       })
     },
     onSuccess:(data) =>{
 
       if(data.error){
+        setLoadingSaved(false),
              toast({
                  variant: "destructive" ,
                 title: data.error,
               })
+            
       }else{
+        setLoadingSaved(false),
            toast({
           
              title: "Deferido com sucesso",
            })
+           
            router.push(`/entrega/${pessoaId}`);
+         
          //window.open(`/reciboentrega/${data.id}`)
            
       }
@@ -173,8 +180,8 @@ function GerarEntrega({pessoaId,userLogado}:GerarEntregaProps) {
         {errors.observacao?.message && <p className="text-sm text-red-400">{errors.observacao?.message}</p> }
        </div>
 
-     
-       <Button className="text-white font-bold">Cadastrar</Button>
+       {lodingSaved ?( <p className="text-black font-bold text-center">Carregando ...</p> ) : ( <Button className="text-white font-bold">Cadastrar</Button> ) }
+      
       </div>
      
      

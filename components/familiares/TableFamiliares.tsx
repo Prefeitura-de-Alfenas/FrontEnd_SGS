@@ -82,7 +82,6 @@ const TableFamiliares = ({ usuario, responsavelId }: TableFamiliaresProps) => {
     const value = event.target.value;
     setFilter(value);
 
-    console.log(filter);
   };
 
   const handleChangeResponsavel = async (id: string) => {

@@ -117,7 +117,6 @@ function CriarPessoa({usuario,resonposavelId}:CriarPessoaProps) {
   const mutation = useMutation({
     mutationFn: async (data:FormData) => {
       let dataResponse = data;
-      console.log("usuariofsdfsdfsdf",usuario)
       if(resonposavelId){
         dataResponse = {
           ...data,
@@ -210,6 +209,8 @@ function CriarPessoa({usuario,resonposavelId}:CriarPessoaProps) {
 
     mutation.mutate(data)
    }
+   const isAdmin = usuario.user?.role?.includes("Admin");
+   console.log("isamind",isAdmin)
     return (  
       <>
       {!isLoadingEquipamentos ?
@@ -341,30 +342,30 @@ function CriarPessoa({usuario,resonposavelId}:CriarPessoaProps) {
 
           <div className="mb-4">
             <label htmlFor="complemento" className="block text-sm font-medium text-black">Complemento:</label>
-            <Input type="text" id="complemento" {...register('complemento')} readOnly={resonposavelId ? true : false} className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
+            <Input type="text" id="complemento" {...register('complemento')} readOnly={!(isAdmin && !resonposavelId)} className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
             {errors.complemento?.message && <p className="text-sm text-red-400">{errors.complemento?.message}</p> }
           </div>
 
           <div className="mb-4">
             <label htmlFor="localidade" className="block text-sm font-medium text-black">Localidade:</label>
-            <Input type="text" id="localidade"  {...register('localidade')} required readOnly={resonposavelId ? true : false} className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
+            <Input type="text" id="localidade"  {...register('localidade')} required readOnly={!(isAdmin && !resonposavelId)} className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
             {errors.localidade?.message && <p className="text-sm text-red-400">{errors.localidade?.message}</p> }
           </div>
           <div className="mb-4">
             <label htmlFor="uf" className="block text-sm font-medium text-black">UF:</label>
-            <Input type="text" id="uf" {...register('uf')} required readOnly={resonposavelId ? true : false} className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
+            <Input type="text" id="uf" {...register('uf')} required readOnly={!(isAdmin && !resonposavelId)} className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
             {errors.uf?.message && <p className="text-sm text-red-400">{errors.uf?.message}</p> }
           </div>
             
           <div>
             <label htmlFor="logradouro" className="block text-sm font-medium text-black">logradouro:</label>
-            <Input type="text" id="logradouro" {...register('logradouro')} required readOnly={resonposavelId ? true : false} className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
+            <Input type="text" id="logradouro" {...register('logradouro')} required readOnly={!(isAdmin && !resonposavelId)} className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
             {errors.logradouro?.message && <p className="text-sm text-red-400">{errors.logradouro?.message}</p> }
           </div>
 
           <div>
             <label htmlFor="bairro" className="block text-sm font-medium text-black">Bairro:</label>
-            <Input type="text" id="bairro" {...register('bairro')} required readOnly={resonposavelId ? true : false} className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
+            <Input type="text" id="bairro" {...register('bairro')} required readOnly={!(isAdmin && !resonposavelId)} className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
             {errors.bairro?.message && <p className="text-sm text-red-400">{errors.bairro?.message}</p> }
           </div>
    

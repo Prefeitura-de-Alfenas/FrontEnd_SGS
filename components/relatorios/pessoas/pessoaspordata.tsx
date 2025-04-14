@@ -86,7 +86,7 @@ const TablePessoasPorData = ({usuarioLogado}:TablePessoasProps) => {
    }
 
  const handelClickSearcher = () =>{
-    console.log(dataInicial)
+
     setSearch(filter)
     setDataInicialSearch(dataInicial)
     setDataFinalSearch(dataFinalSearch)
@@ -98,8 +98,6 @@ const TablePessoasPorData = ({usuarioLogado}:TablePessoasProps) => {
     
     const novoFormato = data.map((item:any )=> headerPessoas.map(campo => item[campo]));
 
-    console.log(headerPessoas)
-    console.log(novoFormato)
 
     generateExcel(`pessoas_${convertDataHoraParaPtBr(date)}`,headerPessoas,novoFormato)
     

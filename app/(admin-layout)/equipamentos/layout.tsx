@@ -18,7 +18,7 @@ export default async function PrivacyLayout({ children }: PrivaceLayoutProps) {
     redirect('/')
   }
   const userWithRole = session.user as { role?: string[]; name?: string | null; email?: string | null; image?: string | null };
-  console.log("sessionequipamenot", userWithRole.role);
+ 
   if (!userWithRole.role || !userWithRole.role.includes("admin")) {
     redirect("/pessoas");
   }
