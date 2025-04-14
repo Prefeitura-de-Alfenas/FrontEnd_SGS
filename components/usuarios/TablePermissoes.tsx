@@ -123,7 +123,7 @@ const TablePermissoes = ({ usuario, userId }: TablePermissoesProps) => {
         <TableBody>
           {data?.map((permissao: PermissaoI) => (
             <TableRow key={permissao.id}>
-              <TableCell className="font-medium">{permissao.nome}</TableCell>
+              <TableCell className="font-medium">{permissao.nome == "Admin" ?"Assistente Social": permissao.nome }</TableCell>
               <TableCell
                 className=" flex  items-center justify-end me-48"
                 onClick={() =>

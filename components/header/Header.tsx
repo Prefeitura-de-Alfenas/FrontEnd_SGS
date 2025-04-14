@@ -40,6 +40,7 @@ const Header = ({ usuarioLogado }: any) => {
     });
     router.replace("/");
   }
+ 
   return (
     <header className="flex items-center justify-between w-full h-28 bg-gray-50 mb-4 shadow-lg">
       <div className="ps-4">
@@ -71,12 +72,15 @@ const Header = ({ usuarioLogado }: any) => {
                         <Link href="/beneficios">Consulta Benefícios</Link>
                       </SheetClose>
                     </CommandItem>
-
-                    <CommandItem>
-                      <SheetClose asChild>
-                        <Link href="/equipamentos">Consulta Equipamentos</Link>
-                      </SheetClose>
-                    </CommandItem>
+                    {usuarioLogado && 
+                      usuarioLogado.user?.role?.includes("admin") && (
+                        <CommandItem>
+                          <SheetClose asChild>
+                            <Link href="/equipamentos">Consulta Equipamentos</Link>
+                          </SheetClose>
+                        </CommandItem>
+                    )}
+                    
                   </CommandGroup>
 
                   <CommandGroup heading="Relatorios">
@@ -96,11 +100,7 @@ const Header = ({ usuarioLogado }: any) => {
                       </SheetClose>
                     </CommandItem>
 
-                    <CommandItem>
-                      <SheetClose asChild>
-                        <Link href="/equipamentos">Consulta Equipamentos</Link>
-                      </SheetClose>
-                    </CommandItem>
+                   
                   </CommandGroup>
 
                   <CommandSeparator />

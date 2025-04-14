@@ -22,6 +22,7 @@ import {
 
 import {
   Bitcoin,
+  Eye,
   FileEdit,
   FilePlus2,
   LayoutList,
@@ -110,9 +111,8 @@ const TablePessoas = ({ usuarioLogado }: TablePessoasProps) => {
             <TableHead>Nome</TableHead>
             <TableHead>CPF</TableHead>
             <TableHead>Email</TableHead>
-
+            <TableHead>Visual.</TableHead>
             <TableHead>Atend.</TableHead>
-            <TableHead>Gerar Atend.</TableHead>
             <TableHead>Editar</TableHead>
             <TableHead>Familiares</TableHead>
             <TableHead>Beneficios</TableHead>
@@ -128,17 +128,17 @@ const TablePessoas = ({ usuarioLogado }: TablePessoasProps) => {
               <TableCell className="font-medium">{pessoa.nome}</TableCell>
               <TableCell>{pessoa.cpf}</TableCell>
               <TableCell>{pessoa.email}</TableCell>
-
+              <TableCell>
+                <Link href={`/dashboard/${pessoa.id}`}>
+                  <Eye color="#023a10" />
+                </Link>
+              </TableCell>
               <TableCell>
                 <Link href={`/entrega/${pessoa.id}`}>
                   <LayoutList color="#1d1797" />
                 </Link>
               </TableCell>
-              <TableCell>
-                <Link href={`/entrega/create/${pessoa.id}`}>
-                  <PackageX color="#0d0c22" />
-                </Link>
-              </TableCell>
+       
               <TableCell>
                 <Link href={`/pessoas/novapessoa/${pessoa.id}`}>
                   <FileEdit />

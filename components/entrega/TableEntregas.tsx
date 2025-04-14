@@ -42,6 +42,7 @@ import {
 import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
 import { useToast } from "@/components/ui/use-toast";
 import DeleteSoftEntrega from "./_component/DeleteEntregaSoft";
+import FixedButtonEntrega from "./addButton";
 interface TableEntregasProps {
   pessoaId: string;
   usuario: UsuarioLogadoI;
@@ -195,6 +196,7 @@ const TableEntregas = ({ usuario, pessoaId }: TableEntregasProps) => {
           </PaginationItem>
         </PaginationContent>
       </Pagination>
+      <FixedButtonEntrega pessoaId={pessoaId} />
     </div>
   );
 };

@@ -398,12 +398,15 @@ function EditarPessoa({usuario,pessoaId,responsavelId}:EditarPessoaProps ) {
         <Textarea  id="observacao" {...register('observacao')} placeholder="Observação" className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
         {errors.observacao?.message && <p className="text-sm text-red-400">{errors.observacao?.message}</p> }
        </div>
-
-       <div className="grid w-full gap-1.5">
+       {usuario.user.role.find((row: string) => row === "Admin") ? (
+        <div className="grid w-full gap-1.5">
         <Label htmlFor="message">Obeservação Restrita</Label>
-        <Textarea  id="observacaorestrita" {...register('observacaorestrita')} placeholder="Observação Restrita" className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
+        <Textarea   id="observacaorestrita" {...register('observacaorestrita')} placeholder="Observação Restrita" className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
         {errors.observacaorestrita?.message && <p className="text-sm text-red-400">{errors.observacaorestrita?.message}</p> }
        </div>
+       ):
+       (<input type="hidden" value="" {...register('observacaorestrita')} />)}
+       
        <Button className="text-white font-bold">Atualizar</Button>
       </div>
      

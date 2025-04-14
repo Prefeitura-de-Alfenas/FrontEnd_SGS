@@ -39,7 +39,7 @@ function VisualizarDados({ pessoaId, userLogado }: GerarEntregaProps) {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-center font-bold text-3xl mb-6">Consulta de Informações da Família de {data.nome}</h1>
+      <h1 className="text-center font-bold text-3xl mb-6">Consulta de Informações da Família</h1>
 
       {/* Dados do Responsável */}
       <Card className="mb-6">
@@ -85,6 +85,16 @@ function VisualizarDados({ pessoaId, userLogado }: GerarEntregaProps) {
               <Label className="font-semibold">Renda:</Label>
               <span>{data.renda === "0" ? "Nenhuma" : `R$ ${parseFloat(data.renda).toFixed(2)}`}</span>
             </div>
+            <div className="flex flex-col col-span-1 md:col-span-2">
+              <Label className="font-semibold">Observação:</Label>
+              <span>{data.observacao}</span>
+            </div>
+            {userLogado.user.role.find((row: string) => row === "Admin") && (
+               <div className="flex flex-col col-span-1 md:col-span-2">
+               <Label className="font-semibold">Observação Restrita:</Label>
+               <span>{data.observacaorestrita}</span>
+             </div>
+            )}
           </div>
         </CardContent>
       </Card>
