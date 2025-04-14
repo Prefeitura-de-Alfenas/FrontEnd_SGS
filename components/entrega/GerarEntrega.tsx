@@ -17,7 +17,8 @@ import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
 import { CreateEntrega } from "@/app/api/entrega/routes";
 import { EntregaCreateI } from "@/interfaces/entras/interface";
 import { GetUsuarioById } from "@/app/api/usuarios/route";
-import { Target } from "lucide-react";
+import { ArrowLeftFromLine, Target } from "lucide-react";
+import Link from "next/link";
 
 
 
@@ -96,8 +97,8 @@ function GerarEntrega({pessoaId,userLogado}:GerarEntregaProps) {
           
              title: "Deferido com sucesso",
            })
-  
-          window.open(`/reciboentrega/${data.id}`)
+           router.push(`/entrega/${pessoaId}`);
+         //window.open(`/reciboentrega/${data.id}`)
            
       }
     
@@ -131,7 +132,14 @@ function GerarEntrega({pessoaId,userLogado}:GerarEntregaProps) {
     return (  
       
       <form onSubmit={handleSubmit(onSubmit)} >
-      <h1 className="text-center font-bold text-2xl mb-4 mt-10">Gerar Atendimento</h1>
+           <div className="flex justify-end items-center me-7 mb-2">
+        <Link href="/pessoas">
+          <ArrowLeftFromLine size={48} />
+        </Link>
+      </div>
+      <h1 className="text-center font-bold text-2xl ">Gerar Atendimento </h1>
+      <p className="text-center font-semibold  mt-1">Nome: {data.nome} </p>
+      <p className="text-center font-semibold mb-4 mt-1">CPF: {data.cpf} </p>
       <div className=" mx-auto mt-8 pe-56 ps-56 pb-1 pt-1  grid md:grid-cols-1 grid-cols-1 gap-4">
         {/* Coluna 1 */}
         <div>

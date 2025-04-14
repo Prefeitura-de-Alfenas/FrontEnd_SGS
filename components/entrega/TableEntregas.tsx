@@ -116,9 +116,15 @@ const TableEntregas = ({ usuario, pessoaId }: TableEntregasProps) => {
             <TableHead>Quantidade</TableHead>
             <TableHead>Data do Cadastro</TableHead>
             {usuario.user.role.find((row: string) => row === "Admin") && (
-              <TableHead>Desativar</TableHead>
+               status!== "pendente" ? 
+               <TableHead>Aprovar</TableHead> :
+               <TableHead>Desativar</TableHead> 
+             
             )}
             <TableHead>Segunda Via</TableHead>
+           
+         
+            
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -141,6 +147,7 @@ const TableEntregas = ({ usuario, pessoaId }: TableEntregasProps) => {
                 <TableCell>
                   <DeleteSoftEntrega
                     id={entrega.id}
+                    status={entrega.status}
                     refetch={refetch}
                     usuario={usuario}
                   />
@@ -148,10 +155,17 @@ const TableEntregas = ({ usuario, pessoaId }: TableEntregasProps) => {
               )}
 
               <TableCell>
-                <Link href={`/reciboentrega/${entrega.id}`} target="_blank">
+                {entrega.status === "pendente" ? (
+               <p className="text-red-500">Esperando aprovação</p>
+                ):(
+                  <Link href={`/reciboentrega/${entrega.id}`} target="_blank">
                   <ScrollText color="#312e81" />
                 </Link>
+
+                )}
+               
               </TableCell>
+           
             </TableRow>
           ))}
         </TableBody>

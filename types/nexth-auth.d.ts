@@ -7,6 +7,7 @@ declare module NextAuth {
             nome:string;
             role:string[];
             access_token:string;
-        }
+        },
+        expires:string;
     }
 }
