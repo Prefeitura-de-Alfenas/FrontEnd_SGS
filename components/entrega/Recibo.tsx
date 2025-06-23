@@ -5,7 +5,7 @@ import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/render
 import { PDFViewer } from '@react-pdf/renderer';
 import { useQuery } from '@tanstack/react-query';
 import { GetEntregaById } from '@/app/api/entrega/routes';
-import { EntregaByIdI } from '@/interfaces/entras/interface';
+import { EntregaByIdI, EntregaPDF } from '@/interfaces/entras/interface';
 import { convertDataHoraParaPtBr, converterDataParaFormatoInputDate } from '@/utils/converDateParaInput';
 import { UsuarioLogadoI } from '@/interfaces/usuario/interface';
 // Create styles
@@ -65,12 +65,13 @@ const options = {
 const formattedDate = currentDate.toLocaleString('pt-BR', options);
 // Create Document Component
 interface MyDocmentProps{
-  entrega:EntregaByIdI,
+  entregaPDF:EntregaPDF,
   usuario:UsuarioLogadoI
 }
-const MyDocument = ({entrega,usuario}:MyDocmentProps) =>(
- 
-
+const MyDocument = ({entregaPDF,usuario}:MyDocmentProps) =>{
+  const { entrega } = entregaPDF;
+  const { ultimaEntregaCestaBasica } = entregaPDF;
+  return(
   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.view}>
@@ -111,6 +112,9 @@ const MyDocument = ({entrega,usuario}:MyDocmentProps) =>(
             <Text  style={styles.textinfo}>TELEFONE: {entrega.pessoa.telefone ? entrega.pessoa.telefone.toUpperCase() : 'SEM TELEFONE'}</Text>
             <Text  style={styles.textinfo}>STATUS: {entrega.status  === 'ativo' ? "DEFERIDO" : "INDEFERIDO"}</Text>
             <Text  style={styles.textinfo}>VALOR TOTAL: ${(entrega.beneficio.valor * entrega.quantidade).toFixed(2)}</Text>
+            {ultimaEntregaCestaBasica && 
+            <Text  style={styles.textinfo}>Ultima Cesta: {convertDataHoraParaPtBr(entrega.datacadastro).toUpperCase()}</Text>
+            }
           
            </View>
            </View>
@@ -139,7 +143,7 @@ const MyDocument = ({entrega,usuario}:MyDocmentProps) =>(
      
     </Page>
   </Document>
-);
+)};
 
 
 
@@ -159,7 +163,7 @@ function ReciboDocment({usuario,id}:ReciboDocmentProps) {
   }
     return ( 
         <PDFViewer className='w-full h-screen'>
-          <MyDocument entrega={data} usuario={usuario} />
+          <MyDocument entregaPDF={data} usuario={usuario} />
         </PDFViewer>
      );
 }

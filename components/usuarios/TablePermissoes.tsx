@@ -26,6 +26,7 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Admin } from "@/utils/dataRole";
 
 interface TablePermissoesProps {
   userId: string;
@@ -123,7 +124,7 @@ const TablePermissoes = ({ usuario, userId }: TablePermissoesProps) => {
         <TableBody>
           {data?.map((permissao: PermissaoI) => (
             <TableRow key={permissao.id}>
-              <TableCell className="font-medium">{permissao.nome == "Admin" ?"Assistente Social": permissao.nome }</TableCell>
+              <TableCell className="font-medium">{permissao.nome == Admin ?"Assistente Social": permissao.nome }</TableCell>
               <TableCell
                 className=" flex  items-center justify-end me-48"
                 onClick={() =>

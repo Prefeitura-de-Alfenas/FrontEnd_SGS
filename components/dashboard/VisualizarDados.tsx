@@ -9,6 +9,7 @@ import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { ReactElement, JSXElementConstructor, ReactNode, ReactPortal, PromiseLikeOfReactNode, Key } from "react";
+import { Admin } from "@/utils/dataRole";
 
 interface GerarEntregaProps {
   pessoaId: string;
@@ -89,7 +90,7 @@ function VisualizarDados({ pessoaId, userLogado }: GerarEntregaProps) {
               <Label className="font-semibold">Observação:</Label>
               <span>{data.observacao}</span>
             </div>
-            {userLogado.user.role.find((row: string) => row === "Admin") && (
+            {userLogado.user.role.find((row: string) => row === Admin) && (
                <div className="flex flex-col col-span-1 md:col-span-2">
                <Label className="font-semibold">Observação Restrita:</Label>
                <span>{data.observacaorestrita}</span>
@@ -231,7 +232,7 @@ function VisualizarDados({ pessoaId, userLogado }: GerarEntregaProps) {
                     <div className="flex flex-col">
                     
                       <Link
-                        href={`/recibo/${entrega.id}`}
+                        href={`/reciboentrega/${entrega.id}`}
                         target="_blank"
                         className="cursor-pointer text-blue-600 font-semibold hover:underline"
                       >

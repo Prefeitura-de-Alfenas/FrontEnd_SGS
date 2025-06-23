@@ -50,6 +50,10 @@ export interface EntregaByIdI{
 
 
 }
+export interface EntregaPDF{
+    entrega: EntregaByIdI,
+    ultimaEntregaCestaBasica:  EntregaByIdI | null
+}
 
 export interface EntregaFilterData{
 

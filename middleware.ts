@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
+import { Admin, Comum } from "./utils/dataRole";
 
 export async function middleware(req: NextRequest) {
   // Get token from NextAuth
@@ -21,8 +22,8 @@ export async function middleware(req: NextRequest) {
 
   // Defina um objeto com permissões baseadas em rotas
   const protectedRoutes: Record<string, string[]> = {
-    "/admin": ["Admin"], // Apenas usuários com permissão "admin" podem acessar "/admin"
-    "/pessoas": ["Admin", "Comum"], // Tanto "Admin" quanto "Comum" podem acessar "/pessoas" e suas subrotas
+    "/admin": [Admin], // Apenas usuários com permissão "admin" podem acessar "/admin"
+    "/pessoas": [Admin, Comum], // Tanto "Admin" quanto "Comum" podem acessar "/pessoas" e suas subrotas
   };
 
   // Acesse o array de roles do caminho correto na estrutura do token

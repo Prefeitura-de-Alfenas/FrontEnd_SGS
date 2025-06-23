@@ -19,6 +19,7 @@ import { GetEquipamentosAll } from "@/app/api/equipamentos/routes";
 import { EquipamentoI } from "@/interfaces/equipamento/interface";
 import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
 import { fi } from "date-fns/locale";
+import { Admin } from "@/utils/dataRole";
 
 
 
@@ -398,7 +399,7 @@ function EditarPessoa({usuario,pessoaId,responsavelId}:EditarPessoaProps ) {
         <Textarea  id="observacao" {...register('observacao')} placeholder="Observação" className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />
         {errors.observacao?.message && <p className="text-sm text-red-400">{errors.observacao?.message}</p> }
        </div>
-       {usuario.user.role.find((row: string) => row === "Admin") ? (
+       {usuario.user.role.find((row: string) => row === Admin) ? (
         <div className="grid w-full gap-1.5">
         <Label htmlFor="message">Obeservação Restrita</Label>
         <Textarea   id="observacaorestrita" {...register('observacaorestrita')} placeholder="Observação Restrita" className="mt-1 p-2 w-full border rounded-md mb-2  bg-transparent" />

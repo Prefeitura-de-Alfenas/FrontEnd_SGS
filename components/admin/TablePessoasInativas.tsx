@@ -38,6 +38,7 @@ import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
 import AddPessoa from "./DialogAddPessoa/AddPessoa";
 import { redirect } from "next/navigation";
 import { useToast } from "../ui/use-toast";
+import { Admin } from "@/utils/dataRole";
 
 interface TablePessoasProps {
   usuarioLogado: UsuarioLogadoI;
@@ -114,7 +115,7 @@ const TablePessoasInativas = ({ usuarioLogado }: TablePessoasProps) => {
             <TableHead>Editar</TableHead>
             <TableHead>Familiares</TableHead>
             <TableHead>Beneficios</TableHead>
-            {usuarioLogado.user.role.find((row: string) => row === "Admin") && (
+            {usuarioLogado.user.role.find((row: string) => row === Admin) && (
               <TableHead>Ativar</TableHead>
             )}
           </TableRow>
@@ -142,7 +143,7 @@ const TablePessoasInativas = ({ usuarioLogado }: TablePessoasProps) => {
                 </Link>
               </TableCell>
               {usuarioLogado.user.role.find(
-                (row: string) => row === "Admin"
+                (row: string) => row === Admin
               ) && (
                 <TableCell>
                   <AddPessoa

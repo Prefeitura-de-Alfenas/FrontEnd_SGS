@@ -18,6 +18,7 @@ import { useEffect } from "react";
 import { GetEquipamentosAll } from "@/app/api/equipamentos/routes";
 import { EquipamentoI } from "@/interfaces/equipamento/interface";
 import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
+import { Admin } from "@/utils/dataRole";
 
 
 
@@ -209,8 +210,8 @@ function CriarPessoa({usuario,resonposavelId}:CriarPessoaProps) {
 
     mutation.mutate(data)
    }
-   const isAdmin = usuario.user?.role?.includes("Admin");
-   console.log("isamind",isAdmin)
+   const isAdmin = usuario.user?.role?.includes(Admin);
+
     return (  
       <>
       {!isLoadingEquipamentos ?

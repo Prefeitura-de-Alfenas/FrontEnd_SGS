@@ -10,7 +10,7 @@ interface PrivaceLayoutProps {
 
 export default async function PrivacyLayout({ children }: PrivaceLayoutProps) {
   const session = await getServerSession(authOptions);
-  console.log("sessiondd", session);
+
   if (session) {
     redirect("/pessoas");
   }

@@ -40,6 +40,7 @@ import { PessoaI } from "@/interfaces/pessoa/interface";
 import { useState } from "react";
 import DeleteSoftPessoa from "./DialogDelte/DeleteSoft";
 import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
+import { Admin } from "@/utils/dataRole";
 
 interface TablePessoasProps {
   usuarioLogado: UsuarioLogadoI;
@@ -117,7 +118,7 @@ const TablePessoas = ({ usuarioLogado }: TablePessoasProps) => {
             <TableHead>Familiares</TableHead>
             <TableHead>Beneficios</TableHead>
             <TableHead>Arquivos</TableHead>
-            {usuarioLogado.user.role.find((row: string) => row === "Admin") && (
+            {usuarioLogado.user.role.find((row: string) => row === Admin) && (
               <TableHead>Excluir</TableHead>
             )}
           </TableRow>
@@ -160,7 +161,7 @@ const TablePessoas = ({ usuarioLogado }: TablePessoasProps) => {
                 </Link>
               </TableCell>
               {usuarioLogado.user.role.find(
-                (row: string) => row === "Admin"
+                (row: string) => row === Admin
               ) && (
                 <TableCell>
                   <DeleteSoftPessoa

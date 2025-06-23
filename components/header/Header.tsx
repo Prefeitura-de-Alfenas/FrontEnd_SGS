@@ -27,6 +27,7 @@ import {
   CommandShortcut,
 } from "@/components/ui/command";
 import Image from "next/image";
+import { Admin } from "@/utils/dataRole";
 
 interface TablePessoasProps {
   usuarioLogado: UsuarioLogadoI;
@@ -73,7 +74,7 @@ const Header = ({ usuarioLogado }: any) => {
                       </SheetClose>
                     </CommandItem>
                     {usuarioLogado && 
-                      usuarioLogado.user?.role?.includes("admin") && (
+                      usuarioLogado.user?.role?.includes(Admin) && (
                         <CommandItem>
                           <SheetClose asChild>
                             <Link href="/equipamentos">Consulta Equipamentos</Link>
@@ -106,7 +107,7 @@ const Header = ({ usuarioLogado }: any) => {
                   <CommandSeparator />
 
                   {usuarioLogado.user.role.find(
-                    (row: string) => row === "Admin"
+                    (row: string) => row === Admin
                   ) && (
                     <CommandGroup heading="Administrador">
                       <CommandItem>
@@ -120,7 +121,7 @@ const Header = ({ usuarioLogado }: any) => {
                         </SheetClose>
                       </CommandItem>
 
-                      <CommandItem>Settings</CommandItem>
+                
                     </CommandGroup>
                   )}
                 </CommandList>

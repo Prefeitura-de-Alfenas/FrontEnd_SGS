@@ -43,6 +43,7 @@ import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
 import { useToast } from "@/components/ui/use-toast";
 import DeleteSoftEntrega from "./_component/DeleteEntregaSoft";
 import FixedButtonEntrega from "./addButton";
+import { Admin } from "@/utils/dataRole";
 interface TableEntregasProps {
   pessoaId: string;
   usuario: UsuarioLogadoI;
@@ -116,7 +117,7 @@ const TableEntregas = ({ usuario, pessoaId }: TableEntregasProps) => {
             <TableHead>Benefíciario</TableHead>
             <TableHead>Quantidade</TableHead>
             <TableHead>Data do Cadastro</TableHead>
-            {usuario.user.role.find((row: string) => row === "Admin") && (
+            {usuario.user.role.find((row: string) => row ===Admin) && (
                status!== "pendente" ? 
                <TableHead>Aprovar</TableHead> :
                <TableHead>Desativar</TableHead> 
@@ -144,7 +145,7 @@ const TableEntregas = ({ usuario, pessoaId }: TableEntregasProps) => {
                 {convertDataHoraParaPtBr(entrega.datacadastro)}
               </TableCell>
 
-              {usuario.user.role.find((row: string) => row === "Admin") && (
+              {usuario.user.role.find((row: string) => row === Admin) && (
                 <TableCell>
                   <DeleteSoftEntrega
                     id={entrega.id}
