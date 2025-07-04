@@ -25,6 +25,7 @@ import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
 import { Admin } from "@/utils/dataRole";
 import InputMask from "react-input-mask";
 import { NumericFormat } from "react-number-format";
+import { MultiSelectCheckbox } from "../multipleSelect/multiple";
 const formSchema = z.object({
   nome: z.string().refine((val) => val.length >= 3, {
     message: "Tem que ter no minimo 3 caracteres",
@@ -103,6 +104,8 @@ const formSchema = z.object({
 
   pessoaId: z.string().optional(),
   equipamentoId: z.string(),
+  pessoaDeficiencia: z.array(z.string()).optional(), // ✅ múltiplas deficiências
+  pessoaFonteRenda: z.array(z.string()).optional(), // ✅ múltiplas fontes de renda
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -122,10 +125,15 @@ function CriarPessoa({ usuario, resonposavelId }: CriarPessoaProps) {
     setValue,
     getValues,
     trigger,
+    watch,
     formState: { errors },
   } = useForm<FormData>({
     mode: "onBlur",
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      pessoaDeficiencia: [],
+      pessoaFonteRenda: [],
+    },
   });
 
   const { data: dataEquipamentos, isLoading: isLoadingEquipamentos } = useQuery(
@@ -726,7 +734,34 @@ function CriarPessoa({ usuario, resonposavelId }: CriarPessoaProps) {
                   </p>
                 )}
               </div>
-
+              {/* Fontes de Renda */}
+              <MultiSelectCheckbox
+                label="Fontes de Renda"
+                options={
+                  dataEquipamentos.fonteDeRendas?.map((f: any) => ({
+                    label: f.nome,
+                    value: f.id,
+                  })) || []
+                }
+                selected={watch("pessoaFonteRenda") || []}
+                onChange={(val) =>
+                  setValue("pessoaFonteRenda", val, { shouldValidate: true })
+                }
+              />
+              {/* deficiencia */}
+              <MultiSelectCheckbox
+                label="Deficiências"
+                options={
+                  dataEquipamentos.deficiencias?.map((d: any) => ({
+                    label: d.nome,
+                    value: d.id,
+                  })) || []
+                }
+                selected={watch("pessoaDeficiencia") || []}
+                onChange={(val) =>
+                  setValue("pessoaDeficiencia", val, { shouldValidate: true })
+                }
+              />
               <div className="mb-4">
                 <label
                   htmlFor="equipamentoId"
@@ -740,12 +775,14 @@ function CriarPessoa({ usuario, resonposavelId }: CriarPessoaProps) {
                   required
                   className="mt-1 p-2 w-full border rounded-md mb-2 bg-background"
                 >
-                  {dataEquipamentos.map((equipamento: EquipamentoI) => (
-                    <option key={equipamento.id} value={equipamento.id}>
-                      {" "}
-                      {equipamento.nome}{" "}
-                    </option>
-                  ))}
+                  {dataEquipamentos.equipamentos.map(
+                    (equipamento: EquipamentoI) => (
+                      <option key={equipamento.id} value={equipamento.id}>
+                        {" "}
+                        {equipamento.nome}{" "}
+                      </option>
+                    )
+                  )}
                 </select>
                 {errors.equipamentoId?.message && (
                   <p className="text-sm text-red-400">
