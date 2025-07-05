@@ -30,11 +30,18 @@ function DeleteSoftPessoa({ usuario, id, refetch }: DeleteSoftPessoa) {
     onError: (error) => {
       toast({
         title: error.message,
-        description: "etnrou no on error do mutation",
+        description: "entrou no on error do mutation",
       });
     },
     onSuccess: (data) => {
-      refetch(); // atualiza toda o fetch
+      if (data.error) {
+        toast({
+          variant: "destructive",
+          title: data.error,
+        });
+      } else {
+        refetch(); // atualiza toda o fetch
+      }
     },
   });
   return (

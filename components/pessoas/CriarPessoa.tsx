@@ -7,11 +7,19 @@ import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import { validarCPF } from "@/utils/verfyCpf";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
 import {
+  BuscarEnderecoRepetido,
   CreatePessoa,
   GetCepViaCep,
   GetPessoaById,
@@ -118,6 +126,11 @@ interface CriarPessoaProps {
 function CriarPessoa({ usuario, resonposavelId }: CriarPessoaProps) {
   const router = useRouter();
   const { toast } = useToast();
+  const [showDialog, setShowDialog] = useState(false);
+  const [enderecosDuplicados, setEnderecosDuplicados] = useState<any[]>([]);
+  const [dadosParaCadastrar, setDadosParaCadastrar] = useState<FormData | null>(
+    null
+  );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const {
     handleSubmit,
@@ -152,6 +165,18 @@ function CriarPessoa({ usuario, resonposavelId }: CriarPessoaProps) {
           pessoaId: resonposavelId,
         };
       }
+      const enderecos = await BuscarEnderecoRepetido(
+        usuario,
+        data.cep,
+        data.numero
+      );
+
+      if (Array.isArray(enderecos) && enderecos.length > 0 && !resonposavelId) {
+        setEnderecosDuplicados(enderecos);
+        setDadosParaCadastrar(dataResponse);
+        setShowDialog(true);
+        return;
+      }
       return CreatePessoa(usuario, dataResponse).then((response) => response);
     },
     onError: (error) => {
@@ -160,6 +185,7 @@ function CriarPessoa({ usuario, resonposavelId }: CriarPessoaProps) {
       });
     },
     onSuccess: (data) => {
+      if (!data) return;
       if (data.error) {
         toast({
           variant: "destructive",
@@ -856,6 +882,53 @@ function CriarPessoa({ usuario, resonposavelId }: CriarPessoaProps) {
               )}
             </Button>
           </div>
+
+          {/*Dialog endereco*/}
+          <Dialog open={showDialog} onOpenChange={setShowDialog}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Endereço já utilizado</DialogTitle>
+              </DialogHeader>
+
+              <p className="text-sm text-gray-600 mb-2">
+                Já existe(m) pessoa(s) cadastrada(s) nesse endereço. Deseja
+                continuar?
+              </p>
+              <ul className="text-sm text-black space-y-1">
+                {enderecosDuplicados.map((e) => (
+                  <li key={e.id}>
+                    <strong>Nome:</strong> {e.nome} — <strong>CPF:</strong>{" "}
+                    {e.cpf}
+                  </li>
+                ))}
+              </ul>
+
+              <DialogFooter className="mt-4">
+                <Button variant="ghost" onClick={() => setShowDialog(false)}>
+                  Cancelar
+                </Button>
+                <Button
+                  onClick={async () => {
+                    if (dadosParaCadastrar) {
+                      await CreatePessoa(usuario, dadosParaCadastrar);
+                      setShowDialog(false);
+                      mutation.reset(); // Reset mutation para estado limpo
+                      toast({
+                        title: "Usuario cadastrado com sucesso",
+                      });
+                      if (resonposavelId) {
+                        router.push(`/familiares/${resonposavelId}`);
+                      } else {
+                        router.push("/pessoas");
+                      }
+                    }
+                  }}
+                >
+                  Cadastrar mesmo assim
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </form>
       ) : (
         <h1 className="text-center text-4xl font-bold mt-9">Loading</h1>

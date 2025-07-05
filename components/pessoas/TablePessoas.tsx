@@ -41,6 +41,7 @@ import { useState } from "react";
 import DeleteSoftPessoa from "./DialogDelte/DeleteSoft";
 import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
 import { Admin } from "@/utils/dataRole";
+import MovePersonFunction from "./MovePerson/MovePerson";
 
 interface TablePessoasProps {
   usuarioLogado: UsuarioLogadoI;
@@ -118,6 +119,7 @@ const TablePessoas = ({ usuarioLogado }: TablePessoasProps) => {
             <TableHead>Familiares</TableHead>
             <TableHead>Beneficios</TableHead>
             <TableHead>Arquivos</TableHead>
+            <TableHead>Mover</TableHead>
             {usuarioLogado.user.role.find((row: string) => row === Admin) && (
               <TableHead>Excluir</TableHead>
             )}
@@ -128,7 +130,7 @@ const TablePessoas = ({ usuarioLogado }: TablePessoasProps) => {
             <TableRow key={pessoa.id}>
               <TableCell className="font-medium">{pessoa.nome}</TableCell>
               <TableCell>{pessoa.cpf}</TableCell>
-              <TableCell>{pessoa.email}</TableCell>
+              <TableCell>{pessoa.email ? pessoa.email : "Sem Email"}</TableCell>
               <TableCell>
                 <Link href={`/dashboard/${pessoa.id}`}>
                   <Eye color="#023a10" />
@@ -139,7 +141,7 @@ const TablePessoas = ({ usuarioLogado }: TablePessoasProps) => {
                   <LayoutList color="#1d1797" />
                 </Link>
               </TableCell>
-       
+
               <TableCell>
                 <Link href={`/pessoas/novapessoa/${pessoa.id}`}>
                   <FileEdit />
@@ -160,9 +162,14 @@ const TablePessoas = ({ usuarioLogado }: TablePessoasProps) => {
                   <FilePlus2 color="#374151" />
                 </Link>
               </TableCell>
-              {usuarioLogado.user.role.find(
-                (row: string) => row === Admin
-              ) && (
+              <TableCell>
+                <MovePersonFunction
+                  pessoaId={pessoa.id}
+                  refetch={refetch}
+                  usuario={usuarioLogado}
+                />
+              </TableCell>
+              {usuarioLogado.user.role.find((row: string) => row === Admin) && (
                 <TableCell>
                   <DeleteSoftPessoa
                     id={pessoa.id}

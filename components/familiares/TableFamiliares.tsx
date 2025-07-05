@@ -34,6 +34,9 @@ import { useState } from "react";
 import { useToast } from "../ui/use-toast";
 import { useRouter } from "next/navigation";
 import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
+import { Admin } from "@/utils/dataRole";
+import DeleteSoftPessoa from "../pessoas/DialogDelte/DeleteSoft";
+import MovePersonFunction from "../pessoas/MovePerson/MovePerson";
 
 interface TableFamiliaresProps {
   responsavelId: string;
@@ -81,7 +84,6 @@ const TableFamiliares = ({ usuario, responsavelId }: TableFamiliaresProps) => {
   const handleFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setFilter(value);
-
   };
 
   const handleChangeResponsavel = async (id: string) => {
@@ -141,6 +143,10 @@ const TableFamiliares = ({ usuario, responsavelId }: TableFamiliaresProps) => {
             <TableHead>Arquivos</TableHead>
             <TableHead>Editar</TableHead>
             <TableHead>Chefe</TableHead>
+            <TableHead>Mover</TableHead>
+            {usuario.user.role.find((row: string) => row === Admin) && (
+              <TableHead>Excluir</TableHead>
+            )}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -148,7 +154,7 @@ const TableFamiliares = ({ usuario, responsavelId }: TableFamiliaresProps) => {
             <TableRow key={pessoa.id}>
               <TableCell className="font-medium">{pessoa.nome}</TableCell>
               <TableCell>{pessoa.cpf}</TableCell>
-              <TableCell>{pessoa.email}</TableCell>
+              <TableCell>{pessoa.email ? pessoa.email : "Sem Email"}</TableCell>
               <TableCell>
                 <Link href={`/arquivo/${pessoa.id}`}>
                   <FilePlus2 color="#1a1817" />
@@ -167,6 +173,22 @@ const TableFamiliares = ({ usuario, responsavelId }: TableFamiliaresProps) => {
               >
                 <UserRoundCog />
               </TableCell>
+              <TableCell>
+                <MovePersonFunction
+                  pessoaId={pessoa.id}
+                  refetch={refetch}
+                  usuario={usuario}
+                />
+              </TableCell>
+              {usuario.user.role.find((row: string) => row === Admin) && (
+                <TableCell>
+                  <DeleteSoftPessoa
+                    id={pessoa.id}
+                    refetch={refetch}
+                    usuario={usuario}
+                  />
+                </TableCell>
+              )}
             </TableRow>
           ))}
         </TableBody>

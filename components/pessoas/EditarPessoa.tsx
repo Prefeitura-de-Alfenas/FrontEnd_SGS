@@ -7,11 +7,20 @@ import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
 
 import { validarCPF } from "@/utils/verfyCpf";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
 import {
+  BuscarEnderecoRepetido,
   GetCepViaCep,
   GetPessoaById,
   UpdatePessoa,
@@ -118,6 +127,11 @@ interface EditarPessoaProps {
 
 function EditarPessoa({ usuario, pessoaId, responsavelId }: EditarPessoaProps) {
   const router = useRouter();
+  const [showDialog, setShowDialog] = useState(false);
+  const [enderecosDuplicados, setEnderecosDuplicados] = useState<any[]>([]);
+  const [dadosParaCadastrar, setDadosParaCadastrar] = useState<FormData | null>(
+    null
+  );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
   const {
@@ -216,15 +230,36 @@ function EditarPessoa({ usuario, pessoaId, responsavelId }: EditarPessoaProps) {
   }, [data, setValue]);
 
   const mutation = useMutation({
-    mutationFn: (data: FormData) => {
-      return UpdatePessoa(usuario, pessoaId, data).then((response) => response);
+    mutationFn: async (data: FormData) => {
+      // Garantir que 'parentesco' nunca seja null, apenas string ou undefined
+
+      const enderecos = await BuscarEnderecoRepetido(
+        usuario,
+        data.cep,
+        data.numero
+      );
+
+      if (Array.isArray(enderecos) && enderecos.length > 0 && !responsavelId) {
+        setEnderecosDuplicados(enderecos);
+        setDadosParaCadastrar(data);
+        setShowDialog(true);
+        return;
+      }
+      const safeData = {
+        ...data,
+        parentesco: data.parentesco ?? undefined,
+      };
+      return UpdatePessoa(usuario, pessoaId, safeData).then(
+        (response) => response
+      );
     },
-    onError: (error) => {
+    onError: (error: any) => {
       toast({
-        title: error.message,
+        title: error?.message || "Erro ao atualizar pessoa",
       });
     },
     onSuccess: (data) => {
+      if (!data) return;
       if (data.error) {
         toast({
           variant: "destructive",
@@ -887,6 +922,56 @@ function EditarPessoa({ usuario, pessoaId, responsavelId }: EditarPessoaProps) {
               )}
             </Button>
           </div>
+          {/*Dialog endereco*/}
+          <Dialog open={showDialog} onOpenChange={setShowDialog}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Endereço já utilizado</DialogTitle>
+              </DialogHeader>
+
+              <p className="text-sm text-gray-600 mb-2">
+                Já existe(m) pessoa(s) cadastrada(s) nesse endereço. Deseja
+                continuar?
+              </p>
+              <ul className="text-sm text-black space-y-1">
+                {enderecosDuplicados.map((e) => (
+                  <li key={e.id}>
+                    <strong>Nome:</strong> {e.nome} — <strong>CPF:</strong>{" "}
+                    {e.cpf}
+                  </li>
+                ))}
+              </ul>
+
+              <DialogFooter className="mt-4">
+                <Button variant="ghost" onClick={() => setShowDialog(false)}>
+                  Cancelar
+                </Button>
+                <Button
+                  onClick={async () => {
+                    if (dadosParaCadastrar) {
+                      const safeData = {
+                        ...dadosParaCadastrar,
+                        parentesco: data.parentesco ?? undefined,
+                      };
+                      await UpdatePessoa(usuario, pessoaId, safeData);
+                      setShowDialog(false);
+                      mutation.reset(); // Reset mutation para estado limpo
+                      toast({
+                        title: "Usuario Atualizado com sucesso",
+                      });
+                      if (responsavelId) {
+                        router.push(`/familiares/${responsavelId}`);
+                      } else {
+                        router.push("/pessoas");
+                      }
+                    }
+                  }}
+                >
+                  Atualizar mesmo assim
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </form>
       ) : (
         <h1 className="text-center text-4xl font-bold mt-9">Loading</h1>
