@@ -145,9 +145,7 @@ const GetPessoaFamiliaresById = async (usuario: UsuarioLogadoI, id: string) => {
     throw new Error("Conexão com a rede está com problemaas");
   }
 
-  const pessoa = await response.json();
-
-  return pessoa;
+  return await response.json();
 };
 
 const GetPessoaEntregaById = async (usuario: UsuarioLogadoI, id: string) => {
