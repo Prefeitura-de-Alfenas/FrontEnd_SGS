@@ -208,14 +208,24 @@ const ChangeBeneficioPessoa = async (
   return pessoa;
 };
 
-const ChangeStatus = async (usuario: UsuarioLogadoI, id: string) => {
-  const url = `${baseUrl}/pessoa/changestatus/${id}`;
+const ChangeStatus = async (
+  usuario: UsuarioLogadoI,
+  id: string,
+  motivo: string
+) => {
+  const url = `${baseUrl}/pessoa/changestatus`;
+  const data = {
+    id,
+    motivo,
+    usuarioId: usuario.user.id,
+  };
   const response = await fetch(url, {
     method: "PATCH",
     headers: {
       "Content-type": "application/json",
       Authorization: `Bearer ${usuario.user.access_token}`,
     },
+    body: JSON.stringify(data),
   });
 
   if (!response.ok) {

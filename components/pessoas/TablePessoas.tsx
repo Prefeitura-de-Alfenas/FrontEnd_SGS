@@ -28,10 +28,15 @@ import {
   LayoutList,
   PackageX,
   Search,
-  ThumbsDown,
-  ThumbsUp,
   UsersRound,
+  UserX,
 } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { Button } from "../ui/button";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -132,50 +137,126 @@ const TablePessoas = ({ usuarioLogado }: TablePessoasProps) => {
               <TableCell>{pessoa.cpf}</TableCell>
               <TableCell>{pessoa.email ? pessoa.email : "Sem Email"}</TableCell>
               <TableCell>
-                <Link href={`/dashboard/${pessoa.id}`}>
-                  <Eye color="#023a10" />
-                </Link>
+                {pessoa.status === "inativo" ? (
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <UserX color="#7a0e0a" />
+                      </TooltipTrigger>
+                      <TooltipContent className="max-w-xs break-words">
+                        <h1 className="mb-2 font-semibold">
+                          Usuário: {pessoa.usuario.nome}
+                        </h1>
+                        <p className="whitespace-pre-line">
+                          {pessoa.motivoexclusao}
+                        </p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                ) : (
+                  <Link
+                    href={`/dashboard/${pessoa.id}`}
+                    className={
+                      pessoa.status === "inativo"
+                        ? "pointer-events-none opacity-50"
+                        : ""
+                    }
+                  >
+                    <Eye color="#023a10" />
+                  </Link>
+                )}
               </TableCell>
               <TableCell>
-                <Link href={`/entrega/${pessoa.id}`}>
+                <Link
+                  href={`/entrega/${pessoa.id}`}
+                  className={
+                    pessoa.status === "inativo"
+                      ? "pointer-events-none opacity-50"
+                      : ""
+                  }
+                >
                   <LayoutList color="#1d1797" />
                 </Link>
               </TableCell>
 
               <TableCell>
-                <Link href={`/pessoas/novapessoa/${pessoa.id}`}>
+                <Link
+                  href={`/pessoas/novapessoa/${pessoa.id}`}
+                  className={
+                    pessoa.status === "inativo"
+                      ? "pointer-events-none opacity-50"
+                      : ""
+                  }
+                >
                   <FileEdit />
                 </Link>
               </TableCell>
               <TableCell>
-                <Link href={`/familiares/${pessoa.id}`}>
+                <Link
+                  href={`/familiares/${pessoa.id}`}
+                  className={
+                    pessoa.status === "inativo"
+                      ? "pointer-events-none opacity-50"
+                      : ""
+                  }
+                >
                   <UsersRound color="#d97706" />
                 </Link>
               </TableCell>
               <TableCell>
-                <Link href={`/pessoas/beneficios/${pessoa.id}`}>
+                <Link
+                  href={`/pessoas/beneficios/${pessoa.id}`}
+                  className={
+                    pessoa.status === "inativo"
+                      ? "pointer-events-none opacity-50"
+                      : ""
+                  }
+                >
                   <Bitcoin color="#92400e" />
                 </Link>
               </TableCell>
               <TableCell>
-                <Link href={`/arquivo/${pessoa.id}`}>
+                <Link
+                  href={`/arquivo/${pessoa.id}`}
+                  className={
+                    pessoa.status === "inativo"
+                      ? "pointer-events-none opacity-50"
+                      : ""
+                  }
+                >
                   <FilePlus2 color="#374151" />
                 </Link>
               </TableCell>
               <TableCell>
-                <MovePersonFunction
-                  pessoaId={pessoa.id}
-                  refetch={refetch}
-                  usuario={usuarioLogado}
-                />
-              </TableCell>
-              {usuarioLogado.user.role.find((row: string) => row === Admin) && (
-                <TableCell>
-                  <DeleteSoftPessoa
-                    id={pessoa.id}
+                <div
+                  className={
+                    pessoa.status === "inativo"
+                      ? "pointer-events-none opacity-50"
+                      : ""
+                  }
+                >
+                  <MovePersonFunction
+                    pessoaId={pessoa.id}
                     refetch={refetch}
                     usuario={usuarioLogado}
                   />
+                </div>
+              </TableCell>
+              {usuarioLogado.user.role.find((row: string) => row === Admin) && (
+                <TableCell>
+                  <div
+                    className={
+                      pessoa.status === "inativo"
+                        ? "pointer-events-none opacity-50"
+                        : ""
+                    }
+                  >
+                    <DeleteSoftPessoa
+                      id={pessoa.id}
+                      refetch={refetch}
+                      usuario={usuarioLogado}
+                    />
+                  </div>
                 </TableCell>
               )}
             </TableRow>

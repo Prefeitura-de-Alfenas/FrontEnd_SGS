@@ -117,16 +117,10 @@ const TableEntregas = ({ usuario, pessoaId }: TableEntregasProps) => {
             <TableHead>Benefíciario</TableHead>
             <TableHead>Quantidade</TableHead>
             <TableHead>Data do Cadastro</TableHead>
-            {usuario.user.role.find((row: string) => row ===Admin) && (
-               status!== "pendente" ? 
-               <TableHead>Aprovar</TableHead> :
-               <TableHead>Desativar</TableHead> 
-             
+            {usuario.user.role.find((row: string) => row === Admin) && (
+              <TableHead>Alterar</TableHead>
             )}
             <TableHead>Segunda Via</TableHead>
-           
-         
-            
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -157,17 +151,18 @@ const TableEntregas = ({ usuario, pessoaId }: TableEntregasProps) => {
               )}
 
               <TableCell>
-                {entrega.status === "pendente" ? (
-               <p className="text-red-500">Esperando aprovação</p>
-                ):(
-                  <Link href={`/reciboentrega/${entrega.id}`} target="_blank">
-                  <ScrollText color="#312e81" />
-                </Link>
-
+                {entrega.status === "pendente" && (
+                  <p className="text-red-500">Esperando aprovação</p>
                 )}
-               
+                {entrega.status === "inativo" && (
+                  <p className="text-red-500">Atendimento Indeferido</p>
+                )}
+                {entrega.status === "ativo" && (
+                  <Link href={`/reciboentrega/${entrega.id}`} target="_blank">
+                    <ScrollText color="#312e81" />
+                  </Link>
+                )}
               </TableCell>
-           
             </TableRow>
           ))}
         </TableBody>

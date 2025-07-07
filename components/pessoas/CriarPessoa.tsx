@@ -34,6 +34,7 @@ import { Admin } from "@/utils/dataRole";
 import InputMask from "react-input-mask";
 import { NumericFormat } from "react-number-format";
 import { MultiSelectCheckbox } from "../multipleSelect/multiple";
+import { PessoaCreateI } from "@/interfaces/pessoa/interface";
 const formSchema = z.object({
   nome: z.string().refine((val) => val.length >= 3, {
     message: "Tem que ter no minimo 3 caracteres",
@@ -128,9 +129,8 @@ function CriarPessoa({ usuario, resonposavelId }: CriarPessoaProps) {
   const { toast } = useToast();
   const [showDialog, setShowDialog] = useState(false);
   const [enderecosDuplicados, setEnderecosDuplicados] = useState<any[]>([]);
-  const [dadosParaCadastrar, setDadosParaCadastrar] = useState<FormData | null>(
-    null
-  );
+  const [dadosParaCadastrar, setDadosParaCadastrar] =
+    useState<PessoaCreateI | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const {
     handleSubmit,
@@ -158,10 +158,14 @@ function CriarPessoa({ usuario, resonposavelId }: CriarPessoaProps) {
 
   const mutation = useMutation({
     mutationFn: async (data: FormData) => {
-      let dataResponse = data;
+      let dataResponse = {
+        ...data,
+        usuarioId: usuario.user.id,
+      };
       if (resonposavelId) {
         dataResponse = {
           ...data,
+          usuarioId: usuario.user.id,
           pessoaId: resonposavelId,
         };
       }
@@ -910,12 +914,25 @@ function CriarPessoa({ usuario, resonposavelId }: CriarPessoaProps) {
                 <Button
                   onClick={async () => {
                     if (dadosParaCadastrar) {
-                      await CreatePessoa(usuario, dadosParaCadastrar);
+                      const response = await CreatePessoa(
+                        usuario,
+                        dadosParaCadastrar
+                      );
+
+                      if (response?.error) {
+                        toast({
+                          variant: "destructive",
+                          title: response.error,
+                        });
+                        return; // ⛔️ Interrompe a execução
+                      }
+
                       setShowDialog(false);
                       mutation.reset(); // Reset mutation para estado limpo
                       toast({
-                        title: "Usuario cadastrado com sucesso",
+                        title: "Usuário cadastrado com sucesso",
                       });
+
                       if (resonposavelId) {
                         router.push(`/familiares/${resonposavelId}`);
                       } else {

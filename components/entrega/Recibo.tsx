@@ -1,171 +1,274 @@
-"use client"
-import React from 'react';
-import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/renderer';
+"use client";
+import React from "react";
+import {
+  Page,
+  Text,
+  View,
+  Document,
+  StyleSheet,
+  Image,
+} from "@react-pdf/renderer";
 
-import { PDFViewer } from '@react-pdf/renderer';
-import { useQuery } from '@tanstack/react-query';
-import { GetEntregaById } from '@/app/api/entrega/routes';
-import { EntregaByIdI, EntregaPDF } from '@/interfaces/entras/interface';
-import { convertDataHoraParaPtBr, converterDataParaFormatoInputDate } from '@/utils/converDateParaInput';
-import { UsuarioLogadoI } from '@/interfaces/usuario/interface';
+import { PDFViewer } from "@react-pdf/renderer";
+import { useQuery } from "@tanstack/react-query";
+import { GetEntregaById } from "@/app/api/entrega/routes";
+import { EntregaByIdI, EntregaPDF } from "@/interfaces/entras/interface";
+import {
+  convertDataHoraParaPtBr,
+  converterDataParaFormatoInputDate,
+} from "@/utils/converDateParaInput";
+import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
 // Create styles
 const styles = StyleSheet.create({
   page: {
-    backgroundColor: '#E4E4E4',
-    width:'100%',
-    height:'100%',
+    backgroundColor: "#E4E4E4",
+    width: "100%",
+    height: "100%",
   },
   section: {
     margin: 10,
     padding: 10,
-    flexGrow: 1
+    flexGrow: 1,
   },
-  view:{
+  view: {
     width: "100%",
     display: "flex",
-    flexDirection:"row",
+    flexDirection: "row",
     alignItems: "center",
-    justifyContent:"center",
-    marginTop:"8px",
+    justifyContent: "center",
+    marginTop: "8px",
   },
-  viewBorder:{
+  viewBorder: {
     width: "100%",
     display: "flex",
-    flexDirection:"row",
-   
-   
-
+    flexDirection: "row",
   },
-  border:{
-
-    border:'1px solid #000',
-
+  border: {
+    border: "1px solid #000",
   },
-  textinfo:{
-     fontSize:"8px",
-     color:"#000",
-     marginLeft:"3px",
-     marginRight:"3px",
-     marginBottom:"14px",
-  }
+  textinfo: {
+    fontSize: "8px",
+    color: "#000",
+    marginLeft: "3px",
+    marginRight: "3px",
+    marginBottom: "14px",
+  },
 });
 const currentDate = new Date();
 
 // Opções de formatação para o método toLocaleString
 const options = {
-  weekday: 'long' as const,
-  year: 'numeric' as const,
-  month: 'long' as const,
-  day: 'numeric' as const,
-  hour: 'numeric' as const,
-  minute: 'numeric' as const,
-  second: 'numeric' as const,
-  timeZoneName: 'short' as const,
+  weekday: "long" as const,
+  year: "numeric" as const,
+  month: "long" as const,
+  day: "numeric" as const,
+  hour: "numeric" as const,
+  minute: "numeric" as const,
+  second: "numeric" as const,
+  timeZoneName: "short" as const,
 };
-const formattedDate = currentDate.toLocaleString('pt-BR', options);
+const formattedDate = currentDate.toLocaleString("pt-BR", options);
 // Create Document Component
-interface MyDocmentProps{
-  entregaPDF:EntregaPDF,
-  usuario:UsuarioLogadoI
+interface MyDocmentProps {
+  entregaPDF: EntregaPDF;
+  usuario: UsuarioLogadoI;
 }
-const MyDocument = ({entregaPDF,usuario}:MyDocmentProps) =>{
+const MyDocument = ({ entregaPDF, usuario }: MyDocmentProps) => {
   const { entrega } = entregaPDF;
   const { ultimaEntregaCestaBasica } = entregaPDF;
-  return(
-  <Document>
-    <Page size="A4" style={styles.page}>
-      <View style={styles.view}>
-     
-      <Text style={{marginTop:'20px'}}>PREFEITURA MUNICIPAL DE ALFENAS</Text>
-      </View>
-      <View style={styles.view}>
-      <Text style={{
-        fontSize:"14px",
-      }}>SGS - Sistema de Gestão Social</Text>
-      </View>
-      <View style={styles.view}>
-      <Text style={{
-        fontSize:"11px",
-      }}>Recibo de Atendimento Social</Text>
-      </View>
-     <View style={{padding:'15px'}}>
-        <View style={styles.border}> 
-           <View style={styles.viewBorder}>
-           <View style={{display:"flex",alignItems:"flex-start",justifyContent:"flex-start",width:"50%",padding:'7px'}}>
-            <Text style={styles.textinfo}>PROTOCOLO: {entrega.id.toUpperCase()}</Text>
-            <Text  style={styles.textinfo}>BENEFICIÁRIO: {entrega.pessoa.nome.toUpperCase()}</Text>
-            <Text  style={styles.textinfo}>CPF : {entrega.pessoa.cpf.toUpperCase()}</Text>
-            <Text  style={styles.textinfo}>EQUIPAMENTO: {entrega.equipamento.nome.toUpperCase()}</Text>
-            <Text  style={styles.textinfo}>BENEFÍCIO: {entrega.beneficio.nome.toUpperCase()}</Text>
-            <Text  style={styles.textinfo}>QUANTIDADE: {entrega.quantidade}</Text>
-     
-        
-            <Text  style={styles.textinfo}>DATA EMISSÂO: {convertDataHoraParaPtBr(entrega.datacadastro).toUpperCase()}</Text>
-            <Text  style={styles.textinfo}>DATA ATENDIMENTO: _____________________</Text>
-           
-           </View>
-           <View style={{display:"flex",alignItems:"flex-start",justifyContent:"flex-start",width:"50%",padding:'7px'}}>
-            <Text style={styles.textinfo}>ATENDENTE:{entrega.usuario.nome.toUpperCase()}</Text>
-            <Text  style={styles.textinfo}>LOGRADOURO: {entrega.pessoa.logradouro.toUpperCase()}</Text>
-            <Text  style={styles.textinfo}>BAIRRO: {entrega.pessoa.bairro.toUpperCase()}</Text>
-            <Text  style={styles.textinfo}>NÚMERO: {entrega.pessoa.numero.toUpperCase()}</Text>
-            <Text  style={styles.textinfo}>TELEFONE: {entrega.pessoa.telefone ? entrega.pessoa.telefone.toUpperCase() : 'SEM TELEFONE'}</Text>
-            <Text  style={styles.textinfo}>STATUS: {entrega.status  === 'ativo' ? "DEFERIDO" : "INDEFERIDO"}</Text>
-            <Text  style={styles.textinfo}>VALOR TOTAL: ${(entrega.beneficio.valor * entrega.quantidade).toFixed(2)}</Text>
-            {ultimaEntregaCestaBasica && 
-            <Text  style={styles.textinfo}>Ultima Cesta: {convertDataHoraParaPtBr(entrega.datacadastro).toUpperCase()}</Text>
-            }
-          
-           </View>
-           </View>
-           <View style={{display:"flex",alignItems:"center",justifyContent:"center",marginBottom:'10px',padding:"10px"}}>
-           <Text  style={{fontSize:"9px",
-            color:"#000",
-           }}>OBSERVAÇÂO{entrega.observacao ? entrega.observacao.toUpperCase() : ''}</Text> 
-           </View>
-
-           <View style={{display:"flex",alignItems:"center",justifyContent:"center",padding:"10px"}}>
-              <Text>________________________________________</Text>
-              <Text style={{fontSize:"10px",color:"#000",marginTop:'10px',}}>{entrega.usuario.nome.toUpperCase()}</Text>
-           </View>
-
-           <View style={{display:"flex",alignItems:"center",justifyContent:"center",marginBottom:'10px',padding:"10px"}}>
-            <Text style={styles.textinfo}>IMPRESSO POR: {usuario.user.nome.toUpperCase()}</Text>
-            <Text style={styles.textinfo}>IMPRESSO EM: {formattedDate.toUpperCase()}</Text>
-           </View>
-           
+  return (
+    <Document>
+      <Page size="A4" style={styles.page}>
+        <View style={styles.view}>
+          <Text style={{ marginTop: "20px" }}>
+            PREFEITURA MUNICIPAL DE ALFENAS
+          </Text>
         </View>
-        
-       
-     </View>
-    
-      
-     
-    </Page>
-  </Document>
-)};
+        <View style={styles.view}>
+          <Text
+            style={{
+              fontSize: "14px",
+            }}
+          >
+            SGS - Sistema de Gestão Social
+          </Text>
+        </View>
+        <View style={styles.view}>
+          <Text
+            style={{
+              fontSize: "11px",
+            }}
+          >
+            Recibo de Atendimento Social
+          </Text>
+        </View>
+        <View style={{ padding: "15px" }}>
+          <View style={styles.border}>
+            <View style={styles.viewBorder}>
+              <View
+                style={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  justifyContent: "flex-start",
+                  width: "50%",
+                  padding: "7px",
+                }}
+              >
+                <Text style={styles.textinfo}>
+                  PROTOCOLO: {entrega.id.toUpperCase()}
+                </Text>
+                <Text style={styles.textinfo}>
+                  BENEFICIÁRIO: {entrega.pessoa.nome.toUpperCase()}
+                </Text>
+                <Text style={styles.textinfo}>
+                  CPF : {entrega.pessoa.cpf.toUpperCase()}
+                </Text>
+                <Text style={styles.textinfo}>
+                  EQUIPAMENTO: {entrega.equipamento.nome.toUpperCase()}
+                </Text>
+                <Text style={styles.textinfo}>
+                  BENEFÍCIO: {entrega.beneficio.nome.toUpperCase()}
+                </Text>
+                <Text style={styles.textinfo}>
+                  QUANTIDADE: {entrega.quantidade}
+                </Text>
 
+                <Text style={styles.textinfo}>
+                  DATA EMISSÂO:{" "}
+                  {convertDataHoraParaPtBr(entrega.datacadastro).toUpperCase()}
+                </Text>
+                <Text style={styles.textinfo}>
+                  DATA ATENDIMENTO: _____________________
+                </Text>
+              </View>
+              <View
+                style={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  justifyContent: "flex-start",
+                  width: "50%",
+                  padding: "7px",
+                }}
+              >
+                <Text style={styles.textinfo}>
+                  ATENDENTE:{entrega.usuario.nome.toUpperCase()}
+                </Text>
+                <Text style={styles.textinfo}>
+                  LOGRADOURO: {entrega.pessoa.logradouro.toUpperCase()}
+                </Text>
+                <Text style={styles.textinfo}>
+                  BAIRRO: {entrega.pessoa.bairro.toUpperCase()}
+                </Text>
+                <Text style={styles.textinfo}>
+                  NÚMERO: {entrega.pessoa.numero.toUpperCase()}
+                </Text>
+                <Text style={styles.textinfo}>
+                  TELEFONE:{" "}
+                  {entrega.pessoa.telefone
+                    ? entrega.pessoa.telefone.toUpperCase()
+                    : "SEM TELEFONE"}
+                </Text>
+                <Text style={styles.textinfo}>
+                  STATUS:{" "}
+                  {entrega.status === "ativo" ? "DEFERIDO" : "INDEFERIDO"}
+                </Text>
+                <Text style={styles.textinfo}>
+                  VALOR TOTAL: $
+                  {(entrega.beneficio.valor * entrega.quantidade).toFixed(2)}
+                </Text>
+                <Text style={styles.textinfo}>NIVEL: {entrega.nivel}</Text>
+                {ultimaEntregaCestaBasica && (
+                  <Text style={styles.textinfo}>
+                    Ultima Cesta:{" "}
+                    {convertDataHoraParaPtBr(
+                      entrega.datacadastro
+                    ).toUpperCase()}
+                  </Text>
+                )}
+              </View>
+            </View>
+            <View
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                marginBottom: "10px",
+                padding: "10px",
+              }}
+            >
+              <Text style={{ fontSize: "9px", color: "#000" }}>
+                OBSERVAÇÂO
+                {entrega.observacao ? entrega.observacao.toUpperCase() : ""}
+              </Text>
+            </View>
 
+            <View
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "10px",
+              }}
+            >
+              <Text>________________________________________</Text>
+              <Text
+                style={{ fontSize: "10px", color: "#000", marginTop: "10px" }}
+              >
+                {entrega.usuario.nome.toUpperCase()}
+              </Text>
+            </View>
 
+            <View
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                marginBottom: "10px",
+                padding: "10px",
+              }}
+            >
+              <Text style={styles.textinfo}>
+                IMPRESSO POR: {usuario.user.nome.toUpperCase()}
+              </Text>
+              <Text style={styles.textinfo}>
+                IMPRESSO EM: {formattedDate.toUpperCase()}
+              </Text>
+            </View>
+          </View>
+        </View>
+      </Page>
+    </Document>
+  );
+};
 
-interface ReciboDocmentProps{
-  id:string,
-  usuario:UsuarioLogadoI
+interface ReciboDocmentProps {
+  id: string;
+  usuario: UsuarioLogadoI;
 }
 
-function ReciboDocment({usuario,id}:ReciboDocmentProps) {
-  const {data,isLoading } = useQuery({
-    queryKey:['entrega',id],
-    queryFn:() => GetEntregaById(usuario,id)
-  })
-  if(isLoading){
-    return <h1>..Loading</h1>
+function ReciboDocment({ usuario, id }: ReciboDocmentProps) {
+  const { data, isLoading } = useQuery({
+    queryKey: ["entrega", id],
+    queryFn: () => GetEntregaById(usuario, id),
+  });
+  if (isLoading) {
+    return <h1>..Loading</h1>;
   }
-    return ( 
-        <PDFViewer className='w-full h-screen'>
-          <MyDocument entregaPDF={data} usuario={usuario} />
-        </PDFViewer>
-     );
+
+  if (data.entrega.status !== "ativo") {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <h1 className="text-xl text-red-600">
+          Entrega indeferida. PDF indisponível.
+        </h1>
+      </div>
+    );
+  }
+  return (
+    <PDFViewer className="w-full h-screen">
+      <MyDocument entregaPDF={data} usuario={usuario} />
+    </PDFViewer>
+  );
 }
 
 export default ReciboDocment;

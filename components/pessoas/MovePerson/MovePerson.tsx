@@ -95,7 +95,7 @@ function MovePersonFunction({ usuario, pessoaId, refetch }: MovePerson) {
               disabled={mutation.isPending || !cpf}
               className="mt-2 text-white font-bold"
             >
-              Desativar
+              Mover
             </Button>
           </DialogClose>
         </div>

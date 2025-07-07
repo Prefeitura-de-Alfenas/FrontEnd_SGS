@@ -36,6 +36,7 @@ import { Admin } from "@/utils/dataRole";
 import InputMask from "react-input-mask";
 import { NumericFormat } from "react-number-format";
 import { MultiSelectCheckbox } from "../multipleSelect/multiple";
+import { PessoaCreateI } from "@/interfaces/pessoa/interface";
 
 const formSchema = z.object({
   nome: z.string().refine((val) => val.length >= 3, {
@@ -129,9 +130,8 @@ function EditarPessoa({ usuario, pessoaId, responsavelId }: EditarPessoaProps) {
   const router = useRouter();
   const [showDialog, setShowDialog] = useState(false);
   const [enderecosDuplicados, setEnderecosDuplicados] = useState<any[]>([]);
-  const [dadosParaCadastrar, setDadosParaCadastrar] = useState<FormData | null>(
-    null
-  );
+  const [dadosParaCadastrar, setDadosParaCadastrar] =
+    useState<PessoaCreateI | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
   const {
@@ -240,13 +240,19 @@ function EditarPessoa({ usuario, pessoaId, responsavelId }: EditarPessoaProps) {
       );
 
       if (Array.isArray(enderecos) && enderecos.length > 0 && !responsavelId) {
+        const safeData = {
+          ...data,
+          usuarioId: usuario.user.id,
+          parentesco: data.parentesco ?? undefined,
+        };
         setEnderecosDuplicados(enderecos);
-        setDadosParaCadastrar(data);
+        setDadosParaCadastrar(safeData);
         setShowDialog(true);
         return;
       }
       const safeData = {
         ...data,
+        usuarioId: usuario.user.id,
         parentesco: data.parentesco ?? undefined,
       };
       return UpdatePessoa(usuario, pessoaId, safeData).then(
@@ -953,12 +959,28 @@ function EditarPessoa({ usuario, pessoaId, responsavelId }: EditarPessoaProps) {
                         ...dadosParaCadastrar,
                         parentesco: data.parentesco ?? undefined,
                       };
-                      await UpdatePessoa(usuario, pessoaId, safeData);
+
+                      const response = await UpdatePessoa(
+                        usuario,
+                        pessoaId,
+                        safeData
+                      );
+
+                      if (response?.error) {
+                        toast({
+                          variant: "destructive",
+                          title: response.error,
+                        });
+                        return; // ⛔️ Para aqui se teve erro
+                      }
+
+                      toast({
+                        title: "Usuário atualizado com sucesso",
+                      });
+
                       setShowDialog(false);
                       mutation.reset(); // Reset mutation para estado limpo
-                      toast({
-                        title: "Usuario Atualizado com sucesso",
-                      });
+
                       if (responsavelId) {
                         router.push(`/familiares/${responsavelId}`);
                       } else {
