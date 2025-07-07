@@ -197,7 +197,7 @@ const TableRelatorioPorData = ({ usuarioLogado }: TablePessoasProps) => {
               className="mt-2 border rounded p-2"
             >
               <option value="">Todos</option>
-              {data.usuarios.map((u) => (
+              {data.usuarios.map((u: any) => (
                 <option key={u.id} value={u.id}>
                   {u.nome}
                 </option>
@@ -211,7 +211,7 @@ const TableRelatorioPorData = ({ usuarioLogado }: TablePessoasProps) => {
               className="mt-2 border rounded p-2"
             >
               <option value="">Todos</option>
-              {data.equipamentos.map((u) => (
+              {data.equipamentos.map((u: any) => (
                 <option key={u.id} value={u.id}>
                   {u.nome}
                 </option>
