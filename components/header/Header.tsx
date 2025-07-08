@@ -41,7 +41,7 @@ const Header = ({ usuarioLogado }: any) => {
     });
     router.replace("/");
   }
- 
+
   return (
     <header className="flex items-center justify-between w-full h-28 bg-gray-50 mb-4 shadow-lg">
       <div className="ps-4">
@@ -73,15 +73,16 @@ const Header = ({ usuarioLogado }: any) => {
                         <Link href="/beneficios">Consulta Benefícios</Link>
                       </SheetClose>
                     </CommandItem>
-                    {usuarioLogado && 
+                    {usuarioLogado &&
                       usuarioLogado.user?.role?.includes(Admin) && (
                         <CommandItem>
                           <SheetClose asChild>
-                            <Link href="/equipamentos">Consulta Equipamentos</Link>
+                            <Link href="/equipamentos">
+                              Consulta Equipamentos
+                            </Link>
                           </SheetClose>
                         </CommandItem>
-                    )}
-                    
+                      )}
                   </CommandGroup>
 
                   <CommandGroup heading="Relatorios">
@@ -96,12 +97,10 @@ const Header = ({ usuarioLogado }: any) => {
                     <CommandItem>
                       <SheetClose asChild>
                         <Link href="/relatorios/entrega">
-                          Relatorio Entregas
+                          Relatorio Pendentes
                         </Link>
                       </SheetClose>
                     </CommandItem>
-
-                   
                   </CommandGroup>
 
                   <CommandSeparator />
@@ -120,8 +119,6 @@ const Header = ({ usuarioLogado }: any) => {
                           <Link href="/usuarios">Consulta Operadores</Link>
                         </SheetClose>
                       </CommandItem>
-
-                
                     </CommandGroup>
                   )}
                 </CommandList>

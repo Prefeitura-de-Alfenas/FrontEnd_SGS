@@ -231,7 +231,7 @@ const TableRelatorioPorData = ({ usuarioLogado }: TablePessoasProps) => {
       </div>
 
       <Table>
-        <TableCaption>Entregas</TableCaption>
+        <TableCaption>Atendimentos</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead>Beneficiario</TableHead>
