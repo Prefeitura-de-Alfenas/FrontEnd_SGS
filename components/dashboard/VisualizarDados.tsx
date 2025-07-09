@@ -78,7 +78,7 @@ function VisualizarDados({ pessoaId, userLogado }: GerarEntregaProps) {
             </CardHeader>
             <CardContent>
               <ul className="list-disc list-inside space-y-1">
-                {data.dados.enderecos.map((p) => (
+                {data.dados.enderecos.map((p:any) => (
                   <li key={p.id} className="text-sm text-red-800">
                     <span className="font-semibold">{p.nome}</span> – CPF:{" "}
                     {p.cpf}
@@ -378,6 +378,7 @@ function VisualizarDados({ pessoaId, userLogado }: GerarEntregaProps) {
                     };
                     observacao: any;
                     id: any;
+                    status:string
                   },
                   index: Key | null | undefined
                 ) => (
@@ -389,7 +390,7 @@ function VisualizarDados({ pessoaId, userLogado }: GerarEntregaProps) {
                       </div>
                       <div className="flex flex-col">
                         <Label className="font-semibold">Benefício:</Label>
-                        <span>{entrega.beneficio.nome}</span>
+                        <span>{entrega.beneficio.nome} </span>
                       </div>
                       <div className="flex flex-col">
                         <Label className="font-semibold">Quantidade:</Label>
@@ -408,6 +409,7 @@ function VisualizarDados({ pessoaId, userLogado }: GerarEntregaProps) {
                         <span>{entrega.observacao || "Nenhuma"}</span>
                       </div>
                       <div className="flex flex-col">
+                        {entrega.status === "ativo" ?
                         <Link
                           href={`/reciboentrega/${entrega.id}`}
                           target="_blank"
@@ -415,6 +417,9 @@ function VisualizarDados({ pessoaId, userLogado }: GerarEntregaProps) {
                         >
                           Ver Recibo
                         </Link>
+                        :
+                        <p className="text-red-600">{entrega.status === "inativo" ? "Indeferido" : "Pendente"}</p>
+                        }
                       </div>
                     </div>
                   </div>

@@ -25,6 +25,7 @@ import {
   FileEdit,
   LayoutList,
   PackageX,
+  ScrollText,
   Search,
   ThumbsDown,
   ThumbsUp,
@@ -50,6 +51,8 @@ import {
   RelatorioEntregaFilterData,
 } from "@/interfaces/entras/interface";
 import { getHeadersEntregas } from "@/utils/headerexcel/entregas/getHeader";
+import { Admin } from "@/utils/dataRole";
+import DeleteSoftEntrega from "@/components/entrega/_component/DeleteEntregaSoft";
 
 interface TablePessoasProps {
   usuarioLogado: UsuarioLogadoI;
@@ -241,6 +244,10 @@ const TableRelatorioPorData = ({ usuarioLogado }: TablePessoasProps) => {
             <TableHead>Usuario</TableHead>
             <TableHead>Equipamento</TableHead>
             <TableHead>Status</TableHead>
+            {usuarioLogado.user.role.find((row: string) => row === Admin) && (
+              <TableHead>Alterar</TableHead>
+            )}
+            <TableHead>Segunda Via</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -265,6 +272,30 @@ const TableRelatorioPorData = ({ usuarioLogado }: TablePessoasProps) => {
                 )}
                 {entrega.status === "pendente" && (
                   <p className="text-red-600">Pendente</p>
+                )}
+              </TableCell>
+              {usuarioLogado.user.role.find((row: string) => row === Admin) && (
+                <TableCell>
+                  <DeleteSoftEntrega
+                    id={entrega.id}
+                    status={entrega.status}
+                    refetch={refetch}
+                    usuario={usuarioLogado}
+                  />
+                </TableCell>
+              )}
+
+              <TableCell>
+                {entrega.status === "pendente" && (
+                  <p className="text-red-500">Esperando aprovação</p>
+                )}
+                {entrega.status === "inativo" && (
+                  <p className="text-red-500">Atendimento Indeferido</p>
+                )}
+                {entrega.status === "ativo" && (
+                  <Link href={`/reciboentrega/${entrega.id}`} target="_blank">
+                    <ScrollText color="#312e81" />
+                  </Link>
                 )}
               </TableCell>
             </TableRow>

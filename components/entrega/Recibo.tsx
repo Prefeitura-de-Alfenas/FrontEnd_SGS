@@ -176,7 +176,7 @@ const MyDocument = ({ entregaPDF, usuario }: MyDocmentProps) => {
                   VALOR TOTAL: $
                   {(entrega.beneficio.valor * entrega.quantidade).toFixed(2)}
                 </Text>
-                <Text style={styles.textinfo}>NIVEL: {entrega.nivel}</Text>
+                <Text style={styles.textinfo}>NIVEL: {entrega.nivel.toUpperCase()}</Text>
                 {ultimaEntregaCestaBasica && (
                   <Text style={styles.textinfo}>
                     Ultima Cesta:{" "}
