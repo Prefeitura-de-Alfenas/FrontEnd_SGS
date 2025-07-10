@@ -192,7 +192,7 @@ const TableEntregas = ({ usuario, pessoaId }: TableEntregasProps) => {
           </PaginationItem>
         </PaginationContent>
       </Pagination>
-      <FixedButtonEntrega pessoaId={pessoaId} />
+      <FixedButtonEntrega link={`/entrega/create/${pessoaId}`}  />
     </div>
   );
 };

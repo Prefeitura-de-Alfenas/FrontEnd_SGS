@@ -1,5 +1,6 @@
 import { baseUrl, takeBase } from "@/config/base";
 import {
+  EntregaCreateAvulsaI,
   EntregaCreateI,
   EntregaFilterData,
 } from "@/interfaces/entras/interface";
@@ -7,6 +8,25 @@ import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
 
 const CreateEntrega = async (usuario: UsuarioLogadoI, data: EntregaCreateI) => {
   const url = `${baseUrl}/entregra`;
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${usuario.user.access_token}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error("Conexão com a rede está com problema");
+  }
+  const entrega = await response.json();
+
+  return entrega;
+};
+
+const CreateEntregaAvulso = async (usuario: UsuarioLogadoI, data: EntregaCreateAvulsaI) => {
+  const url = `${baseUrl}/entregra/avulso`;
   const response = await fetch(url, {
     method: "POST",
     headers: {
@@ -107,6 +127,25 @@ const GetEntregaPorData = async (usuario: UsuarioLogadoI, data: any) => {
   return entregas;
 };
 
+const GetEntregaAvulsa = async (usuario: UsuarioLogadoI, data: any) => {
+  const url = `${baseUrl}/entregra/entregaavulsarelatorio`;
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${usuario.user.access_token}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error("Conexão com a rede está com problema");
+  }
+  const entregas = await response.json();
+
+  return entregas;
+};
+
 const ChangeStatusEntrega = async (
   usuarioLogado: UsuarioLogadoI,
   id: string,
@@ -145,4 +184,6 @@ export {
   GetEntregasPorPessoa,
   GetEntregaPorData,
   ChangeStatusEntrega,
+  GetEntregaAvulsa,
+  CreateEntregaAvulso,
 };

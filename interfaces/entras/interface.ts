@@ -26,6 +26,16 @@ export interface EntregaCreateI {
   beneficioId: string;
 }
 
+export interface EntregaCreateAvulsaI {
+  quantidade: number;
+  observacao: string;
+  nome: string;
+  cpf:string;
+  equipamentoId: string;
+  usuarioId: string;
+  beneficioId: string;
+}
+
 export interface EntregaByIdI {
   id: string;
   quantidade: number;
@@ -37,6 +47,23 @@ export interface EntregaByIdI {
   usuarioId: string;
   beneficioId: string;
   pessoa: PessoaI;
+  beneficio: BeneficiosI;
+  equipamento: EquipamentoI;
+  usuario: UsuarioI;
+  nivel: string;
+}
+
+export interface EntregaAvuslaByIdI {
+  id: string;
+  quantidade: number;
+  observacao: string;
+  datacadastro: Date;
+  status: string;
+  equipamentoId: string;
+  usuarioId: string;
+  beneficioId: string;
+  nome: string;
+  cpf: string;
   beneficio: BeneficiosI;
   equipamento: EquipamentoI;
   usuario: UsuarioI;
