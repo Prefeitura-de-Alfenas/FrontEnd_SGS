@@ -38,7 +38,7 @@ export default function QRCodeReader() {
         { facingMode: "environment" },
         { fps: 10, qrbox: 250 },
         (decodedText) => {
-          setResult(decodedText);
+          window.location.href = decodedText;
           stopScanner();
         },
         () => {}

@@ -103,7 +103,7 @@ const TablePessoas = ({ usuarioLogado }: TablePessoasProps) => {
             value={filter}
             required
             className="mt-1 p-2 w-full border rounded-md mb-2 bg-transparent pr-10" // Aumente o padding à direita para acomodar o ícone
-            placeholder="Digite o CPF"
+            placeholder="Digite o CPF ou Nome ou Slug"
           />
           <span className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer">
             <Search onClick={handelClickSearcher} />
