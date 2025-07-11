@@ -238,14 +238,19 @@ function EditarPessoa({ usuario, pessoaId, responsavelId }: EditarPessoaProps) {
         data.cep,
         data.numero
       );
-
-      if (Array.isArray(enderecos) && enderecos.length > 0 && !responsavelId) {
+      
+      // Filtra os endereços duplicados, excluindo o próprio endereço da pessoa atual
+      const enderecosFiltrados = (enderecos || []).filter(
+        (endereco:any) => endereco.id !== pessoaId
+      );
+      
+      if (enderecosFiltrados.length > 0 && !responsavelId) {
         const safeData = {
           ...data,
           usuarioId: usuario.user.id,
           parentesco: data.parentesco ?? undefined,
         };
-        setEnderecosDuplicados(enderecos);
+        setEnderecosDuplicados(enderecosFiltrados);
         setDadosParaCadastrar(safeData);
         setShowDialog(true);
         return;

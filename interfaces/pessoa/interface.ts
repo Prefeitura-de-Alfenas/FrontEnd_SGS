@@ -27,6 +27,7 @@ export interface PessoaI {
   usuario: {
     nome: string;
   };
+  slug?:string;
 }
 
 export interface PessoaCreateI {

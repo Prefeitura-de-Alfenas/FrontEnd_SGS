@@ -118,6 +118,7 @@ const TablePessoas = ({ usuarioLogado }: TablePessoasProps) => {
             <TableHead>Nome</TableHead>
             <TableHead>CPF</TableHead>
             <TableHead>Email</TableHead>
+            <TableHead>Slug</TableHead>
             <TableHead>Visual.</TableHead>
             <TableHead>Atend.</TableHead>
             <TableHead>Editar</TableHead>
@@ -136,6 +137,8 @@ const TablePessoas = ({ usuarioLogado }: TablePessoasProps) => {
               <TableCell className="font-medium">{pessoa.nome}</TableCell>
               <TableCell>{pessoa.cpf}</TableCell>
               <TableCell>{pessoa.email ? pessoa.email : "Sem Email"}</TableCell>
+              <TableCell>{pessoa.slug ? pessoa.slug : "Sem Slug"}</TableCell>
+
               <TableCell>
                 {pessoa.status === "inativo" ? (
                   <TooltipProvider>

@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/command";
 import Image from "next/image";
 import { Admin } from "@/utils/dataRole";
+import QRCodeReader from "../qrcodereader/page";
 
 interface TablePessoasProps {
   usuarioLogado: UsuarioLogadoI;
@@ -61,6 +62,7 @@ const Header = ({ usuarioLogado }: any) => {
                 <CommandInput placeholder="Type a command or search..." />
                 <CommandList>
                   <CommandEmpty>No results found.</CommandEmpty>
+
                   <CommandGroup heading="Menu Basico">
                     <CommandItem>
                       <SheetClose asChild>
@@ -91,11 +93,9 @@ const Header = ({ usuarioLogado }: any) => {
                   </CommandGroup>
 
                   <CommandGroup heading="Relatorios">
-                  <CommandItem>
+                    <CommandItem>
                       <SheetClose asChild>
-                        <Link href="/relatorios/rma">
-                          Relatorio RMA
-                        </Link>
+                        <Link href="/relatorios/rma">Relatorio RMA</Link>
                       </SheetClose>
                     </CommandItem>
                     <CommandItem>
@@ -135,6 +135,9 @@ const Header = ({ usuarioLogado }: any) => {
                   )}
                 </CommandList>
               </Command>
+              <SheetTitle className="cursor-pointer flex items-center justify-start">
+                <QRCodeReader />
+              </SheetTitle>
               <SheetTitle
                 className="cursor-pointer flex items-center justify-start"
                 onClick={logount}

@@ -65,6 +65,17 @@ function VisualizarDados({ pessoaId, userLogado }: GerarEntregaProps) {
       <h1 className="text-center font-bold text-3xl mb-6">
         Consulta de Informações da Família
       </h1>
+      <div className="mb-4">
+        <Button asChild variant="default">
+          <Link
+            href={`/cartao/${data.dados.pessoa.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Gerar Cartão
+          </Link>
+        </Button>
+      </div>
       {Array.isArray(data.dados.enderecos) &&
         data.dados.enderecos.length > 0 && (
           <Card className="mb-6 border-red-500 bg-red-50">
@@ -78,7 +89,7 @@ function VisualizarDados({ pessoaId, userLogado }: GerarEntregaProps) {
             </CardHeader>
             <CardContent>
               <ul className="list-disc list-inside space-y-1">
-                {data.dados.enderecos.map((p:any) => (
+                {data.dados.enderecos.map((p: any) => (
                   <li key={p.id} className="text-sm text-red-800">
                     <span className="font-semibold">{p.nome}</span> – CPF:{" "}
                     {p.cpf}
@@ -378,7 +389,7 @@ function VisualizarDados({ pessoaId, userLogado }: GerarEntregaProps) {
                     };
                     observacao: any;
                     id: any;
-                    status:string
+                    status: string;
                   },
                   index: Key | null | undefined
                 ) => (
@@ -409,17 +420,21 @@ function VisualizarDados({ pessoaId, userLogado }: GerarEntregaProps) {
                         <span>{entrega.observacao || "Nenhuma"}</span>
                       </div>
                       <div className="flex flex-col">
-                        {entrega.status === "ativo" ?
-                        <Link
-                          href={`/reciboentrega/${entrega.id}`}
-                          target="_blank"
-                          className="cursor-pointer text-blue-600 font-semibold hover:underline"
-                        >
-                          Ver Recibo
-                        </Link>
-                        :
-                        <p className="text-red-600">{entrega.status === "inativo" ? "Indeferido" : "Pendente"}</p>
-                        }
+                        {entrega.status === "ativo" ? (
+                          <Link
+                            href={`/reciboentrega/${entrega.id}`}
+                            target="_blank"
+                            className="cursor-pointer text-blue-600 font-semibold hover:underline"
+                          >
+                            Ver Recibo
+                          </Link>
+                        ) : (
+                          <p className="text-red-600">
+                            {entrega.status === "inativo"
+                              ? "Indeferido"
+                              : "Pendente"}
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>
