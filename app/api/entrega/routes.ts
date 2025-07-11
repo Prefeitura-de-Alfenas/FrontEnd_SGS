@@ -127,6 +127,25 @@ const GetEntregaPorData = async (usuario: UsuarioLogadoI, data: any) => {
   return entregas;
 };
 
+const GetRma = async (usuario: UsuarioLogadoI, data: any) => {
+  const url = `${baseUrl}/entregra/relatoriorma`;
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${usuario.user.access_token}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error("Conexão com a rede está com problema");
+  }
+  const entregas = await response.json();
+
+  return entregas;
+};
+
 const GetEntregaAvulsa = async (usuario: UsuarioLogadoI, data: any) => {
   const url = `${baseUrl}/entregra/entregaavulsarelatorio`;
   const response = await fetch(url, {
@@ -186,4 +205,5 @@ export {
   ChangeStatusEntrega,
   GetEntregaAvulsa,
   CreateEntregaAvulso,
+  GetRma,
 };

@@ -18,3 +18,9 @@ export function converterDataParaFormatoInputDate(dataString: string):any {
     const dataFormatada = format(data, "dd/MM/yyyy HH:mm:ss", { locale: ptBR });
     return dataFormatada
   }
+
+  export function convertDataParaPtBr(data:Date){
+
+    const dataFormatada = format(data, "dd/MM/yyyy", { locale: ptBR });
+    return dataFormatada
+  }

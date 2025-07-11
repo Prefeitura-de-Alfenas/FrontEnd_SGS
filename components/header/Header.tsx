@@ -73,6 +73,11 @@ const Header = ({ usuarioLogado }: any) => {
                         <Link href="/beneficios">Consulta Benefícios</Link>
                       </SheetClose>
                     </CommandItem>
+                    <CommandItem>
+                      <SheetClose asChild>
+                        <Link href="/entrega/avulsa">Atendimentos Avulso</Link>
+                      </SheetClose>
+                    </CommandItem>
                     {usuarioLogado &&
                       usuarioLogado.user?.role?.includes(Admin) && (
                         <CommandItem>
@@ -86,6 +91,13 @@ const Header = ({ usuarioLogado }: any) => {
                   </CommandGroup>
 
                   <CommandGroup heading="Relatorios">
+                  <CommandItem>
+                      <SheetClose asChild>
+                        <Link href="/relatorios/rma">
+                          Relatorio RMA
+                        </Link>
+                      </SheetClose>
+                    </CommandItem>
                     <CommandItem>
                       <SheetClose asChild>
                         <Link href="/relatorios/pessoas/pessoapordata">

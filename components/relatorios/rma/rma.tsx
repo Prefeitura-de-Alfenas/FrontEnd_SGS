@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import {
   Table,
   TableBody,
@@ -11,48 +10,31 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 
-import {
-  Bitcoin,
-  FileEdit,
-  LayoutList,
-  PackageX,
-  ScrollText,
-  Search,
-  ThumbsDown,
-  ThumbsUp,
-  UsersRound,
-} from "lucide-react";
 
-import { useMutation, useQuery } from "@tanstack/react-query";
 
-import { useEffect, useState } from "react";
+
+import {  useQuery } from "@tanstack/react-query";
+
+import { useEffect } from "react";
 import { UsuarioLogadoI } from "@/interfaces/usuario/interface";
 import { Button } from "@/components/ui/button";
-import { convertDataHoraParaPtBr } from "@/utils/converDateParaInput";
+import { convertDataHoraParaPtBr, convertDataParaPtBr } from "@/utils/converDateParaInput";
 
-import { generateExcel } from "@/utils/exportExcel";
+
 import { useForm } from "react-hook-form";
-import { format, sub, subDays } from "date-fns";
-import { GetEntregaPorData } from "@/app/api/entrega/routes";
+import { format, sub } from "date-fns";
+import {GetRma } from "@/app/api/entrega/routes";
 import { z } from "zod";
 import { useToast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  EntregaByIdI,
+  EntregaByRMA,
   RelatorioEntregaFilterData,
 } from "@/interfaces/entras/interface";
-import { getHeadersEntregas } from "@/utils/headerexcel/entregas/getHeader";
-import { Admin } from "@/utils/dataRole";
-import DeleteSoftEntrega from "@/components/entrega/_component/DeleteEntregaSoft";
+
+import { generateExcelRMA } from "@/utils/exportExcelRma";
+
 
 interface TablePessoasProps {
   usuarioLogado: UsuarioLogadoI;
@@ -69,7 +51,7 @@ const formSchema = z.object({
 });
 type FormData = z.infer<typeof formSchema>;
 
-const TableRelatorioPorData = ({ usuarioLogado }: TablePessoasProps) => {
+const TableRelatorioRma = ({ usuarioLogado }: TablePessoasProps) => {
   const { toast } = useToast();
 
   const {
@@ -90,13 +72,13 @@ const TableRelatorioPorData = ({ usuarioLogado }: TablePessoasProps) => {
   useEffect(() => {
     setValue("dateinicial", last30DaysString, { shouldValidate: true });
     setValue("datefinal", todayString, { shouldValidate: true });
-    setValue("statusid", "pendente", { shouldValidate: true });
+
   }, []);
 
-  // Queries
+ 
   const { data, isPending, isError, error, refetch } = useQuery({
-    queryKey: ["entregas", getValues(), usuarioLogado],
-    queryFn: () => GetEntregaPorData(usuarioLogado, getValues()),
+    queryKey: ["relatorioRMa", getValues(), usuarioLogado],
+    queryFn: () => GetRma(usuarioLogado, getValues()),
   });
 
   const handleFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -105,27 +87,41 @@ const TableRelatorioPorData = ({ usuarioLogado }: TablePessoasProps) => {
   };
 
   function GerarExel() {
-    const headerEntregas = getHeadersEntregas();
+    const header = [
+      "NOME DO ATENDENTE",
+      "TÉCNICO DE REFERÊNCIA",
+      "NOME DO USUARIO",
+      "CPF USUARIO",
+      "DEMANDA",
+      "SITUAÇÃO",
+      "DATA ATENDIMENTO",
+      "OBSERVAÇÕES",
+    ];
+  
     const date = new Date();
-
-    const arrayDeValores: RelatorioEntregaFilterData[][] = data.entregas.map(
-      (objeto: RelatorioEntregaFilterData) => [
-        objeto.id,
-        objeto.pessoa.id,
-        objeto.pessoa.cpf,
-        objeto.beneficio.nome,
-        objeto.quantidade,
-        objeto.observacao,
-        objeto.equipamento.nome,
-        objeto.usuario.nome,
-        objeto.datacadastro,
-        objeto.status,
-      ]
-    );
-
-    generateExcel(
-      `entregas_${convertDataHoraParaPtBr(date)}`,
-      headerEntregas,
+  
+    const arrayDeValores = data.entregas.map((entrega: EntregaByRMA) => [
+      entrega.usuario?.nome?.toUpperCase() ?? "-",
+      "", // técnico de referência (vazio)
+      entrega.tipo === "entrega"
+        ? entrega.pessoa?.nome?.toUpperCase()
+        : entrega.nome?.toUpperCase() ?? "-",
+      entrega.tipo === "entrega"
+        ? entrega.pessoa?.cpf ?? "-"
+        : entrega.cpf ?? "-",
+      entrega.beneficio?.nome?.toUpperCase() ?? "-",
+      entrega.status === "inativo"
+        ? "INDEFERIDO"
+        : entrega.status === "ativo"
+        ? "DEFERIDO"
+        : "EM ANÁLISE",
+      convertDataParaPtBr(entrega.datacadastro),
+      entrega.observacao ?? "-",
+    ]);
+  
+    generateExcelRMA(
+      `relatorio_rma_${convertDataHoraParaPtBr(date)}`,
+      header,
       arrayDeValores
     );
   }
@@ -151,7 +147,7 @@ const TableRelatorioPorData = ({ usuarioLogado }: TablePessoasProps) => {
   return (
     <div className="flex flex-col ">
       <div className="flex flex-row items-center justify-center mb-4 mt-2 ">
-        <h1 className="px-4 py-2 text-2xl font-semibold">Relatório  Pendente</h1>
+        <h1 className="px-4 py-2 text-2xl font-semibold">Relatório  RMA</h1>
       </div>
       <div className="flex items-start justify-start">
         <Button
@@ -197,7 +193,7 @@ const TableRelatorioPorData = ({ usuarioLogado }: TablePessoasProps) => {
           </div>
 
           <div className="w-full">
-            <label>Usuário</label>
+            <label>Atendente</label>
             <select
               {...register("usuarioId")}
               className="mt-2 border rounded p-2"
@@ -205,7 +201,7 @@ const TableRelatorioPorData = ({ usuarioLogado }: TablePessoasProps) => {
               <option value="">Todos</option>
               {data.usuarios.map((u: any) => (
                 <option key={u.id} value={u.id}>
-                  {u.nome}
+                  {u.nome.toString().toUpperCase()}
                 </option>
               ))}
             </select>
@@ -237,70 +233,49 @@ const TableRelatorioPorData = ({ usuarioLogado }: TablePessoasProps) => {
       </div>
 
       <Table>
-        <TableCaption>Atendimentos</TableCaption>
+        <TableCaption>RMA</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead>Beneficiario</TableHead>
-            <TableHead>Beneficio</TableHead>
-            <TableHead>Quantidade</TableHead>
-            <TableHead>Data Cadastro</TableHead>
-            <TableHead>Usuario</TableHead>
-            <TableHead>Equipamento</TableHead>
-            <TableHead>Status</TableHead>
-            {usuarioLogado.user.role.find((row: string) => row === Admin) && (
-              <TableHead>Alterar</TableHead>
-            )}
-            <TableHead>Segunda Via</TableHead>
+            <TableHead>NOME DO ATENDENTE</TableHead>
+            <TableHead>TÉCNICO DE REFERÊNCIA</TableHead>
+            <TableHead>NOME DO USUARIO</TableHead>
+            <TableHead>CPF USUARIO</TableHead>
+            <TableHead>DEMANDA</TableHead>
+            <TableHead>SITUAÇÃO</TableHead>
+            <TableHead>DATA ATENDIMENTO</TableHead>
+            <TableHead>OBSERVAÇÔES</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data?.entregas.map((entrega: EntregaByIdI) => (
+          {data?.entregas.map((entrega: EntregaByRMA) => (
             <TableRow key={entrega.id}>
               <TableCell className="font-medium">
-                {entrega.pessoa.nome}
+                {entrega.usuario.nome}
               </TableCell>
-              <TableCell>{entrega.beneficio.nome}</TableCell>
-              <TableCell>{entrega.quantidade}</TableCell>
-              <TableCell>
-                {convertDataHoraParaPtBr(entrega.datacadastro)}
+              <TableCell className="font-medium">
+                {" "}
               </TableCell>
-              <TableCell>{entrega.usuario.nome.toUpperCase()}</TableCell>
-              <TableCell>{entrega.equipamento.nome.toUpperCase()}</TableCell>
+              <TableCell>{entrega.tipo === "entrega" ? entrega.pessoa?.nome.toUpperCase() : entrega.nome?.toUpperCase()}</TableCell>
+              <TableCell>{entrega.tipo === "entrega" ? entrega.pessoa?.cpf : entrega.cpf}</TableCell>
+              <TableCell>{entrega.beneficio.nome.toUpperCase()}</TableCell>
               <TableCell>
                 {entrega.status === "inativo" && (
-                  <p className="text-blue-600">Indeferido</p>
+                  <p className="text-blue-600">INDEFERIDO</p>
                 )}
                 {entrega.status === "ativo" && (
-                  <p className="text-green-600">Deferido</p>
+                  <p className="text-green-600">DEFERIDO</p>
                 )}
                 {entrega.status === "pendente" && (
-                  <p className="text-red-600">Pendente</p>
+                  <p className="text-red-600">EM ANÁLISE</p>
                 )}
               </TableCell>
-              {usuarioLogado.user.role.find((row: string) => row === Admin) && (
-                <TableCell>
-                  <DeleteSoftEntrega
-                    id={entrega.id}
-                    status={entrega.status}
-                    refetch={refetch}
-                    usuario={usuarioLogado}
-                  />
-                </TableCell>
-              )}
+              <TableCell>
+                {convertDataParaPtBr(entrega.datacadastro)}
+              </TableCell>
+              <TableCell>{entrega.observacao}</TableCell>
+             
 
-              <TableCell>
-                {entrega.status === "pendente" && (
-                  <p className="text-red-500">Esperando aprovação</p>
-                )}
-                {entrega.status === "inativo" && (
-                  <p className="text-red-500">Atendimento Indeferido</p>
-                )}
-                {entrega.status === "ativo" && (
-                  <Link href={`/reciboentrega/${entrega.id}`} target="_blank">
-                    <ScrollText color="#312e81" />
-                  </Link>
-                )}
-              </TableCell>
+              
             </TableRow>
           ))}
         </TableBody>
@@ -309,4 +284,4 @@ const TableRelatorioPorData = ({ usuarioLogado }: TablePessoasProps) => {
   );
 };
 
-export default TableRelatorioPorData;
+export default TableRelatorioRma;

@@ -53,6 +53,26 @@ export interface EntregaByIdI {
   nivel: string;
 }
 
+export interface EntregaByRMA {
+  id: string;
+  quantidade: number;
+  observacao: string;
+  datacadastro: Date;
+  status: string;
+  pessoId?: string;
+  equipamentoId: string;
+  usuarioId: string;
+  beneficioId: string;
+  pessoa?: PessoaI;
+  beneficio: BeneficiosI;
+  equipamento: EquipamentoI;
+  usuario: UsuarioI;
+  nivel?: string;
+  nome?:string;
+  cpf?:string;
+  tipo:string;
+}
+
 export interface EntregaAvuslaByIdI {
   id: string;
   quantidade: number;
